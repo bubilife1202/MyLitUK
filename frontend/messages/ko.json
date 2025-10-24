@@ -1,0 +1,139 @@
+{
+  "common": {
+    "loading": "로딩 중...",
+    "error": "오류가 발생했습니다",
+    "save": "저장",
+    "cancel": "취소",
+    "delete": "삭제",
+    "edit": "편집",
+    "search": "검색",
+    "filter": "필터",
+    "follow": "팔로우",
+    "unfollow": "언팔로우",
+    "following": "팔로잉"
+  },
+  "nav": {
+    "home": "홈",
+    "dashboard": "대시보드",
+    "authors": "작가",
+    "books": "도서",
+    "events": "이벤트",
+    "awards": "문학상",
+    "notifications": "알림",
+    "login": "로그인",
+    "register": "회원가입",
+    "logout": "로그아웃",
+    "profile": "프로필"
+  },
+  "home": {
+    "title": "MyLitUK",
+    "subtitle": "나만의 영국 문학 큐레이션 플랫폼",
+    "description": "좋아하는 영국 작가, 문학 행사, 문학상을 팔로우하세요. 신간, 이벤트 티켓, 문학상 발표에 대한 맞춤 알림을 받으세요.",
+    "features": {
+      "title": "주요 기능",
+      "personalized": {
+        "title": "개인 맞춤 큐레이션",
+        "description": "관심 있는 것만 보세요. 작가, 이벤트, 문학상을 팔로우하여 완벽한 피드를 만드세요."
+      },
+      "alerts": {
+        "title": "스마트 알림",
+        "description": "팔로우한 작가의 신간 출시, 이벤트 티켓 오픈, 문학상 발표 시 알림을 받으세요."
+      },
+      "multilingual": {
+        "title": "다국어 지원",
+        "description": "영어와 한국어로 이용 가능합니다. 언제든지 언어를 변경할 수 있습니다."
+      }
+    },
+    "cta": {
+      "title": "시작하기",
+      "description": "무료 계정을 만들고 영국 문학 경험을 큐레이션하세요.",
+      "button": "지금 가입하기"
+    }
+  },
+  "dashboard": {
+    "title": "내 대시보드",
+    "welcome": "다시 오신 것을 환영합니다!",
+    "summary": {
+      "followedAuthors": "팔로우한 작가",
+      "followedEvents": "팔로우한 이벤트",
+      "followedAwards": "팔로우한 문학상",
+      "unreadNotifications": "읽지 않은 알림"
+    },
+    "newBooks": {
+      "title": "팔로우한 작가의 신간",
+      "empty": "신간이 없습니다. 작가를 팔로우하여 최신 출간작을 확인하세요."
+    },
+    "upcomingEvents": {
+      "title": "다가오는 이벤트",
+      "empty": "예정된 이벤트가 없습니다. 이벤트를 팔로우하여 업데이트를 받으세요."
+    },
+    "awardUpdates": {
+      "title": "문학상 업데이트",
+      "empty": "문학상 업데이트가 없습니다. 문학상을 팔로우하여 발표를 추적하세요."
+    }
+  },
+  "authors": {
+    "title": "영국 작가",
+    "search": "작가 검색...",
+    "empty": "작가를 찾을 수 없습니다",
+    "booksCount": "{count}권의 책",
+    "viewProfile": "프로필 보기"
+  },
+  "events": {
+    "title": "문학 행사",
+    "search": "이벤트 검색...",
+    "filters": {
+      "region": "지역",
+      "type": "유형",
+      "upcoming": "예정된 이벤트만"
+    },
+    "empty": "이벤트를 찾을 수 없습니다",
+    "ticketsOpen": "티켓 오픈",
+    "website": "웹사이트 방문"
+  },
+  "awards": {
+    "title": "문학상",
+    "search": "문학상 검색...",
+    "filters": {
+      "category": "카테고리"
+    },
+    "empty": "문학상을 찾을 수 없습니다",
+    "stages": {
+      "longlist": "롱리스트",
+      "shortlist": "쇼트리스트",
+      "winner": "수상작"
+    }
+  },
+  "notifications": {
+    "title": "알림",
+    "markAllRead": "모두 읽음으로 표시",
+    "empty": "알림이 없습니다",
+    "types": {
+      "new_book": "신간",
+      "event_ticket": "이벤트 티켓",
+      "award_announcement": "문학상 발표"
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "로그인",
+      "email": "이메일",
+      "password": "비밀번호",
+      "submit": "로그인",
+      "noAccount": "계정이 없으신가요?",
+      "signUp": "가입하기"
+    },
+    "register": {
+      "title": "계정 만들기",
+      "email": "이메일",
+      "username": "사용자 이름",
+      "fullName": "이름",
+      "password": "비밀번호",
+      "confirmPassword": "비밀번호 확인",
+      "preferredLanguage": "선호 언어",
+      "submit": "계정 만들기",
+      "haveAccount": "이미 계정이 있으신가요?",
+      "signIn": "로그인"
+    }
+  }
+}

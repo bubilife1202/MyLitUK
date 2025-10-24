@@ -1,0 +1,139 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "search": "Search",
+    "filter": "Filter",
+    "follow": "Follow",
+    "unfollow": "Unfollow",
+    "following": "Following"
+  },
+  "nav": {
+    "home": "Home",
+    "dashboard": "Dashboard",
+    "authors": "Authors",
+    "books": "Books",
+    "events": "Events",
+    "awards": "Awards",
+    "notifications": "Notifications",
+    "login": "Login",
+    "register": "Register",
+    "logout": "Logout",
+    "profile": "Profile"
+  },
+  "home": {
+    "title": "MyLitUK",
+    "subtitle": "Your Personalized UK Literature Curation Platform",
+    "description": "Follow your favorite UK authors, literary events, and awards. Get personalized alerts for new books, event tickets, and award announcements.",
+    "features": {
+      "title": "Features",
+      "personalized": {
+        "title": "Personalized Curation",
+        "description": "See only what you care about. Follow authors, events, and awards to create your perfect feed."
+      },
+      "alerts": {
+        "title": "Smart Alerts",
+        "description": "Get notified when your followed authors release new books, event tickets open, or awards are announced."
+      },
+      "multilingual": {
+        "title": "Multilingual Support",
+        "description": "Available in English and Korean. Switch languages anytime."
+      }
+    },
+    "cta": {
+      "title": "Get Started",
+      "description": "Create a free account and start curating your UK literature experience.",
+      "button": "Sign Up Now"
+    }
+  },
+  "dashboard": {
+    "title": "My Dashboard",
+    "welcome": "Welcome back!",
+    "summary": {
+      "followedAuthors": "Followed Authors",
+      "followedEvents": "Followed Events",
+      "followedAwards": "Followed Awards",
+      "unreadNotifications": "Unread Notifications"
+    },
+    "newBooks": {
+      "title": "New Books from Followed Authors",
+      "empty": "No new books. Follow authors to see their latest releases here."
+    },
+    "upcomingEvents": {
+      "title": "Upcoming Events",
+      "empty": "No upcoming events. Follow events to stay updated."
+    },
+    "awardUpdates": {
+      "title": "Award Updates",
+      "empty": "No award updates. Follow awards to track announcements."
+    }
+  },
+  "authors": {
+    "title": "UK Authors",
+    "search": "Search authors...",
+    "empty": "No authors found",
+    "booksCount": "{count} books",
+    "viewProfile": "View Profile"
+  },
+  "events": {
+    "title": "Literary Events",
+    "search": "Search events...",
+    "filters": {
+      "region": "Region",
+      "type": "Type",
+      "upcoming": "Upcoming Only"
+    },
+    "empty": "No events found",
+    "ticketsOpen": "Tickets Open",
+    "website": "Visit Website"
+  },
+  "awards": {
+    "title": "Literary Awards",
+    "search": "Search awards...",
+    "filters": {
+      "category": "Category"
+    },
+    "empty": "No awards found",
+    "stages": {
+      "longlist": "Longlist",
+      "shortlist": "Shortlist",
+      "winner": "Winner"
+    }
+  },
+  "notifications": {
+    "title": "Notifications",
+    "markAllRead": "Mark All as Read",
+    "empty": "No notifications",
+    "types": {
+      "new_book": "New Book",
+      "event_ticket": "Event Tickets",
+      "award_announcement": "Award Announcement"
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Login",
+      "email": "Email",
+      "password": "Password",
+      "submit": "Login",
+      "noAccount": "Don't have an account?",
+      "signUp": "Sign up"
+    },
+    "register": {
+      "title": "Create Account",
+      "email": "Email",
+      "username": "Username",
+      "fullName": "Full Name",
+      "password": "Password",
+      "confirmPassword": "Confirm Password",
+      "preferredLanguage": "Preferred Language",
+      "submit": "Create Account",
+      "haveAccount": "Already have an account?",
+      "signIn": "Sign in"
+    }
+  }
+}
