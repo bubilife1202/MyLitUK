@@ -1,47 +1,35 @@
-"""
-Configuration settings using Pydantic
-"""
-
 from pydantic_settings import BaseSettings
-from typing import Optional
-
+from typing import List
 
 class Settings(BaseSettings):
-    """
-    Application settings loaded from environment variables
-    """
-
     # App
     APP_NAME: str = "MyLitUK"
-    APP_VERSION: str = "0.1.0"
+    VERSION: str = "3.1.0"
     DEBUG: bool = True
 
     # Database
-    DATABASE_URL: str = "postgresql+asyncpg://postgres:postgres@localhost:5432/mylituk"
+    DATABASE_URL: str = "postgresql://postgres:password@localhost:5432/mylituk"
 
-    # Redis (optional)
-    REDIS_URL: Optional[str] = None
+    # Redis
+    REDIS_URL: str = "redis://localhost:6379/0"
 
-    # Security
-    SECRET_KEY: str = "your-secret-key-change-this-in-production"
+    # JWT
+    SECRET_KEY: str = "your-secret-key-change-in-production"
     ALGORITHM: str = "HS256"
-    ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
-
-    # External APIs
-    OPEN_LIBRARY_API_URL: str = "https://openlibrary.org"
-    GOOGLE_BOOKS_API_URL: str = "https://www.googleapis.com/books/v1"
-    GOOGLE_BOOKS_API_KEY: Optional[str] = None
+    ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 7  # 7 days
 
     # CORS
-    BACKEND_CORS_ORIGINS: list[str] = [
+    ALLOWED_ORIGINS: List[str] = [
         "http://localhost:3000",
         "http://localhost:3001",
+        "https://mylituk.vercel.app"
     ]
+
+    # Pagination
+    DEFAULT_PAGE_SIZE: int = 20
+    MAX_PAGE_SIZE: int = 100
 
     class Config:
         env_file = ".env"
-        case_sensitive = True
 
-
-# Create settings instance
 settings = Settings()
