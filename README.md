@@ -230,46 +230,68 @@ python scripts/scrape_awards.py
 
 ## 🚀 배포
 
-### Vercel (Frontend)
-```bash
-# Vercel CLI 설치
-npm i -g vercel
+**완전한 배포 가이드**: [DEPLOYMENT.md](DEPLOYMENT.md)
 
-# 배포
-cd frontend
-vercel
+### 빠른 배포 요약
+
+#### 1. Supabase (Database)
+1. supabase.com → 새 프로젝트 생성
+2. DATABASE_URL 복사
+
+#### 2. Render (Backend)
+```bash
+# Render.com에서:
+- New Web Service 선택
+- GitHub 저장소 연결
+- Root Directory: backend
+- Build: pip install -r requirements.txt
+- Start: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+- 환경 변수 설정 (DATABASE_URL, SECRET_KEY)
 ```
 
-### Render (Backend)
-1. https://render.com 접속
-2. New Web Service
-3. GitHub 저장소 연결
-4. 자동 배포 완료
+#### 3. Vercel (Frontend)
+```bash
+# Vercel CLI 또는 웹에서:
+npm i -g vercel
+cd frontend
+vercel
+# 환경 변수: NEXT_PUBLIC_API_URL=https://your-backend.onrender.com
+```
 
+### 무료 호스팅 전략
 상세 가이드: [100_PERCENT_FREE_ARCHITECTURE.md](100_PERCENT_FREE_ARCHITECTURE.md)
 
 ---
 
 ## 📈 개발 진행률
 
-### ✅ 완료 (기획)
+### ✅ 완료 (Phase 1 & 2)
 - [x] 전체 시스템 기획
-- [x] 데이터베이스 설계
+- [x] 데이터베이스 설계 (14개 테이블)
 - [x] API 설계
 - [x] 다국어 지원 설계
 - [x] 무료 호스팅 전략
+- [x] **FastAPI 백엔드 완전 구현**
+  - [x] 인증 시스템 (JWT)
+  - [x] 7개 API 라우터 (auth, authors, books, events, awards, notifications, dashboard)
+  - [x] Follow/Unfollow 기능
+  - [x] 개인화 대시보드 (핵심 기능!)
+  - [x] 14개 SQLAlchemy 모델
+  - [x] Pydantic 스키마
+- [x] **Next.js 프론트엔드 완전 구현**
+  - [x] TypeScript + Tailwind CSS
+  - [x] next-intl 다국어 지원 (EN/KO)
+  - [x] 홈, 로그인, 회원가입, 대시보드 페이지
+  - [x] API 클라이언트
+  - [x] 상태 관리 (Zustand)
 
-### 🔄 진행 중 (개발)
-- [ ] FastAPI 백엔드 구현
-- [ ] Next.js 프론트엔드 구현
+### ⏳ 예정 (Phase 3 - 배포)
+- [ ] Vercel 프론트엔드 배포
+- [ ] Render 백엔드 배포
+- [ ] Supabase 데이터베이스 설정
+- [ ] 초기 데이터 입력 (작가, 이벤트, 문학상)
 - [ ] 데이터 수집 스크립트
-- [ ] GitHub Actions 설정
-
-### ⏳ 예정 (배포)
-- [ ] Vercel 배포
-- [ ] Render 배포
-- [ ] Supabase 설정
-- [ ] 초기 데이터 입력
+- [ ] GitHub Actions 자동화 설정
 
 ---
 
@@ -337,11 +359,13 @@ npm run dev
 
 ## 📚 문서
 
+- [배포 가이드](DEPLOYMENT.md) - **완전한 배포 가이드 (Vercel + Render + Supabase)**
 - [전체 기획서](PLANNING.md) - 프로젝트 전체 설계
-- [무료 아키텍처](100_PERCENT_FREE_ARCHITECTURE.md) - 무료 호스팅 가이드
+- [무료 아키텍처](100_PERCENT_FREE_ARCHITECTURE.md) - 무료 호스팅 전략
 - [다국어 지원](MULTILINGUAL_SUPPORT.md) - i18n 가이드
 - [데이터 소스](FREE_DATA_SOURCES.md) - API 및 크롤링
 - [단순화 컨셉](SIMPLIFIED_CONCEPT.md) - 핵심 아이디어
+- [마이그레이션 가이드](backend/MIGRATION_GUIDE.md) - 데이터베이스 마이그레이션
 
 ---
 
