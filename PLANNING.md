@@ -2,7 +2,9 @@
 
 ## 📋 프로젝트 개요
 
-**MyLitUK**는 영국 문학 애호가들을 위한 종합 정보 플랫폼입니다. 사용자들이 좋아하는 작가의 신간, 문학 행사, 문학상 소식을 한 곳에서 모두 받아볼 수 있는 맞춤형 알림 서비스를 제공합니다.
+**MyLitUK**는 영국 문학 애호가들을 위한 종합 정보 플랫폼입니다. 사용자들이 좋아하는 작가의 신간, 문학 행사, 문학상 소식을 한 곳에서 모두 받아볼 수 있는 맞춤형 **사이트 내 알림** 서비스를 제공합니다.
+
+**핵심 전략**: 이메일 대신 사이트 내 알림으로 사용자가 자주 방문하도록 유도합니다.
 
 ### 핵심 가치 제안
 - **경험 (Experience)**: 문학 행사 정보 및 티켓팅
@@ -24,8 +26,8 @@
 #### 사용자 플로우
 ```
 작가 페이지 방문 → '팔로우' 버튼 클릭 →
-신간 출시 → 이메일/앱 알림 수신 →
-구매 링크 클릭 → 외부 서점 이동
+신간 출시 → 사이트 내 알림 생성 (🔔 배지 표시) →
+사이트 재방문 → 알림 확인 → 구매 링크 클릭 → 외부 서점 이동
 ```
 
 ---
@@ -141,12 +143,12 @@ Winner 발표 → 알림 + 구매 링크 → 즉시 구매
 
 #### External Services
 ```
-- Email: SendGrid / AWS SES
-- Push Notification: Firebase Cloud Messaging
+- WebSocket/SSE: 실시간 알림 (자체 구현)
+- Push Notification: (선택적) PWA 브라우저 푸시
 - External APIs:
-  - Google Books API (도서 정보)
-  - OpenLibrary API (보조)
-  - Ticketmaster API (행사 티켓)
+  - Open Library API (도서 정보) - 무료
+  - Google Books API (보조) - 무료 티어
+  - Web Scraping (행사/문학상 정보)
 ```
 
 ---
@@ -163,8 +165,9 @@ CREATE TABLE users (
     username VARCHAR(100) UNIQUE NOT NULL,
     password_hash VARCHAR(255) NOT NULL,
     full_name VARCHAR(200),
-    notification_email BOOLEAN DEFAULT TRUE,
-    notification_push BOOLEAN DEFAULT FALSE,
+    notification_in_app BOOLEAN DEFAULT TRUE,  -- 사이트 내 알림
+    notification_browser_push BOOLEAN DEFAULT FALSE,  -- 브라우저 푸시 (선택)
+    last_visit TIMESTAMP,  -- 마지막 방문 시간
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -337,9 +340,25 @@ CREATE TABLE notifications (
     related_id INTEGER,  -- book_id, event_id, or announcement_id
     related_type VARCHAR(50),  -- 'book', 'event', 'award'
     action_url VARCHAR(500),  -- 구매/티켓 링크
+    priority VARCHAR(20) DEFAULT 'medium',  -- 'high', 'medium', 'low'
     is_read BOOLEAN DEFAULT FALSE,
-    sent_at TIMESTAMP,
+    read_at TIMESTAMP,  -- 읽은 시간
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 빠른 조회를 위한 인덱스
+CREATE INDEX idx_notifications_user_unread
+    ON notifications(user_id, is_read, created_at DESC);
+```
+
+#### 14. User Visit Streaks (방문 연속 기록) ⭐ NEW
+```sql
+CREATE TABLE user_visit_streaks (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+    visit_date DATE NOT NULL,
+    streak_count INTEGER DEFAULT 1,
+    UNIQUE(user_id, visit_date)
 );
 ```
 
@@ -403,10 +422,21 @@ GET    /api/awards/:id/winners     # 역대 수상작
 
 ### 알림 (Notifications)
 ```
-GET    /api/notifications          # 내 알림 목록
-GET    /api/notifications/unread   # 안 읽은 알림
-PUT    /api/notifications/:id/read # 알림 읽음 처리
-DELETE /api/notifications/:id      # 알림 삭제
+GET    /api/notifications              # 내 알림 목록
+GET    /api/notifications/unread       # 안 읽은 알림
+GET    /api/notifications/count        # 안 읽은 개수만 (배지용)
+PUT    /api/notifications/:id/read     # 알림 읽음 처리
+PUT    /api/notifications/mark-all-read # 모두 읽음
+DELETE /api/notifications/:id          # 알림 삭제
+GET    /api/notifications/stream       # 실시간 SSE (선택)
+```
+
+### 대시보드 (Dashboard) ⭐ NEW
+```
+GET    /api/dashboard/today            # 오늘의 업데이트
+GET    /api/dashboard/timeline         # 개인화 타임라인
+GET    /api/dashboard/recommendations  # 맞춤 추천
+GET    /api/dashboard/weekly-report    # 주간 리포트
 ```
 
 ### 사용자 (User Profile)
@@ -420,67 +450,82 @@ PUT    /api/me/preferences         # 알림 설정 수정
 
 ---
 
-## 🔔 알림 발송 시스템 설계
+## 🔔 알림 생성 시스템 설계
 
 ### Celery Task 구조
 
-#### Task 1: 신간 알림 체크 (Daily)
+#### Task 1: 신간 알림 생성 (Daily)
 ```python
 @celery.task
 def check_new_books():
     """
     1. 최근 24시간 내 등록된 신간 조회
     2. 해당 작가를 팔로우하는 사용자 목록 조회
-    3. 알림 생성 및 발송
+    3. 각 사용자의 알림 테이블에 레코드 생성
+    4. (선택) WebSocket으로 실시간 푸시
     """
 ```
 
-#### Task 2: 행사 티켓 오픈 알림 (Hourly)
+#### Task 2: 행사 티켓 오픈 알림 생성 (Hourly)
 ```python
 @celery.task
 def check_event_ticket_opening():
     """
     1. 향후 24시간 내 티켓 오픈 예정 행사 조회
     2. 해당 행사를 팔로우하는 사용자 목록 조회
-    3. 티켓 오픈 사전 알림 발송 (1일 전, 1시간 전)
+    3. 사전 알림 생성 (1일 전, 1시간 전)
+    4. 우선순위 'high'로 설정
     """
 ```
 
-#### Task 3: 신규 행사 매칭 알림 (Daily)
+#### Task 3: 신규 행사 매칭 알림 생성 (Daily)
 ```python
 @celery.task
 def match_new_events_to_preferences():
     """
     1. 최근 24시간 내 등록된 신규 행사 조회
     2. 각 행사의 region + keywords와 사용자 설정 매칭
-    3. 매칭되는 사용자에게 알림 발송
+    3. 매칭되는 사용자에게 알림 생성
     """
 ```
 
-#### Task 4: 문학상 발표 알림 (Daily)
+#### Task 4: 문학상 발표 알림 생성 (Daily)
 ```python
 @celery.task
 def check_award_announcements():
     """
     1. 오늘 발표 예정인 문학상 단계(longlist/shortlist/winner) 조회
     2. 해당 문학상을 팔로우하는 사용자 목록 조회
-    3. 단계별 알림 발송
-    4. Winner 발표 시: 수상작 구매 링크 포함
+    3. 단계별 알림 생성
+    4. Winner 발표 시: 우선순위 'high', 수상작 구매 링크 포함
     """
 ```
 
 ### 알림 우선순위
 ```
-[High Priority]
-- 문학상 Winner 발표 (즉시)
-- 행사 티켓 오픈 1시간 전 (즉시)
+[High Priority] priority='high'
+- 문학상 Winner 발표
+- 행사 티켓 오픈 1시간 전
+→ 빨간 배지, 시각적 강조
 
-[Medium Priority]
-- 신간 출시 (배치 발송)
-- 문학상 Longlist/Shortlist (배치 발송)
+[Medium Priority] priority='medium'
+- 신간 출시
+- 문학상 Longlist/Shortlist
+→ 파란 배지
 
-[Low Priority]
-- 신규 행사 매칭 (일일 다이제스트)
+[Low Priority] priority='low'
+- 신규 행사 매칭
+→ 회색 배지
+```
+
+### 실시간 알림 전송 (선택적)
+```python
+# Redis Pub/Sub로 실시간 알림
+async def send_realtime_notification(user_id: int, notification: dict):
+    """
+    WebSocket 연결된 클라이언트에게 즉시 푸시
+    """
+    await redis.publish(f"user:{user_id}:notifications", json.dumps(notification))
 ```
 
 ---
@@ -524,20 +569,58 @@ def check_award_announcements():
 
 ## 🎨 UI/UX 주요 화면
 
-### 1. 홈 대시보드
+### 0. 헤더 (모든 페이지 공통) ⭐ 핵심
 ```
-- 오늘의 문학 뉴스 (위젯)
-- 다가오는 행사 캘린더
-- 최근 신간 캐러셀
-- 내 알림 요약
+┌─────────────────────────────────────────┐
+│ MyLitUK  홈  행사  문학상   [🔔 3]  👤  │
+│                            ↑             │
+│                      읽지 않은 알림      │
+└─────────────────────────────────────────┘
 ```
 
-### 2. 마이페이지
+### 1. 홈 대시보드 (개인화)
+```
+안녕하세요, [사용자명]님! 👋
+오늘 새로운 소식이 3건 있습니다.
+
+[오늘의 업데이트]
+📚 팔로우 중인 작가 신간 2건
+🎭 다가오는 행사 1건
+[상세보기]
+
+[이번 주 놓치면 안 될 일정]
+⏰ 2일 후: Hay Festival 티켓 오픈
+📖 4일 후: Ian McEwan 신간 출시
+
+[맞춤 추천]
+당신이 좋아할 만한 행사
+- Poetry Reading in London
+```
+
+### 2. 알림 페이지 (전용)
+```
+[알림]  [전체] [신간] [행사] [문학상]
+
+오늘
+─────────────────────────────
+🎉 Booker Prize 수상작 발표!     ●
+   "Prophet Song" 구매하기   5분 전
+
+🎫 Hay Festival 티켓 오픈
+   [지금 구매하기]        2시간 전
+
+어제
+─────────────────────────────
+📚 Ian McEwan 신간 출시
+   [상세보기]              어제
+```
+
+### 3. 마이페이지
 ```
 [탭 구조]
 - 팔로우 관리 (작가/행사/문학상)
-- 알림 설정
-- 알림 히스토리
+- 알림 설정 (키워드/지역)
+- 활동 통계 (연속 방문: 7일 🔥)
 - 북마크/위시리스트
 ```
 
@@ -642,12 +725,28 @@ def check_award_announcements():
 
 ## 📈 성공 지표 (KPI)
 
-### 사용자 지표
+### 사용자 참여도 지표 (핵심!)
 ```
-- 월간 활성 사용자 (MAU)
+- 일일 활성 사용자 (DAU) ⭐
+- 주간 활성 사용자 (WAU)
+- 평균 세션 시간
+- 재방문율 (Return Rate)
+- 연속 방문 일수 (Streak)
+```
+
+### 알림 지표
+```
+- 알림 읽음률 (Read Rate)
 - 알림 클릭률 (CTR)
+- 평균 알림 확인 시간
+- 안 읽은 알림 → 방문 전환율
+```
+
+### 팔로우 지표
+```
 - 평균 팔로우 수 (작가/행사/문학상)
-- 사용자 유지율 (Retention)
+- 팔로우 후 활성도
+- 알림당 팔로우 전환율
 ```
 
 ### 비즈니스 지표
@@ -655,7 +754,7 @@ def check_award_announcements():
 - 구매 링크 클릭 수
 - 티켓 링크 클릭 수
 - 제휴 수익 (Affiliate)
-- 프리미엄 구독 전환율
+- 알림 → 구매 전환율
 ```
 
 ---
@@ -710,6 +809,27 @@ def check_award_announcements():
 
 ---
 
+## 🔄 버전 히스토리
+
+### v2.0 (2025-10-24) - 사이트 내 알림으로 전면 변경
+**주요 변경사항**:
+- ❌ 이메일 알림 제거
+- ✅ 사이트 내 알림으로 전환
+- ✅ 읽지 않은 알림 배지 (🔔) 추가
+- ✅ 개인화된 대시보드 추가
+- ✅ 연속 방문 스트릭 추가
+- ✅ 실시간 알림 (WebSocket/SSE) 옵션 추가
+
+**전략 변경**:
+- 이메일로 알림 → 사이트 방문 유도 전략으로 변경
+- 사용자가 사이트를 자주 방문하도록 유도하는 것이 목표
+
+### v1.0 (2025-10-24) - 초기 기획
+- 3대 알림 시스템 설계
+- 이메일 기반 알림
+
+---
+
 **작성일**: 2025-10-24
-**버전**: 1.0
+**버전**: 2.0 (In-App Notifications)
 **작성자**: Claude (AI Assistant)
