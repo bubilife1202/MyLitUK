@@ -2,9 +2,11 @@
 
 ## 📋 프로젝트 개요
 
-**MyLitUK**는 영국 문학 애호가들을 위한 종합 정보 플랫폼입니다. 사용자들이 좋아하는 작가의 신간, 문학 행사, 문학상 소식을 한 곳에서 모두 받아볼 수 있는 맞춤형 **사이트 내 알림** 서비스를 제공합니다.
+**MyLitUK**는 영국 문학 애호가들을 위한 **개인화 큐레이션 플랫폼**입니다. 수백 개의 신간, 행사, 문학상 소식 중에서 **사용자가 팔로우한 것만** 보여줍니다.
 
-**핵심 전략**: 이메일 대신 사이트 내 알림으로 사용자가 자주 방문하도록 유도합니다.
+**핵심 가치**: "내가 원하는 영국 문학 정보만 모아서 보는 곳"
+- 일반 사이트: 800개 신간 (압도적)
+- MyLitUK: 내가 팔로우한 3명의 신간만 (깔끔!)
 
 ### 핵심 가치 제안
 - **경험 (Experience)**: 문학 행사 정보 및 티켓팅
@@ -115,14 +117,13 @@ Winner 발표 → 알림 + 구매 링크 → 즉시 구매
 
 ### 기술 스택 제안
 
-#### Backend
+#### Backend (초간단)
 ```
 - Language: Python 3.11+
-- Framework: FastAPI (고성능, 비동기 지원, 자동 API 문서화)
-- ORM: SQLAlchemy 2.0 (async 지원)
+- Framework: FastAPI (빠르고 간단한 REST API)
+- ORM: SQLAlchemy 2.0
 - Database: PostgreSQL 15+
-- Task Queue: Celery + Redis (알림 발송용)
-- Cache: Redis
+- Cache: Redis (선택적, 성능 최적화용)
 ```
 
 #### Frontend
@@ -133,22 +134,20 @@ Winner 발표 → 알림 + 구매 링크 → 즉시 구매
 - State Management: Zustand or React Query
 ```
 
-#### Infrastructure
+#### Infrastructure (100% 무료!)
 ```
-- Web Server: Nginx
-- Application Server: Uvicorn (ASGI)
-- Container: Docker + Docker Compose
-- Deployment: AWS / GCP / Vercel (Frontend)
+- Frontend: Vercel (무료 호스팅)
+- Backend: Render.com (무료 750시간/월)
+- Database: Supabase (무료 500MB)
+- Cache: Upstash Redis (무료)
+- 자동화: GitHub Actions (무료)
 ```
 
-#### External Services
+#### External APIs (100% 무료!)
 ```
-- WebSocket/SSE: 실시간 알림 (자체 구현)
-- Push Notification: (선택적) PWA 브라우저 푸시
-- External APIs:
-  - Open Library API (도서 정보) - 무료
-  - Google Books API (보조) - 무료 티어
-  - Web Scraping (행사/문학상 정보)
+- Open Library API (도서 정보) - 무료, 무제한
+- Google Books API (보조) - 무료 1,000 requests/일
+- Web Scraping (행사/문학상) - 무료 (자체 구현)
 ```
 
 ---
@@ -420,23 +419,19 @@ GET    /api/awards/:id/nominees    # 후보작 목록 (연도별)
 GET    /api/awards/:id/winners     # 역대 수상작
 ```
 
-### 알림 (Notifications)
+### 개인화 피드 (핵심!) ⭐
 ```
-GET    /api/notifications              # 내 알림 목록
-GET    /api/notifications/unread       # 안 읽은 알림
-GET    /api/notifications/count        # 안 읽은 개수만 (배지용)
-PUT    /api/notifications/:id/read     # 알림 읽음 처리
-PUT    /api/notifications/mark-all-read # 모두 읽음
-DELETE /api/notifications/:id          # 알림 삭제
-GET    /api/notifications/stream       # 실시간 SSE (선택)
+GET    /api/dashboard                  # 내가 팔로우한 것의 최신 업데이트
+  → 이게 가장 중요한 API!
+  → 신간, 행사, 문학상 업데이트를 한 번에 반환
 ```
 
-### 대시보드 (Dashboard) ⭐ NEW
+### 알림 (단순 표시용)
 ```
-GET    /api/dashboard/today            # 오늘의 업데이트
-GET    /api/dashboard/timeline         # 개인화 타임라인
-GET    /api/dashboard/recommendations  # 맞춤 추천
-GET    /api/dashboard/weekly-report    # 주간 리포트
+GET    /api/notifications              # 업데이트 목록
+GET    /api/notifications/count        # 안 읽은 개수 (배지용)
+PUT    /api/notifications/:id/read     # 읽음 처리
+PUT    /api/notifications/mark-all-read # 모두 읽음
 ```
 
 ### 사용자 (User Profile)
@@ -450,82 +445,63 @@ PUT    /api/me/preferences         # 알림 설정 수정
 
 ---
 
-## 🔔 알림 생성 시스템 설계
+## 🤖 데이터 수집 & 업데이트 생성 (자동화)
 
-### Celery Task 구조
+### GitHub Actions로 자동 실행 (완전 무료)
 
-#### Task 1: 신간 알림 생성 (Daily)
+#### Task 1: 신간 체크 (일 1회)
 ```python
-@celery.task
+# scripts/check_new_books.py
 def check_new_books():
     """
-    1. 최근 24시간 내 등록된 신간 조회
-    2. 해당 작가를 팔로우하는 사용자 목록 조회
-    3. 각 사용자의 알림 테이블에 레코드 생성
-    4. (선택) WebSocket으로 실시간 푸시
+    1. Open Library API에서 영국 작가 신간 체크
+    2. 데이터베이스에 저장
+    3. 각 신간을 팔로우한 사용자의 알림 레코드 생성
+
+    실행: GitHub Actions (매일 오전 9시)
     """
 ```
 
-#### Task 2: 행사 티켓 오픈 알림 생성 (Hourly)
+#### Task 2: 행사 정보 수집 (일 1회)
 ```python
-@celery.task
-def check_event_ticket_opening():
+# scripts/scrape_events.py
+def scrape_events():
     """
-    1. 향후 24시간 내 티켓 오픈 예정 행사 조회
-    2. 해당 행사를 팔로우하는 사용자 목록 조회
-    3. 사전 알림 생성 (1일 전, 1시간 전)
-    4. 우선순위 'high'로 설정
+    1. 주요 문학 페스티벌 웹사이트 크롤링
+    2. 티켓 오픈 날짜, 프로그램 업데이트 확인
+    3. 변경사항 있으면 데이터베이스 업데이트
+    4. 팔로워에게 업데이트 알림 생성
+
+    실행: GitHub Actions (매일 오전 10시)
     """
 ```
 
-#### Task 3: 신규 행사 매칭 알림 생성 (Daily)
+#### Task 3: 문학상 발표 체크 (일 1회)
 ```python
-@celery.task
-def match_new_events_to_preferences():
+# scripts/check_awards.py
+def check_awards():
     """
-    1. 최근 24시간 내 등록된 신규 행사 조회
-    2. 각 행사의 region + keywords와 사용자 설정 매칭
-    3. 매칭되는 사용자에게 알림 생성
+    1. 문학상 공식 사이트 크롤링
+    2. Longlist/Shortlist/Winner 발표 확인
+    3. 새 발표 있으면 데이터베이스 업데이트
+    4. 팔로워에게 알림 생성
+
+    실행: GitHub Actions (매일 오전 11시)
     """
 ```
 
-#### Task 4: 문학상 발표 알림 생성 (Daily)
-```python
-@celery.task
-def check_award_announcements():
-    """
-    1. 오늘 발표 예정인 문학상 단계(longlist/shortlist/winner) 조회
-    2. 해당 문학상을 팔로우하는 사용자 목록 조회
-    3. 단계별 알림 생성
-    4. Winner 발표 시: 우선순위 'high', 수상작 구매 링크 포함
-    """
+### 알림 우선순위 (시각적 구분)
 ```
-
-### 알림 우선순위
-```
-[High Priority] priority='high'
+[High] 🔴 빨간 배지
 - 문학상 Winner 발표
-- 행사 티켓 오픈 1시간 전
-→ 빨간 배지, 시각적 강조
+- 행사 티켓 오픈 당일
 
-[Medium Priority] priority='medium'
+[Medium] 🔵 파란 배지
 - 신간 출시
 - 문학상 Longlist/Shortlist
-→ 파란 배지
 
-[Low Priority] priority='low'
-- 신규 행사 매칭
-→ 회색 배지
-```
-
-### 실시간 알림 전송 (선택적)
-```python
-# Redis Pub/Sub로 실시간 알림
-async def send_realtime_notification(user_id: int, notification: dict):
-    """
-    WebSocket 연결된 클라이언트에게 즉시 푸시
-    """
-    await redis.publish(f"user:{user_id}:notifications", json.dumps(notification))
+[Low] ⚪ 회색 배지
+- 신규 행사 등록
 ```
 
 ---
@@ -811,25 +787,33 @@ async def send_realtime_notification(user_id: int, notification: dict):
 
 ## 🔄 버전 히스토리
 
-### v2.0 (2025-10-24) - 사이트 내 알림으로 전면 변경
+### v3.0 (2025-10-24) - 단순화 & 완전 무료 ⭐ 현재
+**핵심 변경**:
+- 💡 컨셉 명확화: "내가 원하는 것만 보여주는 개인화 큐레이션 사이트"
+- ❌ 실시간 알림 제거 (WebSocket, SSE, 브라우저 푸시)
+- ❌ 복잡한 로직 제거
+- ✅ 단순한 개인화 피드 중심
+- ✅ 100% 무료 아키텍처 (사용자 5,000명까지)
+- ✅ GitHub Actions 자동화
+
+**기술 스택**:
+- Vercel + Render + Supabase + Upstash (모두 무료!)
+- 총 비용: $0/월
+
+### v2.0 (2025-10-24) - 사이트 내 알림으로 변경
 **주요 변경사항**:
 - ❌ 이메일 알림 제거
 - ✅ 사이트 내 알림으로 전환
-- ✅ 읽지 않은 알림 배지 (🔔) 추가
-- ✅ 개인화된 대시보드 추가
-- ✅ 연속 방문 스트릭 추가
-- ✅ 실시간 알림 (WebSocket/SSE) 옵션 추가
-
-**전략 변경**:
-- 이메일로 알림 → 사이트 방문 유도 전략으로 변경
-- 사용자가 사이트를 자주 방문하도록 유도하는 것이 목표
+- ✅ 읽지 않은 알림 배지 (🔔)
+- ✅ 실시간 알림 옵션 (→ v3.0에서 제거됨)
 
 ### v1.0 (2025-10-24) - 초기 기획
 - 3대 알림 시스템 설계
-- 이메일 기반 알림
+- 이메일 기반 알림 (→ v2.0에서 제거됨)
 
 ---
 
 **작성일**: 2025-10-24
-**버전**: 2.0 (In-App Notifications)
-**작성자**: Claude (AI Assistant)
+**버전**: 3.0 (Simplified & 100% Free)
+**핵심**: 단순함 + 무료 + 개인화
+**비용**: $0/월 🎉
