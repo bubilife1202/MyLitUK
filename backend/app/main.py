@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.core.config import settings
-from app.api import auth, authors, books, events, awards, notifications, dashboard
+from app.api import auth, authors, books, events, awards, notifications, dashboard, admin
 from app.core.database import Base, engine
 import os
 import subprocess
@@ -42,6 +42,7 @@ app.include_router(events.router, prefix="/api/events", tags=["Events"])
 app.include_router(awards.router, prefix="/api/awards", tags=["Awards"])
 app.include_router(notifications.router, prefix="/api/notifications", tags=["Notifications"])
 app.include_router(dashboard.router, prefix="/api/dashboard", tags=["Dashboard"])
+app.include_router(admin.router, prefix="/api/admin", tags=["Admin"])
 
 @app.get("/")
 async def root():
