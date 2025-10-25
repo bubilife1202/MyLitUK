@@ -1,5 +1,6 @@
 from pydantic_settings import BaseSettings
-from typing import List
+from typing import List, Union
+from pydantic import field_validator
 
 class Settings(BaseSettings):
     # App
@@ -8,9 +9,9 @@ class Settings(BaseSettings):
     DEBUG: bool = True
 
     # Database
-    DATABASE_URL: str = "postgresql://postgres:password@localhost:5432/mylituk"
+    DATABASE_URL: str = "sqlite:///./mylituk.db"
 
-    # Redis
+    # Redis (optional for MVP)
     REDIS_URL: str = "redis://localhost:6379/0"
 
     # JWT
@@ -18,16 +19,19 @@ class Settings(BaseSettings):
     ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 7  # 7 days
 
-    # CORS
-    ALLOWED_ORIGINS: List[str] = [
-        "http://localhost:3000",
-        "http://localhost:3001",
-        "https://mylituk.vercel.app"
-    ]
+    # CORS - can be comma-separated string or list
+    ALLOWED_ORIGINS: Union[str, List[str]] = "http://localhost:3000,http://localhost:3001,https://mylituk.vercel.app"
 
     # Pagination
     DEFAULT_PAGE_SIZE: int = 20
     MAX_PAGE_SIZE: int = 100
+
+    @field_validator('ALLOWED_ORIGINS', mode='before')
+    @classmethod
+    def parse_cors(cls, v):
+        if isinstance(v, str):
+            return [origin.strip() for origin in v.split(',')]
+        return v
 
     class Config:
         env_file = ".env"
