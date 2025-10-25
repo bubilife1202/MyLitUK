@@ -83,6 +83,24 @@ export default function AuthorSelector({ locale, onSave }: AuthorSelectorProps) 
     if (onSave) onSave();
   };
 
+  const selectAll = () => {
+    const allIds = filteredAuthors.map(a => a.id);
+    const newSelected = [...new Set([...selectedAuthors, ...allIds])];
+    setSelectedAuthors(newSelected);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('preferred_authors', JSON.stringify(newSelected));
+    }
+  };
+
+  const deselectAll = () => {
+    const filteredIds = new Set(filteredAuthors.map(a => a.id));
+    const newSelected = selectedAuthors.filter(id => !filteredIds.has(id));
+    setSelectedAuthors(newSelected);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('preferred_authors', JSON.stringify(newSelected));
+    }
+  };
+
   const filteredAuthors = availableAuthors.filter(author =>
     author.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     (author.name_ko && author.name_ko.includes(searchTerm))
@@ -182,14 +200,48 @@ export default function AuthorSelector({ locale, onSave }: AuthorSelectorProps) 
                 </div>
               )}
 
-              {/* Search in Database - Mobile Optimized */}
-              <input
-                type="text"
-                placeholder={locale === 'ko' ? '데이터베이스 검색...' : 'Search database...'}
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full px-4 py-3 text-base border rounded-md min-h-[44px]"
-              />
+              {/* Search in Database - Enhanced Search with Clear Button */}
+              <div className="relative">
+                <input
+                  type="text"
+                  placeholder={locale === 'ko' ? '🔍 작가 이름으로 검색... (50+ 작가)' : '🔍 Search by author name... (50+ authors)'}
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="w-full px-4 py-3 pr-20 text-base border-2 border-gray-300 rounded-md focus:border-primary-600 focus:ring-2 focus:ring-primary-200 min-h-[44px]"
+                />
+                {searchTerm && (
+                  <button
+                    onClick={() => setSearchTerm('')}
+                    className="absolute right-2 top-1/2 -translate-y-1/2 px-3 py-1 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded"
+                    aria-label="Clear search"
+                  >
+                    ✕
+                  </button>
+                )}
+              </div>
+              {searchTerm && (
+                <div className="mt-2 text-sm text-gray-600">
+                  {locale === 'ko' ? `${filteredAuthors.length}명 찾음` : `${filteredAuthors.length} found`}
+                </div>
+              )}
+
+              {/* Quick Select Buttons */}
+              {filteredAuthors.length > 0 && (
+                <div className="mt-3 flex gap-2">
+                  <button
+                    onClick={selectAll}
+                    className="flex-1 px-3 py-2 text-sm bg-primary-100 text-primary-700 rounded-md hover:bg-primary-200 font-medium min-h-[40px]"
+                  >
+                    {locale === 'ko' ? '✓ 모두 선택' : '✓ Select All'}
+                  </button>
+                  <button
+                    onClick={deselectAll}
+                    className="flex-1 px-3 py-2 text-sm bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200 font-medium min-h-[40px]"
+                  >
+                    {locale === 'ko' ? '✕ 모두 해제' : '✕ Deselect All'}
+                  </button>
+                </div>
+              )}
             </div>
 
             {/* Author List from Database - Mobile Optimized */}
@@ -216,7 +268,15 @@ export default function AuthorSelector({ locale, onSave }: AuthorSelectorProps) 
               </div>
               {filteredAuthors.length === 0 && (
                 <div className="text-center py-8 text-gray-500">
-                  {locale === 'ko' ? '검색 결과가 없습니다' : 'No authors found'}
+                  <div className="text-4xl mb-3">🔍</div>
+                  <div className="font-medium">
+                    {locale === 'ko' ? '검색 결과가 없습니다' : 'No authors found'}
+                  </div>
+                  <div className="text-sm mt-2">
+                    {locale === 'ko'
+                      ? '다른 작가를 검색하거나 "직접 입력하기"로 추가하세요'
+                      : 'Try a different search or use "Add Custom Author"'}
+                  </div>
                 </div>
               )}
             </div>

@@ -279,19 +279,29 @@ export default function HomePage() {
                 </p>
               </div>
             ))}
-            {customAuthors.map((name: string, idx: number) => (
-              <div key={`custom-${idx}`} className="bg-gradient-to-br from-blue-50 to-blue-100 p-6 rounded-xl border-2 border-blue-300 hover:shadow-lg transition-all">
-                <div className="flex items-center justify-between mb-2">
-                  <h3 className="text-xl font-bold text-blue-900">{name}</h3>
-                  <span className="text-xs bg-blue-200 text-blue-800 px-3 py-1 rounded-full font-semibold">
-                    {locale === 'ko' ? '직접 추가' : 'Custom'}
-                  </span>
+            {/* Filter out custom authors that match DB author names to prevent duplicates */}
+            {customAuthors
+              .filter((name: string) => {
+                // Check if this custom author name matches any DB author name (case-insensitive)
+                const normalizedCustomName = name.toLowerCase().trim();
+                return !authors.some((author: any) =>
+                  author.name.toLowerCase().trim() === normalizedCustomName ||
+                  (author.name_ko && author.name_ko.trim() === name.trim())
+                );
+              })
+              .map((name: string, idx: number) => (
+                <div key={`custom-${idx}`} className="bg-gradient-to-br from-blue-50 to-blue-100 p-6 rounded-xl border-2 border-blue-300 hover:shadow-lg transition-all">
+                  <div className="flex items-center justify-between mb-2">
+                    <h3 className="text-xl font-bold text-blue-900">{name}</h3>
+                    <span className="text-xs bg-blue-200 text-blue-800 px-3 py-1 rounded-full font-semibold">
+                      {locale === 'ko' ? '직접 추가' : 'Custom'}
+                    </span>
+                  </div>
+                  <p className="text-blue-700 text-sm italic">
+                    {locale === 'ko' ? '관심 작가로 추가하셨습니다' : 'Added to your favorites'}
+                  </p>
                 </div>
-                <p className="text-blue-700 text-sm italic">
-                  {locale === 'ko' ? '관심 작가로 추가하셨습니다' : 'Added to your favorites'}
-                </p>
-              </div>
-            ))}
+              ))}
           </div>
         </div>
       </div>
