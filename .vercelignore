@@ -1,0 +1,8 @@
+# Ignore backend files for frontend deployment
+backend/
+*.md
+.git/
+.env.local
+*.db
+*.sqlite
+*.sqlite3

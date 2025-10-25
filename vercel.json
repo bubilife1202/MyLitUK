@@ -1,0 +1,21 @@
+{
+  "version": 2,
+  "name": "mylituk-api",
+  "builds": [
+    {
+      "src": "api/index.py",
+      "use": "@vercel/python"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "api/index.py"
+    }
+  ],
+  "env": {
+    "DATABASE_URL": "sqlite:///./mylituk.db",
+    "ALLOWED_ORIGINS": "https://mylituk.netlify.app,http://localhost:3000",
+    "SECRET_KEY": "@secret_key"
+  }
+}
