@@ -1,0 +1,23 @@
+[build]
+  # 프론트엔드 디렉토리 지정
+  base = "frontend"
+  # 빌드 명령어
+  command = "npm install && npm run build"
+  # 빌드 결과물 디렉토리
+  publish = ".next"
+
+# Next.js용 Netlify 플러그인
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+
+# 환경 변수 (Netlify 대시보드에서도 설정 가능)
+[build.environment]
+  NODE_VERSION = "18"
+  # 백엔드 URL은 Netlify 대시보드에서 설정하세요
+  # NEXT_PUBLIC_API_URL = "https://your-backend-url.com"
+
+# Next.js 다이나믹 라우팅을 위한 리다이렉트
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
