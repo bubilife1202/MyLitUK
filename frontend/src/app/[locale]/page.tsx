@@ -4,6 +4,8 @@ import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import AuthorSelector from '@/components/AuthorSelector';
+import PreferenceSettings from '@/components/PreferenceSettings';
 
 export default function HomePage() {
   const t = useTranslations('home');
@@ -15,26 +17,54 @@ export default function HomePage() {
   const [authors, setAuthors] = useState([]);
   const [books, setBooks] = useState([]);
   const [events, setEvents] = useState([]);
+  const [bookCount, setBookCount] = useState(6);
+  const [eventCount, setEventCount] = useState(6);
 
   useEffect(() => {
+    // Load preferences from localStorage
+    const savedBookCount = localStorage.getItem('book_display_count');
+    const savedEventCount = localStorage.getItem('event_display_count');
+    const savedAuthors = localStorage.getItem('preferred_authors');
+
+    if (savedBookCount) setBookCount(parseInt(savedBookCount));
+    if (savedEventCount) setEventCount(parseInt(savedEventCount));
+
+    loadData(savedAuthors ? JSON.parse(savedAuthors) : []);
+  }, []);
+
+  const loadData = (preferredAuthors: number[] = []) => {
     // 작가 목록 가져오기
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/authors?size=3`)
+    const authorSize = preferredAuthors.length > 0 ? preferredAuthors.length : 6;
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/authors?size=${authorSize}`)
       .then(res => res.json())
-      .then(data => setAuthors(data.items || []))
+      .then(data => {
+        if (preferredAuthors.length > 0) {
+          // 선택한 작가만 표시
+          const filtered = data.items.filter((a: any) => preferredAuthors.includes(a.id));
+          setAuthors(filtered);
+        } else {
+          setAuthors(data.items || []);
+        }
+      })
       .catch(err => console.log(err));
 
     // 책 목록 가져오기
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/books/new?size=3`)
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/books/new?size=${bookCount}`)
       .then(res => res.json())
       .then(data => setBooks(data.items || []))
       .catch(err => console.log(err));
 
     // 이벤트 목록 가져오기
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/events?upcoming=true&size=3`)
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/events?upcoming=true&size=${eventCount}`)
       .then(res => res.json())
       .then(data => setEvents(data.items || []))
       .catch(err => console.log(err));
-  }, []);
+  };
+
+  const handlePreferencesChange = () => {
+    const savedAuthors = localStorage.getItem('preferred_authors');
+    loadData(savedAuthors ? JSON.parse(savedAuthors) : []);
+  };
 
   return (
     <div className="min-h-screen">
@@ -46,6 +76,8 @@ export default function HomePage() {
               <h1 className="text-lg sm:text-2xl font-bold text-primary-600">{t('title')}</h1>
             </div>
             <div className="flex items-center space-x-2 sm:space-x-4">
+              <PreferenceSettings locale={locale} onSave={handlePreferencesChange} />
+              <AuthorSelector locale={locale} onSave={handlePreferencesChange} />
               <Link href={`/${locale}/login`} className="text-sm sm:text-base text-gray-700 hover:text-primary-600">
                 {tNav('login')}
               </Link>
@@ -160,8 +192,22 @@ export default function HomePage() {
 
       {/* Footer */}
       <footer className="bg-gray-900 text-white py-6 sm:py-8">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <p className="text-sm sm:text-base">&copy; 2025 MyLitUK. All rights reserved.</p>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <p className="text-sm sm:text-base mb-2">&copy; 2025 MyLitUK. All rights reserved.</p>
+            <p className="text-xs text-gray-400">
+              v4.0.0 | {locale === 'ko' ? '로그인 없이 개인화 가능' : 'Personalized without login'} |
+              <a href="https://mylituk-api.onrender.com/docs" target="_blank" rel="noopener noreferrer" className="ml-1 hover:text-white">
+                API Docs
+              </a>
+            </p>
+            <p className="text-xs text-gray-500 mt-1">
+              {locale === 'ko'
+                ? '📚 독서 리스트 | ⭐ 리뷰 | 🎯 챌린지 | 👥 커뮤니티 | 🛒 영국 서점 링크 | 📰 실시간 뉴스'
+                : '📚 Reading Lists | ⭐ Reviews | 🎯 Challenges | 👥 Community | 🛒 UK Bookstores | 📰 Live News'
+              }
+            </p>
+          </div>
         </div>
       </footer>
     </div>
