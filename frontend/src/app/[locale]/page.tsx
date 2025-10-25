@@ -53,11 +53,62 @@ export default function HomePage() {
       })
       .catch(err => console.log(err));
 
-    // 책 목록 가져오기
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/books/new?size=${bookCount}`)
-      .then(res => res.json())
-      .then(data => setBooks(data.items || []))
-      .catch(err => console.log(err));
+    // 최신 책 가져오기 (선택한 작가 + 커스텀 작가의 6개월 이내 신간)
+    if (typeof window !== 'undefined') {
+      const savedCustomAuthors = localStorage.getItem('custom_authors');
+      const customAuthorsList = savedCustomAuthors ? JSON.parse(savedCustomAuthors) : [];
+
+      if (preferredAuthors.length > 0 || customAuthorsList.length > 0) {
+        // 선택한 작가가 있으면 그들의 최신 책만
+        let bookPromises: Promise<any>[] = [];
+
+        // DB 작가들의 최신 책
+        if (preferredAuthors.length > 0) {
+          const authorIds = preferredAuthors.join(',');
+          const dbBooksPromise = fetch(
+            `${process.env.NEXT_PUBLIC_API_URL}/api/latest-books/by-authors?author_ids=${authorIds}&months=6&books_per_author=2`
+          )
+            .then(res => res.json())
+            .then(data => data.items || [])
+            .catch(err => {
+              console.log('Error loading DB authors books:', err);
+              return [];
+            });
+          bookPromises.push(dbBooksPromise);
+        }
+
+        // 커스텀 작가들의 최신 책
+        if (customAuthorsList.length > 0) {
+          const authorNames = customAuthorsList.join(',');
+          const customBooksPromise = fetch(
+            `${process.env.NEXT_PUBLIC_API_URL}/api/latest-books/by-custom-authors?author_names=${encodeURIComponent(authorNames)}&months=6&books_per_author=2`
+          )
+            .then(res => res.json())
+            .then(data => data.items || [])
+            .catch(err => {
+              console.log('Error loading custom authors books:', err);
+              return [];
+            });
+          bookPromises.push(customBooksPromise);
+        }
+
+        // 모든 책 합치기
+        Promise.all(bookPromises).then(results => {
+          const allBooks = results.flat();
+          // 출간일 기준 최신순 정렬
+          allBooks.sort((a: any, b: any) => {
+            return (b.publication_date || '').localeCompare(a.publication_date || '');
+          });
+          setBooks(allBooks.slice(0, bookCount));
+        });
+      } else {
+        // 선택한 작가가 없으면 인기 영국 작가들의 최신 책
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/latest-books/recent?months=6&max_results=${bookCount}`)
+          .then(res => res.json())
+          .then(data => setBooks(data.items || []))
+          .catch(err => console.log(err));
+      }
+    }
 
     // UK 문학 이벤트 가져오기 (수정된 API 엔드포인트)
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/news/events`)
@@ -234,35 +285,73 @@ export default function HomePage() {
       {/* Books Section with Bookstore Links - Mobile Optimized */}
       <div className="bg-gray-100 py-12 sm:py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl sm:text-4xl font-bold mb-8 sm:mb-12 text-gray-900">
-            {locale === 'ko' ? '최신 출간 도서' : 'Latest UK Books'}
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {books.map((book: any) => {
+          <div className="mb-8 sm:mb-12">
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900">
+              {locale === 'ko' ? '최신 출간 도서 (6개월 이내)' : 'Latest UK Books (Last 6 Months)'}
+            </h2>
+            <p className="text-sm text-gray-600 mt-2">
+              {locale === 'ko'
+                ? '📡 Google Books API에서 실시간으로 가져온 최신 정보입니다'
+                : '📡 Real-time data from Google Books API'}
+            </p>
+          </div>
+          {books.length === 0 ? (
+            <div className="col-span-full text-center py-12">
+              <p className="text-gray-500 text-lg">
+                {locale === 'ko'
+                  ? '📚 선택한 작가의 최신 출간 도서를 불러오는 중입니다...'
+                  : '📚 Loading latest books from your selected authors...'}
+              </p>
+              <p className="text-sm text-gray-400 mt-2">
+                {locale === 'ko'
+                  ? '작가를 선택하면 해당 작가의 6개월 이내 신간이 표시됩니다'
+                  : 'Select authors to see their latest books from the past 6 months'}
+              </p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {books.map((book: any, index: number) => {
               const bookstoreLinks = generateBookstoreLinks(
                 book.title,
                 book.author_name || 'Unknown',
                 book.isbn
               );
 
+              // Format publication date
+              const pubDate = book.publication_date ? formatDate(book.publication_date) : '';
+
               return (
-                <div key={book.id} className="bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition-all">
+                <div key={book.isbn || `${book.title}-${index}`} className="bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition-all">
+                  {/* New Badge */}
+                  {book.publication_date && (
+                    <div className="mb-2">
+                      <span className="inline-block px-2 py-1 bg-green-100 text-green-800 text-xs font-semibold rounded">
+                        {locale === 'ko' ? '신간' : 'NEW'} {pubDate}
+                      </span>
+                    </div>
+                  )}
+
                   <h3 className="text-lg font-bold mb-2 text-gray-900 line-clamp-2">
                     {locale === 'ko' && book.title_ko ? book.title_ko : book.title}
                   </h3>
-                  <p className="text-sm text-gray-600 mb-3">
-                    {locale === 'ko' ? '저자' : 'by'} {book.author_name || 'Unknown'}
+                  <p className="text-sm text-gray-600 mb-2">
+                    {locale === 'ko' ? '저자' : 'by'} <span className="font-semibold">{book.author_name || 'Unknown'}</span>
                   </p>
+                  {book.publisher && (
+                    <p className="text-xs text-gray-500 mb-3">
+                      {book.publisher}
+                    </p>
+                  )}
                   <p className="text-gray-600 text-sm leading-relaxed line-clamp-3 mb-4">
                     {locale === 'ko' && book.description_ko ? book.description_ko : book.description}
                   </p>
 
                   {/* Bookstore Links */}
                   <div className="pt-4 border-t border-gray-200">
-                    <p className="text-xs font-semibold text-gray-700 mb-2">
-                      {locale === 'ko' ? '🛒 구매하기' : '🛒 Buy from'}
+                    <p className="text-xs font-semibold text-gray-700 mb-2 flex items-center justify-between">
+                      <span>{locale === 'ko' ? '🛒 구매하기' : '🛒 Buy from'}</span>
                       {book.isbn && (
-                        <span className="ml-2 text-xs text-gray-500">ISBN: {book.isbn}</span>
+                        <span className="text-xs font-normal text-gray-500">ISBN: {book.isbn}</span>
                       )}
                     </p>
                     <div className="flex flex-wrap gap-2">
@@ -298,7 +387,8 @@ export default function HomePage() {
                 </div>
               );
             })}
-          </div>
+            </div>
+          )}
         </div>
       </div>
 
