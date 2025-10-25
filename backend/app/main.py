@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.core.config import settings
 from app.api import auth, authors, books, events, awards, notifications, dashboard, admin
-from app.api import reading_list, reviews, feed, challenges
+from app.api import reading_list, reviews, feed, challenges, news
 from app.core.database import Base, engine
 import os
 import subprocess
@@ -60,6 +60,7 @@ app.include_router(reading_list.router, tags=["Reading List"])
 app.include_router(reviews.router, tags=["Reviews"])
 app.include_router(feed.router, tags=["Feed"])
 app.include_router(challenges.router, tags=["Challenges"])
+app.include_router(news.router, tags=["News"])
 
 @app.get("/")
 async def root():

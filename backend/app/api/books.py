@@ -1,8 +1,10 @@
 from fastapi import APIRouter, Depends, HTTPException, Query
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 from app.core.database import get_db
 from app.models.book import Book
+from app.models.author import Author
 from app.schemas.book import BookResponse, BookList
+from app.services.bookstore_links import generate_bookstore_links
 
 router = APIRouter()
 
@@ -59,3 +61,37 @@ async def get_book(book_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Book not found")
 
     return book
+
+
+@router.get("/{book_id}/bookstores")
+async def get_book_purchase_links(book_id: int, db: Session = Depends(get_db)):
+    """
+    영국 서점 구매 링크 생성
+
+    제공 서점:
+    - Waterstones (UK 최대 서점)
+    - Bookshop.org (독립 서점 지원)
+    - Foyles (런던 유명 서점)
+    - Blackwell's (옥스포드/캠브리지)
+    - WHSmith (전국 체인)
+    - Amazon UK
+    """
+    book = db.query(Book).options(joinedload(Book.author)).filter(Book.id == book_id).first()
+
+    if not book:
+        raise HTTPException(status_code=404, detail="Book not found")
+
+    # 서점 링크 생성
+    links = generate_bookstore_links(
+        title=book.title,
+        author=book.author.name if book.author else "Unknown",
+        isbn=book.isbn
+    )
+
+    return {
+        "book_id": book.id,
+        "title": book.title,
+        "author": book.author.name if book.author else None,
+        "isbn": book.isbn,
+        "purchase_links": links
+    }

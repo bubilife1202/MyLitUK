@@ -20,3 +20,7 @@ email-validator==2.1.0
 
 # HTTP Client
 httpx==0.25.1
+
+# RSS/News Parsing
+feedparser==6.0.11
+beautifulsoup4==4.12.2
