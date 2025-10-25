@@ -98,8 +98,72 @@ async def fetch_uk_literary_events_from_web() -> List[Dict]:
     except Exception as e:
         print(f"Error fetching events: {e}")
 
-    # UK 주요 문학 이벤트 (모두 2026년 이후 - 확실한 미래 날짜)
+    # UK 주요 문학 이벤트 (2025년 11월부터 시작 - 현재 날짜 이후)
     all_events = [
+        {
+            'name': 'Bristol Festival of Literature 2025',
+            'description': 'Two weeks of literary events featuring authors, poets, and thinkers.',
+            'location': 'Bristol',
+            'date': '2025-11-07',
+            'url': 'https://www.bristolfestivalofliterature.co.uk/',
+            'category': 'Festival'
+        },
+        {
+            'name': 'Christmas Literary Market 2025',
+            'description': 'Special Christmas book market featuring UK authors and signed editions.',
+            'location': 'London',
+            'date': '2025-12-12',
+            'url': 'https://www.visitlondon.com/',
+            'category': 'Market'
+        },
+        {
+            'name': 'New Year Reading Challenge 2026',
+            'description': 'Kick off the new year with a month-long reading challenge featuring UK contemporary fiction.',
+            'location': 'Online & UK-wide',
+            'date': '2026-01-01',
+            'url': 'https://www.thebookseller.com/',
+            'category': 'Challenge'
+        },
+        {
+            'name': 'Bath Literature Festival 2026',
+            'description': 'Ten days of performances, debates, and conversations with internationally-renowned writers.',
+            'location': 'Bath',
+            'date': '2026-02-26',
+            'url': 'https://bathfestivals.org.uk/literature/',
+            'category': 'Festival'
+        },
+        {
+            'name': 'Oxford Literary Festival 2026',
+            'description': 'Week-long celebration of books and writing featuring talks, workshops, and book signings.',
+            'location': 'Oxford',
+            'date': '2026-03-20',
+            'url': 'https://oxfordliteraryfestival.org/',
+            'category': 'Festival'
+        },
+        {
+            'name': 'London Book Fair 2026',
+            'description': 'The global marketplace for rights negotiation and the sale and distribution of content across print, audio, TV, film and digital channels.',
+            'location': 'London',
+            'date': '2026-04-13',
+            'url': 'https://www.londonbookfair.co.uk/',
+            'category': 'Book Fair'
+        },
+        {
+            'name': 'Hay Festival 2026',
+            'description': 'Annual literature and arts festival bringing together writers, musicians, and artists from around the world.',
+            'location': 'Hay-on-Wye, Wales',
+            'date': '2026-05-20',
+            'url': 'https://www.hayfestival.com/',
+            'category': 'Festival'
+        },
+        {
+            'name': 'Edinburgh International Book Festival 2026',
+            'description': "The world's largest public celebration of the written word, featuring authors from around the globe.",
+            'location': 'Edinburgh, Scotland',
+            'date': '2026-08-14',
+            'url': 'https://www.edbookfest.co.uk/',
+            'category': 'Festival'
+        },
         {
             'name': 'Manchester Literature Festival 2026',
             'description': 'A celebration of words, ideas and vital new writing, featuring leading literary figures.',
@@ -114,70 +178,6 @@ async def fetch_uk_literary_events_from_web() -> List[Dict]:
             'location': 'Cheltenham',
             'date': '2026-10-09',
             'url': 'https://www.cheltenhamfestivals.com/literature',
-            'category': 'Festival'
-        },
-        {
-            'name': 'Bristol Festival of Literature 2026',
-            'description': 'Two weeks of literary events featuring authors, poets, and thinkers.',
-            'location': 'Bristol',
-            'date': '2026-11-07',
-            'url': 'https://www.bristolfestivalofliterature.co.uk/',
-            'category': 'Festival'
-        },
-        {
-            'name': 'Christmas Literary Market 2026',
-            'description': 'Special Christmas book market featuring UK authors and signed editions.',
-            'location': 'London',
-            'date': '2026-12-12',
-            'url': 'https://www.visitlondon.com/',
-            'category': 'Market'
-        },
-        {
-            'name': 'New Year Reading Challenge 2027',
-            'description': 'Kick off the new year with a month-long reading challenge featuring UK contemporary fiction.',
-            'location': 'Online & UK-wide',
-            'date': '2027-01-01',
-            'url': 'https://www.thebookseller.com/',
-            'category': 'Challenge'
-        },
-        {
-            'name': 'Bath Literature Festival 2027',
-            'description': 'Ten days of performances, debates, and conversations with internationally-renowned writers.',
-            'location': 'Bath',
-            'date': '2027-02-26',
-            'url': 'https://bathfestivals.org.uk/literature/',
-            'category': 'Festival'
-        },
-        {
-            'name': 'Oxford Literary Festival 2027',
-            'description': 'Week-long celebration of books and writing featuring talks, workshops, and book signings.',
-            'location': 'Oxford',
-            'date': '2027-03-20',
-            'url': 'https://oxfordliteraryfestival.org/',
-            'category': 'Festival'
-        },
-        {
-            'name': 'London Book Fair 2027',
-            'description': 'The global marketplace for rights negotiation and the sale and distribution of content across print, audio, TV, film and digital channels.',
-            'location': 'London',
-            'date': '2027-04-13',
-            'url': 'https://www.londonbookfair.co.uk/',
-            'category': 'Book Fair'
-        },
-        {
-            'name': 'Hay Festival 2027',
-            'description': 'Annual literature and arts festival bringing together writers, musicians, and artists from around the world.',
-            'location': 'Hay-on-Wye, Wales',
-            'date': '2027-05-20',
-            'url': 'https://www.hayfestival.com/',
-            'category': 'Festival'
-        },
-        {
-            'name': 'Edinburgh International Book Festival 2027',
-            'description': "The world's largest public celebration of the written word, featuring authors from around the globe.",
-            'location': 'Edinburgh, Scotland',
-            'date': '2027-08-14',
-            'url': 'https://www.edbookfest.co.uk/',
             'category': 'Festival'
         }
     ]

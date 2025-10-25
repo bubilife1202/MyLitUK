@@ -88,7 +88,44 @@ def seed_authors(db: Session):
         {"name": "Salman Rushdie", "name_ko": "살만 루슈디", "bio": "British-Indian novelist known for Midnight's Children.", "bio_ko": "한밤의 아이들로 유명한 영국-인도 소설가입니다.", "birth_date": date(1947, 6, 19), "nationality": "British"},
         {"name": "Will Self", "name_ko": "윌 셀프", "bio": "British author and journalist known for experimental fiction.", "bio_ko": "실험적 소설로 유명한 영국 작가이자 저널리스트입니다.", "birth_date": date(1961, 9, 26), "nationality": "British"},
         {"name": "A.S. Byatt", "name_ko": "A.S. 바이어트", "bio": "British novelist who won the Booker Prize for Possession.", "bio_ko": "포제션으로 부커상을 수상한 영국 소설가입니다.", "birth_date": date(1936, 8, 24), "nationality": "British"},
-        {"name": "Margaret Drabble", "name_ko": "마거릿 드래블", "bio": "British novelist known for The Millstone and The Radiant Way.", "bio_ko": "밀스톤, 빛나는 길로 유명한 영국 소설가입니다.", "birth_date": date(1939, 6, 5), "nationality": "British"}
+        {"name": "Margaret Drabble", "name_ko": "마거릿 드래블", "bio": "British novelist known for The Millstone and The Radiant Way.", "bio_ko": "밀스톤, 빛나는 길로 유명한 영국 소설가입니다.", "birth_date": date(1939, 6, 5), "nationality": "British"},
+
+        # 국제적으로 유명한 작가들 (미국)
+        {"name": "Stephen King", "name_ko": "스티븐 킹", "bio": "American horror and suspense master, author of The Shining and IT.", "bio_ko": "샤이닝과 IT의 저자인 미국 공포소설의 거장입니다.", "birth_date": date(1947, 9, 21), "nationality": "American"},
+        {"name": "John Grisham", "name_ko": "존 그리샴", "bio": "American legal thriller author known for The Firm and A Time to Kill.", "bio_ko": "펌, 타임 투 킬로 유명한 미국 법정 스릴러 작가입니다.", "birth_date": date(1955, 2, 8), "nationality": "American"},
+        {"name": "Donna Tartt", "name_ko": "도나 타트", "bio": "American author of The Secret History and The Goldfinch.", "bio_ko": "비밀의 역사, 황금방울새로 유명한 미국 작가입니다.", "birth_date": date(1963, 12, 23), "nationality": "American"},
+        {"name": "Colleen Hoover", "name_ko": "콜린 후버", "bio": "American romance author known for It Ends with Us.", "bio_ko": "It Ends with Us로 유명한 미국 로맨스 작가입니다.", "birth_date": date(1979, 12, 11), "nationality": "American"},
+        {"name": "Dan Brown", "name_ko": "댄 브라운", "bio": "American author of The Da Vinci Code.", "bio_ko": "다빈치 코드의 저자인 미국 작가입니다.", "birth_date": date(1964, 6, 22), "nationality": "American"},
+        {"name": "Gillian Flynn", "name_ko": "질리언 플린", "bio": "American author known for Gone Girl and Sharp Objects.", "bio_ko": "나를 찾아줘, 샤프 오브젝트로 유명한 미국 작가입니다.", "birth_date": date(1971, 2, 24), "nationality": "American"},
+        {"name": "Margaret Atwood", "name_ko": "마거릿 애트우드", "bio": "Canadian author of The Handmaid's Tale.", "bio_ko": "시녀 이야기의 저자인 캐나다 작가입니다.", "birth_date": date(1939, 11, 18), "nationality": "Canadian"},
+        {"name": "Toni Morrison", "name_ko": "토니 모리슨", "bio": "Nobel Prize-winning American author of Beloved.", "bio_ko": "빌러브드로 노벨상을 수상한 미국 작가입니다.", "birth_date": date(1931, 2, 18), "nationality": "American"},
+        {"name": "James Patterson", "name_ko": "제임스 패터슨", "bio": "American thriller author known for the Alex Cross series.", "bio_ko": "알렉스 크로스 시리즈로 유명한 미국 스릴러 작가입니다.", "birth_date": date(1947, 3, 22), "nationality": "American"},
+        {"name": "Nora Roberts", "name_ko": "노라 로버츠", "bio": "American romance author with over 200 novels.", "bio_ko": "200권 이상의 로맨스 소설을 쓴 미국 작가입니다.", "birth_date": date(1950, 10, 10), "nationality": "American"},
+
+        # 일본 작가
+        {"name": "Haruki Murakami", "name_ko": "무라카미 하루키", "bio": "Japanese author known for Norwegian Wood and 1Q84.", "bio_ko": "노르웨이의 숲, 1Q84로 유명한 일본 작가입니다.", "birth_date": date(1949, 1, 12), "nationality": "Japanese"},
+        {"name": "Banana Yoshimoto", "name_ko": "요시모토 바나나", "bio": "Japanese author known for Kitchen.", "bio_ko": "키친으로 유명한 일본 작가입니다.", "birth_date": date(1964, 7, 24), "nationality": "Japanese"},
+
+        # 북유럽 작가
+        {"name": "Jo Nesbø", "name_ko": "요 네스뵈", "bio": "Norwegian crime writer known for the Harry Hole series.", "bio_ko": "해리 홀 시리즈로 유명한 노르웨이 범죄 소설가입니다.", "birth_date": date(1960, 3, 29), "nationality": "Norwegian"},
+        {"name": "Stieg Larsson", "name_ko": "스티그 라르손", "bio": "Swedish author of The Girl with the Dragon Tattoo.", "bio_ko": "밀레니엄 시리즈의 저자인 스웨덴 작가입니다.", "birth_date": date(1954, 8, 15), "nationality": "Swedish"},
+        {"name": "Fredrik Backman", "name_ko": "프레드릭 배크만", "bio": "Swedish author of A Man Called Ove.", "bio_ko": "오베라는 남자로 유명한 스웨덴 작가입니다.", "birth_date": date(1981, 6, 2), "nationality": "Swedish"},
+
+        # 라틴아메리카 작가
+        {"name": "Gabriel García Márquez", "name_ko": "가브리엘 가르시아 마르케스", "bio": "Colombian Nobel Prize winner, author of One Hundred Years of Solitude.", "bio_ko": "백년 동안의 고독으로 노벨상을 수상한 콜롬비아 작가입니다.", "birth_date": date(1927, 3, 6), "nationality": "Colombian"},
+        {"name": "Isabel Allende", "name_ko": "이사벨 아옌데", "bio": "Chilean-American author of The House of the Spirits.", "bio_ko": "영혼의 집으로 유명한 칠레계 미국 작가입니다.", "birth_date": date(1942, 8, 2), "nationality": "Chilean"},
+
+        # 프랑스 작가
+        {"name": "Michel Houellebecq", "name_ko": "미셸 우엘벡", "bio": "French author known for controversial novels like Submission.", "bio_ko": "복종 등 논쟁적인 소설로 유명한 프랑스 작가입니다.", "birth_date": date(1956, 2, 26), "nationality": "French"},
+
+        # 추가 영미권 베스트셀러 작가
+        {"name": "George R.R. Martin", "name_ko": "조지 R.R. 마틴", "bio": "American author of A Song of Ice and Fire (Game of Thrones).", "bio_ko": "왕좌의 게임 시리즈 저자인 미국 작가입니다.", "birth_date": date(1948, 9, 20), "nationality": "American"},
+        {"name": "Brandon Sanderson", "name_ko": "브랜든 샌더슨", "bio": "American fantasy author known for the Mistborn series.", "bio_ko": "미스트본 시리즈로 유명한 미국 판타지 작가입니다.", "birth_date": date(1975, 12, 19), "nationality": "American"},
+        {"name": "Patrick Rothfuss", "name_ko": "패트릭 로스퍼스", "bio": "American author of The Name of the Wind.", "bio_ko": "바람의 이름으로 유명한 미국 작가입니다.", "birth_date": date(1973, 6, 6), "nationality": "American"},
+        {"name": "Emily St. John Mandel", "name_ko": "에밀리 세인트 존 맨델", "bio": "Canadian author of Station Eleven.", "bio_ko": "스테이션 일레븐으로 유명한 캐나다 작가입니다.", "birth_date": date(1979, 1, 1), "nationality": "Canadian"},
+        {"name": "Celeste Ng", "name_ko": "셀레스트 응", "bio": "American author of Little Fires Everywhere.", "bio_ko": "리틀 파이어스 에브리웨어로 유명한 미국 작가입니다.", "birth_date": date(1980, 7, 30), "nationality": "American"},
+        {"name": "Taylor Jenkins Reid", "name_ko": "테일러 젠킨스 리드", "bio": "American author of The Seven Husbands of Evelyn Hugo.", "bio_ko": "에블린 휴고의 일곱 남편으로 유명한 미국 작가입니다.", "birth_date": date(1983, 12, 20), "nationality": "American"},
+        {"name": "Kristin Hannah", "name_ko": "크리스틴 한나", "bio": "American author of The Nightingale.", "bio_ko": "나이팅게일로 유명한 미국 작가입니다.", "birth_date": date(1960, 9, 25), "nationality": "American"}
     ]
 
     for author_data in authors:
