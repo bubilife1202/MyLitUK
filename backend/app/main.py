@@ -2,14 +2,15 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.core.config import settings
 from app.api import auth, authors, books, events, awards, notifications, dashboard, admin
+from app.api import reading_list, reviews, feed, challenges
 from app.core.database import Base, engine
 import os
 import subprocess
 
 app = FastAPI(
     title="MyLitUK API",
-    description="Personalized UK Literature Curation Platform",
-    version="3.1.0"
+    description="Personalized UK Literature Curation Platform with Reading Lists, Reviews & Challenges",
+    version="4.0.0"
 )
 
 @app.on_event("startup")
@@ -54,14 +55,25 @@ app.include_router(notifications.router, prefix="/api/notifications", tags=["Not
 app.include_router(dashboard.router, prefix="/api/dashboard", tags=["Dashboard"])
 app.include_router(admin.router, prefix="/api/admin", tags=["Admin"])
 
+# 새로운 기능 라우터
+app.include_router(reading_list.router, tags=["Reading List"])
+app.include_router(reviews.router, tags=["Reviews"])
+app.include_router(feed.router, tags=["Feed"])
+app.include_router(challenges.router, tags=["Challenges"])
+
 @app.get("/")
 async def root():
     return {
-        "message": "MyLitUK API v3.1",
+        "message": "MyLitUK API v4.0",
         "docs": "/docs",
         "features": [
             "Personalized curation",
-            "Event & award alerts",
+            "Reading list management (want to read, reading, finished)",
+            "Book reviews and ratings",
+            "Reading challenges and goals",
+            "Community feed and social features",
+            "Author, event & award following",
+            "Personalized dashboard and insights",
             "Multilingual (EN/KO)"
         ]
     }

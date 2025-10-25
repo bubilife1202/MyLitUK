@@ -17,6 +17,7 @@ export default function DashboardPage() {
   const { isAuthenticated, user, logout } = useAuthStore();
 
   const [dashboard, setDashboard] = useState<any>(null);
+  const [stats, setStats] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
@@ -27,6 +28,7 @@ export default function DashboardPage() {
     }
 
     loadDashboard();
+    loadStats();
   }, [isAuthenticated]);
 
   const loadDashboard = async () => {
@@ -37,6 +39,22 @@ export default function DashboardPage() {
       setError(err.response?.data?.detail || tCommon('error'));
     } finally {
       setLoading(false);
+    }
+  };
+
+  const loadStats = async () => {
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/dashboard/stats`, {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setStats(data);
+      }
+    } catch (err) {
+      console.error('Failed to load stats:', err);
     }
   };
 
@@ -62,14 +80,14 @@ export default function DashboardPage() {
                 <Link href={`/${locale}/dashboard`} className="text-primary-600 font-semibold">
                   {tNav('dashboard')}
                 </Link>
+                <Link href={`/${locale}/my-books`} className="text-gray-700 hover:text-primary-600">
+                  My Books
+                </Link>
                 <Link href={`/${locale}/authors`} className="text-gray-700 hover:text-primary-600">
                   {tNav('authors')}
                 </Link>
                 <Link href={`/${locale}/events`} className="text-gray-700 hover:text-primary-600">
                   {tNav('events')}
-                </Link>
-                <Link href={`/${locale}/awards`} className="text-gray-700 hover:text-primary-600">
-                  {tNav('awards')}
                 </Link>
               </div>
             </div>
@@ -97,9 +115,58 @@ export default function DashboardPage() {
           </div>
         )}
 
+        {/* Reading Stats */}
+        {stats && stats.reading_stats && (
+          <div className="mb-8">
+            <h2 className="text-2xl font-bold mb-4">My Reading</h2>
+            <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+              <div className="card text-center">
+                <div className="text-3xl font-bold text-blue-600">{stats.reading_stats.want_to_read}</div>
+                <div className="text-sm text-gray-600">Want to Read</div>
+              </div>
+              <div className="card text-center">
+                <div className="text-3xl font-bold text-yellow-600">{stats.reading_stats.reading}</div>
+                <div className="text-sm text-gray-600">Currently Reading</div>
+              </div>
+              <div className="card text-center">
+                <div className="text-3xl font-bold text-green-600">{stats.reading_stats.finished}</div>
+                <div className="text-sm text-gray-600">Finished</div>
+              </div>
+              <div className="card text-center">
+                <div className="text-3xl font-bold text-red-600">{stats.reading_stats.favorites}</div>
+                <div className="text-sm text-gray-600">Favorites</div>
+              </div>
+              <div className="card text-center">
+                <div className="text-3xl font-bold text-purple-600">{stats.review_stats.total_reviews}</div>
+                <div className="text-sm text-gray-600">Reviews</div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Reading Challenge */}
+        {stats && stats.challenge_stats && stats.challenge_stats.goal && (
+          <div className="card mb-8">
+            <h2 className="text-xl font-bold mb-4">📚 Reading Challenge {new Date().getFullYear()}</h2>
+            <div className="mb-2">
+              <div className="flex justify-between text-sm mb-1">
+                <span>{stats.challenge_stats.current} of {stats.challenge_stats.goal} books</span>
+                <span>{stats.challenge_stats.percentage}%</span>
+              </div>
+              <div className="w-full bg-gray-200 rounded-full h-4">
+                <div
+                  className="bg-primary-600 h-4 rounded-full transition-all"
+                  style={{width: `${Math.min(stats.challenge_stats.percentage, 100)}%`}}
+                ></div>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Summary Cards */}
         {dashboard && (
           <>
+            <h2 className="text-2xl font-bold mb-4">Following</h2>
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
               <div className="card">
                 <div className="text-3xl font-bold text-primary-600">{dashboard.summary.followed_authors}</div>

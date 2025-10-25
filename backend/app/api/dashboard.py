@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, Query
-from sqlalchemy.orm import Session
-from sqlalchemy import or_, and_, func
+from sqlalchemy.orm import Session, joinedload
+from sqlalchemy import or_, and_, func, desc, extract
 from datetime import datetime, date, timedelta
 from typing import List, Dict, Any
 from app.core.database import get_db
@@ -12,6 +12,7 @@ from app.models.event import Event
 from app.models.literary_award import LiteraryAward, AwardAnnouncement
 from app.models.follows import UserAuthorFollow, UserEventFollow, UserAwardFollow
 from app.models.notification import Notification
+from app.models.reading import UserBookList, BookReview, ReadingChallenge
 
 router = APIRouter()
 
@@ -247,4 +248,140 @@ async def get_following_summary(
             "name": aw.name,
             "name_ko": aw.name_ko
         } for aw in followed_awards]
+    }
+
+
+@router.get("/stats")
+async def get_dashboard_stats(
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """개인화된 대시보드 통계"""
+
+    # 독서 통계
+    want_to_read = db.query(UserBookList).filter(
+        UserBookList.user_id == current_user.id,
+        UserBookList.status == 'want_to_read'
+    ).count()
+
+    reading = db.query(UserBookList).filter(
+        UserBookList.user_id == current_user.id,
+        UserBookList.status == 'reading'
+    ).count()
+
+    finished = db.query(UserBookList).filter(
+        UserBookList.user_id == current_user.id,
+        UserBookList.status == 'finished'
+    ).count()
+
+    favorites = db.query(UserBookList).filter(
+        UserBookList.user_id == current_user.id,
+        UserBookList.is_favorite == True
+    ).count()
+
+    # 리뷰 통계
+    total_reviews = db.query(BookReview).filter(
+        BookReview.user_id == current_user.id
+    ).count()
+
+    avg_rating = db.query(func.avg(BookReview.rating)).filter(
+        BookReview.user_id == current_user.id
+    ).scalar()
+
+    total_likes_received = db.query(func.sum(BookReview.likes_count)).filter(
+        BookReview.user_id == current_user.id
+    ).scalar()
+
+    # 팔로우 통계
+    following_authors = db.query(UserAuthorFollow).filter(
+        UserAuthorFollow.user_id == current_user.id
+    ).count()
+
+    following_events = db.query(UserEventFollow).filter(
+        UserEventFollow.user_id == current_user.id
+    ).count()
+
+    following_awards = db.query(UserAwardFollow).filter(
+        UserAwardFollow.user_id == current_user.id
+    ).count()
+
+    # 독서 챌린지 통계
+    current_year = datetime.now().year
+    challenge = db.query(ReadingChallenge).filter(
+        ReadingChallenge.user_id == current_user.id,
+        ReadingChallenge.year == current_year,
+        ReadingChallenge.is_active == True
+    ).first()
+
+    challenge_stats = {}
+    if challenge:
+        challenge_stats = {
+            "goal": challenge.goal_count,
+            "current": challenge.current_count,
+            "percentage": round((challenge.current_count / challenge.goal_count) * 100, 1) if challenge.goal_count > 0 else 0
+        }
+
+    # 알림 개수
+    unread_notifications = db.query(Notification).filter(
+        Notification.user_id == current_user.id,
+        Notification.is_read == False
+    ).count()
+
+    return {
+        "reading_stats": {
+            "want_to_read": want_to_read,
+            "reading": reading,
+            "finished": finished,
+            "favorites": favorites,
+            "total": want_to_read + reading + finished
+        },
+        "review_stats": {
+            "total_reviews": total_reviews,
+            "average_rating": round(float(avg_rating), 2) if avg_rating else 0.0,
+            "total_likes_received": int(total_likes_received) if total_likes_received else 0
+        },
+        "follow_stats": {
+            "authors": following_authors,
+            "events": following_events,
+            "awards": following_awards,
+            "total": following_authors + following_events + following_awards
+        },
+        "challenge_stats": challenge_stats,
+        "notification_count": unread_notifications
+    }
+
+
+@router.get("/reading-insights")
+async def get_reading_insights(
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """독서 인사이트 (장르별, 월별 등)"""
+    # 장르별 통계
+    genre_stats = db.query(
+        Book.genre,
+        func.count(UserBookList.id).label('count')
+    ).join(
+        UserBookList, UserBookList.book_id == Book.id
+    ).filter(
+        UserBookList.user_id == current_user.id,
+        UserBookList.status == 'finished',
+        Book.genre.isnot(None)
+    ).group_by(Book.genre).all()
+
+    # 월별 독서량 (올해)
+    current_year = datetime.now().year
+    monthly_stats = db.query(
+        extract('month', UserBookList.finished_date).label('month'),
+        func.count(UserBookList.id).label('count')
+    ).filter(
+        UserBookList.user_id == current_user.id,
+        UserBookList.status == 'finished',
+        UserBookList.finished_date.isnot(None),
+        extract('year', UserBookList.finished_date) == current_year
+    ).group_by('month').all()
+
+    return {
+        "genres": [{"genre": genre, "count": count} for genre, count in genre_stats],
+        "monthly": [{"month": int(month), "count": count} for month, count in monthly_stats]
     }
