@@ -3,9 +3,8 @@ import { getMessages } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import '../globals.css';
 
-export function generateStaticParams() {
-  return [{ locale: 'en' }, { locale: 'ko' }];
-}
+// 동적 렌더링 강제
+export const dynamic = 'force-dynamic';
 
 export default async function LocaleLayout({
   children,
