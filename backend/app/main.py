@@ -2,12 +2,28 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.core.config import settings
 from app.api import auth, authors, books, events, awards, notifications, dashboard
+from app.core.database import Base, engine
+import os
+import subprocess
 
 app = FastAPI(
     title="MyLitUK API",
     description="Personalized UK Literature Curation Platform",
     version="3.1.0"
 )
+
+@app.on_event("startup")
+async def startup_event():
+    """서버 시작 시 데이터베이스 초기화"""
+    # 테이블 생성
+    Base.metadata.create_all(bind=engine)
+
+    # seed_data.py 실행 (한 번만)
+    db_file = os.path.join(os.path.dirname(__file__), "..", "mylituk.db")
+    if not os.path.exists(db_file) or os.path.getsize(db_file) < 10000:
+        seed_script = os.path.join(os.path.dirname(__file__), "..", "seed_data.py")
+        if os.path.exists(seed_script):
+            subprocess.run(["python", seed_script], check=False)
 
 # CORS 설정
 app.add_middleware(
