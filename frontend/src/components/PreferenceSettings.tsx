@@ -13,17 +13,21 @@ export default function PreferenceSettings({ locale, onSave }: PreferenceSetting
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
-    // Load saved preferences
-    const savedBookCount = localStorage.getItem('book_display_count');
-    const savedEventCount = localStorage.getItem('event_display_count');
+    // Load saved preferences (client-side only)
+    if (typeof window !== 'undefined') {
+      const savedBookCount = localStorage.getItem('book_display_count');
+      const savedEventCount = localStorage.getItem('event_display_count');
 
-    if (savedBookCount) setBookCount(parseInt(savedBookCount));
-    if (savedEventCount) setEventCount(parseInt(savedEventCount));
+      if (savedBookCount) setBookCount(parseInt(savedBookCount));
+      if (savedEventCount) setEventCount(parseInt(savedEventCount));
+    }
   }, []);
 
   const saveSettings = () => {
-    localStorage.setItem('book_display_count', bookCount.toString());
-    localStorage.setItem('event_display_count', eventCount.toString());
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('book_display_count', bookCount.toString());
+      localStorage.setItem('event_display_count', eventCount.toString());
+    }
     setIsOpen(false);
     if (onSave) onSave();
   };

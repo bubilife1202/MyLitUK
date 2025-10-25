@@ -21,15 +21,17 @@ export default function HomePage() {
   const [eventCount, setEventCount] = useState(6);
 
   useEffect(() => {
-    // Load preferences from localStorage
-    const savedBookCount = localStorage.getItem('book_display_count');
-    const savedEventCount = localStorage.getItem('event_display_count');
-    const savedAuthors = localStorage.getItem('preferred_authors');
+    // Load preferences from localStorage (client-side only)
+    if (typeof window !== 'undefined') {
+      const savedBookCount = localStorage.getItem('book_display_count');
+      const savedEventCount = localStorage.getItem('event_display_count');
+      const savedAuthors = localStorage.getItem('preferred_authors');
 
-    if (savedBookCount) setBookCount(parseInt(savedBookCount));
-    if (savedEventCount) setEventCount(parseInt(savedEventCount));
+      if (savedBookCount) setBookCount(parseInt(savedBookCount));
+      if (savedEventCount) setEventCount(parseInt(savedEventCount));
 
-    loadData(savedAuthors ? JSON.parse(savedAuthors) : []);
+      loadData(savedAuthors ? JSON.parse(savedAuthors) : []);
+    }
   }, []);
 
   const loadData = (preferredAuthors: number[] = []) => {
@@ -62,8 +64,10 @@ export default function HomePage() {
   };
 
   const handlePreferencesChange = () => {
-    const savedAuthors = localStorage.getItem('preferred_authors');
-    loadData(savedAuthors ? JSON.parse(savedAuthors) : []);
+    if (typeof window !== 'undefined') {
+      const savedAuthors = localStorage.getItem('preferred_authors');
+      loadData(savedAuthors ? JSON.parse(savedAuthors) : []);
+    }
   };
 
   return (
