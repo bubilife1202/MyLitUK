@@ -85,7 +85,7 @@ export default function AuthorSelector({ locale, onSave }: AuthorSelectorProps) 
 
   const selectAll = () => {
     const allIds = filteredAuthors.map(a => a.id);
-    const newSelected = [...new Set([...selectedAuthors, ...allIds])];
+    const newSelected = Array.from(new Set([...selectedAuthors, ...allIds]));
     setSelectedAuthors(newSelected);
     if (typeof window !== 'undefined') {
       localStorage.setItem('preferred_authors', JSON.stringify(newSelected));

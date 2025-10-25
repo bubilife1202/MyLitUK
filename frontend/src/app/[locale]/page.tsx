@@ -14,10 +14,10 @@ export default function HomePage() {
   const params = useParams();
   const locale = params.locale as string;
 
-  const [authors, setAuthors] = useState([]);
+  const [authors, setAuthors] = useState<any[]>([]);
   const [customAuthors, setCustomAuthors] = useState<string[]>([]);
-  const [books, setBooks] = useState([]);
-  const [events, setEvents] = useState([]);
+  const [books, setBooks] = useState<any[]>([]);
+  const [events, setEvents] = useState<any[]>([]);
   const [bookCount, setBookCount] = useState(6);
   const [eventCount, setEventCount] = useState(6);
 
