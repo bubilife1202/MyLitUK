@@ -93,17 +93,18 @@ export default function AuthorSelector({ locale, onSave }: AuthorSelectorProps) 
 
   return (
     <div className="relative">
-      {/* Trigger Button */}
+      {/* Trigger Button - Mobile Optimized */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="btn-primary text-sm"
+        className="btn-primary text-xs sm:text-sm px-2 py-2 sm:px-4 sm:py-2 min-h-[44px] flex items-center justify-center"
       >
-        📖 {locale === 'ko' ? '작가 선택' : 'Choose Authors'} ({totalSelectedCount})
+        <span className="hidden sm:inline">📖 </span>
+        {locale === 'ko' ? '작가' : 'Authors'} ({totalSelectedCount})
       </button>
 
-      {/* Selected Authors Preview */}
+      {/* Selected Authors Preview - Hidden on mobile */}
       {(selectedAuthorsList.length > 0 || customAuthors.length > 0) && !isOpen && (
-        <div className="mt-2 text-xs text-gray-600">
+        <div className="hidden sm:block mt-2 text-xs text-gray-600">
           {locale === 'ko' ? '팔로우 중: ' : 'Following: '}
           {[
             ...selectedAuthorsList.slice(0, 2).map(a => locale === 'ko' && a.name_ko ? a.name_ko : a.name),
@@ -113,55 +114,65 @@ export default function AuthorSelector({ locale, onSave }: AuthorSelectorProps) 
         </div>
       )}
 
-      {/* Modal */}
+      {/* Modal - Mobile Optimized */}
       {isOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-lg max-w-2xl w-full max-h-[80vh] overflow-hidden flex flex-col">
-            {/* Header */}
-            <div className="p-4 border-b">
-              <h3 className="text-xl font-bold mb-2">
-                {locale === 'ko' ? '좋아하는 작가 선택' : 'Choose Your Favorite Authors'}
-              </h3>
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-end sm:items-center justify-center">
+          <div className="bg-white rounded-t-2xl sm:rounded-lg w-full sm:max-w-2xl h-[95vh] sm:h-auto sm:max-h-[90vh] overflow-hidden flex flex-col">
+            {/* Header - Mobile Optimized */}
+            <div className="p-3 sm:p-4 border-b sticky top-0 bg-white z-10">
+              <div className="flex items-center justify-between mb-3">
+                <h3 className="text-lg sm:text-xl font-bold">
+                  {locale === 'ko' ? '작가 선택' : 'Choose Authors'}
+                </h3>
+                <button
+                  onClick={() => setIsOpen(false)}
+                  className="sm:hidden text-2xl text-gray-500 w-10 h-10 flex items-center justify-center"
+                  aria-label="Close"
+                >
+                  ×
+                </button>
+              </div>
 
-              {/* Custom Author Input */}
+              {/* Custom Author Input - Mobile Optimized */}
               <div className="mb-3">
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
                   {locale === 'ko' ? '직접 입력하기' : 'Add Custom Author'}
                 </label>
-                <div className="flex gap-2">
+                <div className="flex flex-col sm:flex-row gap-2">
                   <input
                     type="text"
                     placeholder={locale === 'ko' ? '작가 이름 입력...' : 'Enter author name...'}
                     value={customAuthorInput}
                     onChange={(e) => setCustomAuthorInput(e.target.value)}
                     onKeyPress={handleKeyPress}
-                    className="flex-1 px-3 py-2 border rounded-md"
+                    className="flex-1 px-4 py-3 text-base border rounded-md min-h-[44px]"
                   />
                   <button
                     onClick={addCustomAuthor}
-                    className="px-4 py-2 bg-primary-600 text-white rounded-md hover:bg-primary-700"
+                    className="w-full sm:w-auto px-6 py-3 bg-primary-600 text-white rounded-md hover:bg-primary-700 font-medium min-h-[44px]"
                   >
                     {locale === 'ko' ? '추가' : 'Add'}
                   </button>
                 </div>
               </div>
 
-              {/* Custom Authors List */}
+              {/* Custom Authors List - Mobile Optimized */}
               {customAuthors.length > 0 && (
                 <div className="mb-3">
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
                     {locale === 'ko' ? '내가 추가한 작가' : 'My Custom Authors'}
                   </label>
                   <div className="flex flex-wrap gap-2">
                     {customAuthors.map((name, idx) => (
                       <span
                         key={idx}
-                        className="inline-flex items-center px-3 py-1 bg-primary-100 text-primary-800 rounded-full text-sm"
+                        className="inline-flex items-center px-3 py-2 bg-primary-100 text-primary-800 rounded-full text-sm"
                       >
                         {name}
                         <button
                           onClick={() => removeCustomAuthor(name)}
-                          className="ml-2 text-primary-600 hover:text-primary-900"
+                          className="ml-2 text-primary-600 hover:text-primary-900 text-xl w-6 h-6 flex items-center justify-center"
+                          aria-label={`Remove ${name}`}
                         >
                           ×
                         </button>
@@ -171,23 +182,23 @@ export default function AuthorSelector({ locale, onSave }: AuthorSelectorProps) 
                 </div>
               )}
 
-              {/* Search in Database */}
+              {/* Search in Database - Mobile Optimized */}
               <input
                 type="text"
-                placeholder={locale === 'ko' ? '데이터베이스에서 검색...' : 'Search database authors...'}
+                placeholder={locale === 'ko' ? '데이터베이스 검색...' : 'Search database...'}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full px-3 py-2 border rounded-md"
+                className="w-full px-4 py-3 text-base border rounded-md min-h-[44px]"
               />
             </div>
 
-            {/* Author List from Database */}
-            <div className="flex-1 overflow-y-auto p-4">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {/* Author List from Database - Mobile Optimized */}
+            <div className="flex-1 overflow-y-auto p-3 sm:p-4 overscroll-contain">
+              <div className="grid grid-cols-1 gap-3">
                 {filteredAuthors.map(author => (
                   <label
                     key={author.id}
-                    className={`flex items-center p-3 border rounded-lg cursor-pointer hover:bg-gray-50 ${
+                    className={`flex items-center p-4 border-2 rounded-xl cursor-pointer active:scale-98 transition-transform ${
                       selectedAuthors.includes(author.id) ? 'border-primary-600 bg-primary-50' : 'border-gray-300'
                     }`}
                   >
@@ -195,34 +206,41 @@ export default function AuthorSelector({ locale, onSave }: AuthorSelectorProps) 
                       type="checkbox"
                       checked={selectedAuthors.includes(author.id)}
                       onChange={() => toggleAuthor(author.id)}
-                      className="mr-3 w-5 h-5"
+                      className="mr-4 w-6 h-6 min-w-[24px]"
                     />
-                    <span className="font-medium">
+                    <span className="font-medium text-base">
                       {locale === 'ko' && author.name_ko ? author.name_ko : author.name}
                     </span>
                   </label>
                 ))}
               </div>
+              {filteredAuthors.length === 0 && (
+                <div className="text-center py-8 text-gray-500">
+                  {locale === 'ko' ? '검색 결과가 없습니다' : 'No authors found'}
+                </div>
+              )}
             </div>
 
-            {/* Footer */}
-            <div className="p-4 border-t flex justify-between items-center">
-              <span className="text-sm text-gray-600">
-                {totalSelectedCount} {locale === 'ko' ? '명 선택됨' : 'selected'}
-              </span>
-              <div className="space-x-2">
-                <button
-                  onClick={() => setIsOpen(false)}
-                  className="px-4 py-2 border rounded-md hover:bg-gray-50"
-                >
-                  {locale === 'ko' ? '취소' : 'Cancel'}
-                </button>
-                <button
-                  onClick={saveAndClose}
-                  className="btn-primary"
-                >
-                  {locale === 'ko' ? '저장' : 'Save'}
-                </button>
+            {/* Footer - Mobile Optimized */}
+            <div className="p-3 sm:p-4 border-t bg-white sticky bottom-0">
+              <div className="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-3">
+                <span className="text-sm text-gray-600 text-center sm:text-left">
+                  {totalSelectedCount} {locale === 'ko' ? '명 선택됨' : 'selected'}
+                </span>
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => setIsOpen(false)}
+                    className="hidden sm:block flex-1 sm:flex-none px-4 py-3 border-2 border-gray-300 rounded-md hover:bg-gray-50 font-medium min-h-[44px]"
+                  >
+                    {locale === 'ko' ? '취소' : 'Cancel'}
+                  </button>
+                  <button
+                    onClick={saveAndClose}
+                    className="flex-1 sm:flex-none btn-primary px-6 py-3 font-medium min-h-[44px]"
+                  >
+                    {locale === 'ko' ? '저장' : 'Save'}
+                  </button>
+                </div>
               </div>
             </div>
           </div>
