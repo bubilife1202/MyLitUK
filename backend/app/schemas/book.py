@@ -21,6 +21,7 @@ class BookCreate(BookBase):
 
 class BookResponse(BookBase):
     id: int
+    author_name: Optional[str] = None
     created_at: datetime
 
     class Config:

@@ -17,7 +17,7 @@ async def list_books(
     db: Session = Depends(get_db)
 ):
     """List books with filters"""
-    query = db.query(Book)
+    query = db.query(Book).options(joinedload(Book.author))
 
     if author_id:
         query = query.filter(Book.author_id == author_id)
@@ -27,8 +27,30 @@ async def list_books(
     total = query.count()
     books = query.order_by(Book.created_at.desc()).offset((page - 1) * size).limit(size).all()
 
+    # Add author_name to each book
+    items = []
+    for book in books:
+        book_dict = {
+            "id": book.id,
+            "title": book.title,
+            "title_ko": book.title_ko,
+            "author_id": book.author_id,
+            "author_name": book.author.name if book.author else None,
+            "isbn": book.isbn,
+            "publication_date": book.publication_date,
+            "publisher": book.publisher,
+            "genre": book.genre,
+            "description": book.description,
+            "description_ko": book.description_ko,
+            "cover_image_url": book.cover_image_url,
+            "amazon_url": book.amazon_url,
+            "waterstones_url": book.waterstones_url,
+            "created_at": book.created_at
+        }
+        items.append(book_dict)
+
     return {
-        "items": books,
+        "items": items,
         "total": total,
         "page": page,
         "size": size
@@ -41,12 +63,34 @@ async def new_books(
     db: Session = Depends(get_db)
 ):
     """Get recently added books"""
-    query = db.query(Book)
+    query = db.query(Book).options(joinedload(Book.author))
     total = query.count()
     books = query.order_by(Book.created_at.desc()).offset((page - 1) * size).limit(size).all()
 
+    # Add author_name to each book
+    items = []
+    for book in books:
+        book_dict = {
+            "id": book.id,
+            "title": book.title,
+            "title_ko": book.title_ko,
+            "author_id": book.author_id,
+            "author_name": book.author.name if book.author else None,
+            "isbn": book.isbn,
+            "publication_date": book.publication_date,
+            "publisher": book.publisher,
+            "genre": book.genre,
+            "description": book.description,
+            "description_ko": book.description_ko,
+            "cover_image_url": book.cover_image_url,
+            "amazon_url": book.amazon_url,
+            "waterstones_url": book.waterstones_url,
+            "created_at": book.created_at
+        }
+        items.append(book_dict)
+
     return {
-        "items": books,
+        "items": items,
         "total": total,
         "page": page,
         "size": size

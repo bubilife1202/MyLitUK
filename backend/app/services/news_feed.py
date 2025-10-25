@@ -71,11 +71,15 @@ async def fetch_literary_news(max_items: int = 10) -> List[Dict]:
 async def fetch_uk_literary_events_from_web() -> List[Dict]:
     """
     UK 문학 이벤트 정보를 무료 소스에서 가져오기
+    현재 날짜 이후의 이벤트만 반환
 
     Returns:
-        이벤트 리스트
+        이벤트 리스트 (현재 날짜 이후만)
     """
+    from datetime import date
+
     events = []
+    today = date.today()
 
     # British Council Literature 이벤트 (RSS가 있다면)
     try:
@@ -86,49 +90,98 @@ async def fetch_uk_literary_events_from_web() -> List[Dict]:
     except Exception as e:
         print(f"Error fetching events: {e}")
 
-    # 샘플 이벤트 (실제로는 크롤링이나 API 사용)
-    events.extend([
+    # UK 주요 문학 이벤트 (현재 날짜 이후로 업데이트)
+    all_events = [
         {
-            'name': 'London Book Fair 2025',
-            'description': 'The global marketplace for rights negotiation and the sale and distribution of content.',
+            'name': 'Christmas Literary Market',
+            'description': 'Special Christmas book market featuring UK authors and signed editions.',
             'location': 'London',
-            'date': '2025-04-01',
+            'date': '2025-12-15',
+            'url': 'https://www.visitlondon.com/',
+            'category': 'Market'
+        },
+        {
+            'name': 'New Year Reading Challenge Launch',
+            'description': 'Kick off the new year with a month-long reading challenge featuring UK contemporary fiction.',
+            'location': 'Online & UK-wide',
+            'date': '2026-01-01',
+            'url': 'https://www.thebookseller.com/',
+            'category': 'Challenge'
+        },
+        {
+            'name': 'Bath Literature Festival',
+            'description': 'Ten days of performances, debates, and conversations with internationally-renowned writers.',
+            'location': 'Bath',
+            'date': '2026-02-27',
+            'url': 'https://bathfestivals.org.uk/literature/',
+            'category': 'Festival'
+        },
+        {
+            'name': 'Oxford Literary Festival 2026',
+            'description': 'Week-long celebration of books and writing featuring talks, workshops, and book signings.',
+            'location': 'Oxford',
+            'date': '2026-03-21',
+            'url': 'https://oxfordliteraryfestival.org/',
+            'category': 'Festival'
+        },
+        {
+            'name': 'London Book Fair 2026',
+            'description': 'The global marketplace for rights negotiation and the sale and distribution of content across print, audio, TV, film and digital channels.',
+            'location': 'London',
+            'date': '2026-04-14',
             'url': 'https://www.londonbookfair.co.uk/',
             'category': 'Book Fair'
         },
         {
-            'name': 'Edinburgh International Book Festival',
-            'description': 'Annual book festival and cultural gathering in Edinburgh.',
-            'location': 'Edinburgh',
-            'date': '2025-08-09',
-            'url': 'https://www.edbookfest.co.uk/',
-            'category': 'Festival'
-        },
-        {
-            'name': 'Cheltenham Literature Festival',
-            'description': 'One of the oldest and most prestigious literature festivals in the UK.',
-            'location': 'Cheltenham',
-            'date': '2025-10-03',
-            'url': 'https://www.cheltenhamfestivals.com/literature',
-            'category': 'Festival'
-        },
-        {
-            'name': 'Hay Festival',
-            'description': 'Annual literature festival in Hay-on-Wye, Wales.',
-            'location': 'Hay-on-Wye',
-            'date': '2025-05-22',
+            'name': 'Hay Festival 2026',
+            'description': 'Annual literature and arts festival bringing together writers, musicians, and artists from around the world.',
+            'location': 'Hay-on-Wye, Wales',
+            'date': '2026-05-21',
             'url': 'https://www.hayfestival.com/',
             'category': 'Festival'
         },
         {
-            'name': 'Oxford Literary Festival',
-            'description': 'Week-long celebration of books and writing.',
-            'location': 'Oxford',
-            'date': '2025-03-22',
-            'url': 'https://oxfordliteraryfestival.org/',
+            'name': 'Edinburgh International Book Festival 2026',
+            'description': "The world's largest public celebration of the written word, featuring authors from around the globe.",
+            'location': 'Edinburgh, Scotland',
+            'date': '2026-08-08',
+            'url': 'https://www.edbookfest.co.uk/',
+            'category': 'Festival'
+        },
+        {
+            'name': 'Cheltenham Literature Festival 2026',
+            'description': 'One of the oldest and most prestigious literature festivals in the UK, showcasing the best in fiction, non-fiction, and poetry.',
+            'location': 'Cheltenham',
+            'date': '2026-10-02',
+            'url': 'https://www.cheltenhamfestivals.com/literature',
+            'category': 'Festival'
+        },
+        {
+            'name': 'Manchester Literature Festival',
+            'description': 'A celebration of words, ideas and vital new writing, featuring leading literary figures.',
+            'location': 'Manchester',
+            'date': '2025-10-30',
+            'url': 'https://www.manchesterliteraturefestival.co.uk/',
+            'category': 'Festival'
+        },
+        {
+            'name': 'Bristol Festival of Literature',
+            'description': 'Two weeks of literary events featuring authors, poets, and thinkers.',
+            'location': 'Bristol',
+            'date': '2025-11-15',
+            'url': 'https://www.bristolfestivalofliterature.co.uk/',
             'category': 'Festival'
         }
-    ])
+    ]
+
+    # 현재 날짜 이후의 이벤트만 필터링
+    for event in all_events:
+        event_date = datetime.strptime(event['date'], '%Y-%m-%d').date()
+        if event_date >= today:
+            events.append(event)
+
+    # 날짜순 정렬 (가까운 순서대로)
+    events.sort(key=lambda x: x['date'])
 
     return events
 

@@ -75,12 +75,22 @@ export default function HomePage() {
     }
   };
 
-  const generateBookstoreLink = (title: string, isbn?: string) => {
-    if (isbn) {
-      return `https://www.waterstones.com/book/${isbn}`;
-    }
-    const searchQuery = encodeURIComponent(title);
-    return `https://www.waterstones.com/books/search/term/${searchQuery}`;
+  const generateBookstoreLinks = (title: string, author: string, isbn?: string) => {
+    const cleanISBN = isbn ? isbn.replace(/-/g, '') : null;
+
+    return {
+      waterstones: cleanISBN
+        ? `https://www.waterstones.com/book/${cleanISBN}`
+        : `https://www.waterstones.com/books/search/term/${encodeURIComponent(title)}`,
+
+      amazon: cleanISBN
+        ? `https://www.amazon.co.uk/dp/${cleanISBN}`
+        : `https://www.amazon.co.uk/s?k=${encodeURIComponent(title + ' ' + author)}`,
+
+      bookshop: cleanISBN
+        ? `https://uk.bookshop.org/books?keywords=${cleanISBN}`
+        : `https://uk.bookshop.org/search?keywords=${encodeURIComponent(title)}`
+    };
   };
 
   const formatDate = (dateStr: string) => {
@@ -228,52 +238,66 @@ export default function HomePage() {
             {locale === 'ko' ? '최신 출간 도서' : 'Latest UK Books'}
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {books.map((book: any) => (
-              <div key={book.id} className="bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition-all">
-                <h3 className="text-lg font-bold mb-2 text-gray-900 line-clamp-2">
-                  {locale === 'ko' && book.title_ko ? book.title_ko : book.title}
-                </h3>
-                <p className="text-sm text-gray-600 mb-3">
-                  {locale === 'ko' ? '저자' : 'by'} {book.author_name}
-                </p>
-                <p className="text-gray-600 text-sm leading-relaxed line-clamp-3 mb-4">
-                  {locale === 'ko' && book.description_ko ? book.description_ko : book.description}
-                </p>
+            {books.map((book: any) => {
+              const bookstoreLinks = generateBookstoreLinks(
+                book.title,
+                book.author_name || 'Unknown',
+                book.isbn
+              );
 
-                {/* Bookstore Links */}
-                <div className="pt-4 border-t border-gray-200">
-                  <p className="text-xs font-semibold text-gray-700 mb-2">
-                    {locale === 'ko' ? '🛒 구매하기' : '🛒 Buy from'}
+              return (
+                <div key={book.id} className="bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition-all">
+                  <h3 className="text-lg font-bold mb-2 text-gray-900 line-clamp-2">
+                    {locale === 'ko' && book.title_ko ? book.title_ko : book.title}
+                  </h3>
+                  <p className="text-sm text-gray-600 mb-3">
+                    {locale === 'ko' ? '저자' : 'by'} {book.author_name || 'Unknown'}
                   </p>
-                  <div className="flex flex-wrap gap-2">
-                    <a
-                      href={generateBookstoreLink(book.title, book.isbn)}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-block px-3 py-1.5 bg-blue-600 text-white text-xs rounded-md hover:bg-blue-700 transition-colors font-medium"
-                    >
-                      Waterstones
-                    </a>
-                    <a
-                      href={`https://www.amazon.co.uk/s?k=${encodeURIComponent(book.title)}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-block px-3 py-1.5 bg-orange-500 text-white text-xs rounded-md hover:bg-orange-600 transition-colors font-medium"
-                    >
-                      Amazon UK
-                    </a>
-                    <a
-                      href={`https://uk.bookshop.org/search?keywords=${encodeURIComponent(book.title)}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-block px-3 py-1.5 bg-green-600 text-white text-xs rounded-md hover:bg-green-700 transition-colors font-medium"
-                    >
-                      Bookshop.org
-                    </a>
+                  <p className="text-gray-600 text-sm leading-relaxed line-clamp-3 mb-4">
+                    {locale === 'ko' && book.description_ko ? book.description_ko : book.description}
+                  </p>
+
+                  {/* Bookstore Links */}
+                  <div className="pt-4 border-t border-gray-200">
+                    <p className="text-xs font-semibold text-gray-700 mb-2">
+                      {locale === 'ko' ? '🛒 구매하기' : '🛒 Buy from'}
+                      {book.isbn && (
+                        <span className="ml-2 text-xs text-gray-500">ISBN: {book.isbn}</span>
+                      )}
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      <a
+                        href={bookstoreLinks.waterstones}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-block px-3 py-1.5 bg-blue-600 text-white text-xs rounded-md hover:bg-blue-700 transition-colors font-medium"
+                        title={book.isbn ? `Direct link with ISBN ${book.isbn}` : 'Search by title'}
+                      >
+                        Waterstones
+                      </a>
+                      <a
+                        href={bookstoreLinks.amazon}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-block px-3 py-1.5 bg-orange-500 text-white text-xs rounded-md hover:bg-orange-600 transition-colors font-medium"
+                        title={book.isbn ? `Direct link with ISBN ${book.isbn}` : 'Search by title'}
+                      >
+                        Amazon UK
+                      </a>
+                      <a
+                        href={bookstoreLinks.bookshop}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-block px-3 py-1.5 bg-green-600 text-white text-xs rounded-md hover:bg-green-700 transition-colors font-medium"
+                        title={book.isbn ? `Search with ISBN ${book.isbn}` : 'Search by title'}
+                      >
+                        Bookshop.org
+                      </a>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </div>
