@@ -15,6 +15,7 @@ export default function HomePage() {
   const locale = params.locale as string;
 
   const [authors, setAuthors] = useState([]);
+  const [customAuthors, setCustomAuthors] = useState<string[]>([]);
   const [books, setBooks] = useState([]);
   const [events, setEvents] = useState([]);
   const [bookCount, setBookCount] = useState(6);
@@ -26,9 +27,11 @@ export default function HomePage() {
       const savedBookCount = localStorage.getItem('book_display_count');
       const savedEventCount = localStorage.getItem('event_display_count');
       const savedAuthors = localStorage.getItem('preferred_authors');
+      const savedCustomAuthors = localStorage.getItem('custom_authors');
 
       if (savedBookCount) setBookCount(parseInt(savedBookCount));
       if (savedEventCount) setEventCount(parseInt(savedEventCount));
+      if (savedCustomAuthors) setCustomAuthors(JSON.parse(savedCustomAuthors));
 
       loadData(savedAuthors ? JSON.parse(savedAuthors) : []);
     }
@@ -66,6 +69,8 @@ export default function HomePage() {
   const handlePreferencesChange = () => {
     if (typeof window !== 'undefined') {
       const savedAuthors = localStorage.getItem('preferred_authors');
+      const savedCustomAuthors = localStorage.getItem('custom_authors');
+      if (savedCustomAuthors) setCustomAuthors(JSON.parse(savedCustomAuthors));
       loadData(savedAuthors ? JSON.parse(savedAuthors) : []);
     }
   };
@@ -147,6 +152,19 @@ export default function HomePage() {
             <div key={author.id} className="card hover:scale-105 transition-transform">
               <h3 className="text-lg sm:text-xl font-semibold mb-2">{locale === 'ko' && author.name_ko ? author.name_ko : author.name}</h3>
               <p className="text-gray-600 text-xs sm:text-sm line-clamp-3">{locale === 'ko' && author.bio_ko ? author.bio_ko : author.bio}</p>
+            </div>
+          ))}
+          {customAuthors.map((name: string, idx: number) => (
+            <div key={`custom-${idx}`} className="card hover:scale-105 transition-transform border-2 border-primary-300 bg-primary-50">
+              <div className="flex items-center justify-between mb-2">
+                <h3 className="text-lg sm:text-xl font-semibold text-primary-900">{name}</h3>
+                <span className="text-xs bg-primary-200 text-primary-800 px-2 py-1 rounded-full">
+                  {locale === 'ko' ? '직접 추가' : 'Custom'}
+                </span>
+              </div>
+              <p className="text-gray-600 text-xs sm:text-sm italic">
+                {locale === 'ko' ? '관심 작가로 추가하셨습니다' : 'Added to your favorites'}
+              </p>
             </div>
           ))}
         </div>
