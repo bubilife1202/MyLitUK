@@ -55,16 +55,23 @@ async def fetch_recent_books_by_author(author_name: str, months: int = 6, max_re
                     continue
 
                 # 날짜 파싱 (YYYY, YYYY-MM, YYYY-MM-DD 형식 모두 처리)
+                # 6개월 이내만 엄격하게 필터링
                 try:
+                    pub_date = None
                     if len(published_date) == 4:  # YYYY
-                        pub_year = int(published_date)
-                        if pub_year < cutoff_year:
-                            continue
-                    elif len(published_date) >= 7:  # YYYY-MM or YYYY-MM-DD
+                        # 연도만 있는 경우 해당 연도 1월 1일로 가정
+                        pub_date = datetime.strptime(f"{published_date}-01-01", '%Y-%m-%d')
+                    elif len(published_date) == 7:  # YYYY-MM
+                        # 월까지만 있는 경우 해당 월 1일로 가정
+                        pub_date = datetime.strptime(f"{published_date}-01", '%Y-%m-%d')
+                    else:  # YYYY-MM-DD
                         pub_date = datetime.strptime(published_date[:10], '%Y-%m-%d')
-                        if pub_date < cutoff_date:
-                            continue
-                except:
+
+                    # 6개월 이내만 허용
+                    if pub_date < cutoff_date:
+                        continue
+                except Exception as e:
+                    # 날짜 파싱 실패하면 건너뛰기
                     continue
 
                 # ISBN 추출

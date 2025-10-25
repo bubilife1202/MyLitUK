@@ -142,18 +142,22 @@ export default function HomePage() {
 
   const generateBookstoreLinks = (title: string, author: string, isbn?: string) => {
     const cleanISBN = isbn ? isbn.replace(/-/g, '') : null;
+    const searchQuery = `${title} ${author}`;
 
     return {
+      // Waterstones: Use search with ISBN or title+author (more reliable than direct ISBN link)
       waterstones: cleanISBN
-        ? `https://www.waterstones.com/book/${cleanISBN}`
-        : `https://www.waterstones.com/books/search/term/${encodeURIComponent(title)}`,
+        ? `https://www.waterstones.com/books/search/term/${cleanISBN}`
+        : `https://www.waterstones.com/books/search/term/${encodeURIComponent(searchQuery)}`,
 
+      // Amazon UK: Use ISBN with /dp/ format (most reliable)
       amazon: cleanISBN
         ? `https://www.amazon.co.uk/dp/${cleanISBN}`
-        : `https://www.amazon.co.uk/s?k=${encodeURIComponent(title + ' ' + author)}`,
+        : `https://www.amazon.co.uk/s?k=${encodeURIComponent(searchQuery)}`,
 
+      // Bookshop.org UK: Use ISBN in search (they don't have direct ISBN URLs)
       bookshop: cleanISBN
-        ? `https://uk.bookshop.org/books?keywords=${cleanISBN}`
+        ? `https://uk.bookshop.org/search?keywords=${cleanISBN}`
         : `https://uk.bookshop.org/search?keywords=${encodeURIComponent(title)}`
     };
   };

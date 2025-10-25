@@ -1,7 +1,12 @@
 """
 UK 문학 뉴스 및 이벤트 피드 서비스
 """
-import feedparser
+try:
+    import feedparser
+    FEEDPARSER_AVAILABLE = True
+except ImportError:
+    FEEDPARSER_AVAILABLE = False
+
 import httpx
 from typing import List, Dict, Optional
 from datetime import datetime
@@ -24,6 +29,9 @@ async def fetch_literary_news(max_items: int = 10) -> List[Dict]:
         뉴스 아이템 리스트
     """
     news_items = []
+
+    if not FEEDPARSER_AVAILABLE:
+        return news_items
 
     try:
         # Guardian Books RSS
