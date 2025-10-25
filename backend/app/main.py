@@ -18,12 +18,22 @@ async def startup_event():
     # 테이블 생성
     Base.metadata.create_all(bind=engine)
 
-    # seed_data.py 실행 (한 번만)
-    db_file = os.path.join(os.path.dirname(__file__), "..", "mylituk.db")
-    if not os.path.exists(db_file) or os.path.getsize(db_file) < 10000:
-        seed_script = os.path.join(os.path.dirname(__file__), "..", "seed_data.py")
-        if os.path.exists(seed_script):
-            subprocess.run(["python", seed_script], check=False)
+    # seed_data.py 무조건 실행 (Render는 매번 초기화됨)
+    seed_script = os.path.join(os.path.dirname(__file__), "..", "seed_data.py")
+    if os.path.exists(seed_script):
+        try:
+            result = subprocess.run(
+                ["python", seed_script],
+                capture_output=True,
+                text=True,
+                timeout=30
+            )
+            if result.returncode == 0:
+                print("✅ Sample data seeded successfully")
+            else:
+                print(f"⚠️ Seed data error: {result.stderr}")
+        except Exception as e:
+            print(f"⚠️ Could not seed data: {e}")
 
 # CORS 설정
 app.add_middleware(
