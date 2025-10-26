@@ -517,7 +517,7 @@ export default function HomePage() {
               &copy; 2025 MyLitUK. All rights reserved.
             </p>
             <p className="text-xs text-gray-400">
-              v4.0.0 | {locale === 'ko' ? '로그인 없이 개인화 가능' : 'Personalized without login'} |{' '}
+              v4.1.0 | {locale === 'ko' ? '로그인 없이 개인화 가능' : 'Personalized without login'} |{' '}
               <a href="https://mylituk-api.onrender.com/docs" target="_blank" rel="noopener noreferrer" className="hover:text-white underline">
                 API Docs
               </a>

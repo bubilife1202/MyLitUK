@@ -10,7 +10,7 @@ import subprocess
 app = FastAPI(
     title="MyLitUK API",
     description="Personalized UK Literature Curation Platform with Reading Lists, Reviews & Challenges",
-    version="4.0.0"
+    version="4.1.0"
 )
 
 @app.on_event("startup")
@@ -66,7 +66,7 @@ app.include_router(latest_books.router, tags=["Latest Books"])
 @app.get("/")
 async def root():
     return {
-        "message": "MyLitUK API v4.0",
+        "message": "MyLitUK API v4.1",
         "docs": "/docs",
         "features": [
             "Personalized curation",
