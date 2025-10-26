@@ -44,6 +44,9 @@ def seed_authors(db: Session):
         {"name": "Charles Dickens", "name_ko": "찰스 디킨스", "bio": "Victorian novelist. Author of Great Expectations and A Tale of Two Cities.", "bio_ko": "위대한 유산, 두 도시 이야기의 저자인 빅토리아 시대 소설가입니다.", "birth_date": date(1812, 2, 7), "nationality": "British"},
 
         # 추가 현대 작가들
+        {"name": "Max Porter", "name_ko": "맥스 포터", "bio": "British author known for Grief Is the Thing with Feathers and Lanny.", "bio_ko": "슬픔은 깃털 달린 것, 래니로 유명한 영국 작가입니다.", "birth_date": date(1981, 1, 1), "nationality": "British"},
+        {"name": "Samantha Harvey", "name_ko": "사만다 하비", "bio": "British novelist known for The Wilderness and Orbital.", "bio_ko": "황야, 오비탈로 유명한 영국 소설가입니다.", "birth_date": date(1975, 1, 1), "nationality": "British"},
+        {"name": "Philip Hoare", "name_ko": "필립 호어", "bio": "British author known for Leviathan, or The Whale and The Sea Inside.", "bio_ko": "리바이어던, 바다 안쪽으로 유명한 영국 작가입니다.", "birth_date": date(1958, 1, 1), "nationality": "British"},
         {"name": "Graham Swift", "name_ko": "그레이엄 스위프트", "bio": "British author who won the Booker Prize for Last Orders.", "bio_ko": "라스트 오더스로 부커상을 수상한 영국 작가입니다.", "birth_date": date(1949, 5, 4), "nationality": "British"},
         {"name": "Julian Barnes", "name_ko": "줄리언 반스", "bio": "British author known for The Sense of an Ending and Flaubert's Parrot.", "bio_ko": "예감은 틀리지 않는다, 플로베르의 앵무새로 유명한 영국 작가입니다.", "birth_date": date(1946, 1, 19), "nationality": "British"},
         {"name": "Martin Amis", "name_ko": "마틴 에이미스", "bio": "British novelist known for Money and London Fields.", "bio_ko": "머니, 런던 필즈로 유명한 영국 소설가입니다.", "birth_date": date(1949, 8, 25), "nationality": "British"},
