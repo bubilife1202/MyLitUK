@@ -13,7 +13,7 @@ from app.schemas.author import AuthorResponse, AuthorList
 
 router = APIRouter()
 
-# 78명 작가 하드코딩 (DB 불필요)
+# 18명 주요 작가 하드코딩 (DB 불필요)
 HARDCODED_AUTHORS = [
     {"id": 1, "name": "Sally Rooney", "name_ko": "샐리 루니", "bio": "Irish author known for Normal People and Conversations with Friends.", "bio_ko": "노멀 피플, 대화하는 사람들로 유명한 아일랜드 작가입니다.", "nationality": "Irish"},
     {"id": 2, "name": "Zadie Smith", "name_ko": "제이디 스미스", "bio": "British novelist, essayist and short-story writer. Known for White Teeth, On Beauty, and NW.", "bio_ko": "영국의 소설가이자 수필가. 화이트 티스, 온 뷰티, NW 등으로 유명합니다.", "nationality": "British"},
