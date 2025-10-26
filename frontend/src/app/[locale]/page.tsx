@@ -38,97 +38,37 @@ export default function HomePage() {
   }, []);
 
   const loadData = (preferredAuthors: number[] = []) => {
-    // 작가 목록 가져오기 (항상 전체 목록)
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/authors?size=50`)
+    // 하드코딩된 작가 리스트 (DB 불필요)
+    const hardcodedAuthors = [
+      { id: 1, name: "Sally Rooney", name_ko: "샐리 루니", bio: "Irish author known for Normal People", bio_ko: "노멀 피플로 유명한 아일랜드 작가" },
+      { id: 2, name: "Zadie Smith", name_ko: "제이디 스미스", bio: "British novelist, author of White Teeth", bio_ko: "화이트 티스의 저자" },
+      { id: 3, name: "Kazuo Ishiguro", name_ko: "가즈오 이시구로", bio: "Nobel Prize winner", bio_ko: "노벨문학상 수상 작가" },
+      { id: 4, name: "Ian McEwan", name_ko: "이언 매큐언", bio: "Author of Atonement", bio_ko: "속죄의 저자" },
+      { id: 5, name: "Max Porter", name_ko: "맥스 포터", bio: "Author of Grief Is the Thing with Feathers", bio_ko: "슬픔은 깃털 달린 것의 저자" },
+      { id: 6, name: "Samantha Harvey", name_ko: "사만다 하비", bio: "Author of Orbital", bio_ko: "오비탈의 저자" },
+    ];
+
+    setAuthors(hardcodedAuthors);
+
+    // DB 없이 바로 Google Books에서 책 가져오기
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/latest-books/recent?months=24&max_results=${bookCount}`)
       .then(res => res.json())
       .then(data => {
-        const allAuthors = data.items || [];
-
-        if (preferredAuthors.length > 0) {
-          // 선택한 작가만 표시
-          const filtered = allAuthors.filter((a: any) => preferredAuthors.includes(a.id));
-          setAuthors(filtered);
-        } else {
-          // 선택 안 했으면 처음 6명만 표시
-          setAuthors(allAuthors.slice(0, 6));
-        }
-
-        // 책 로딩 (DB에 있는 작가들만 사용)
-        loadBooksFromAuthors(preferredAuthors, allAuthors);
+        setBooks(data.items || []);
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        console.log('Error loading books:', err);
+        setBooks([]);
+      });
 
     // UK 문학 이벤트 가져오기
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/news/events`)
       .then(res => res.json())
       .then(data => setEvents(data.items.slice(0, eventCount) || []))
-      .catch(err => console.log(err));
-  };
-
-  const loadBooksFromAuthors = (preferredAuthors: number[], allAuthors: any[]) => {
-    if (typeof window !== 'undefined') {
-      const savedCustomAuthors = localStorage.getItem('custom_authors');
-      const customAuthorsList = savedCustomAuthors ? JSON.parse(savedCustomAuthors) : [];
-
-      let bookPromises: Promise<any>[] = [];
-
-      // 선택한 작가가 있으면 그들의 책만
-      if (preferredAuthors.length > 0) {
-        const authorIds = preferredAuthors.join(',');
-        const dbBooksPromise = fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/latest-books/by-authors?author_ids=${authorIds}&months=6&books_per_author=2`
-        )
-          .then(res => res.json())
-          .then(data => data.items || [])
-          .catch(err => {
-            console.log('Error loading DB authors books:', err);
-            return [];
-          });
-        bookPromises.push(dbBooksPromise);
-      } else if (allAuthors.length > 0) {
-        // 선택 안 했으면 DB에 있는 모든 작가들의 책 (처음 10명)
-        const authorIds = allAuthors.slice(0, 10).map((a: any) => a.id).join(',');
-        const dbBooksPromise = fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/latest-books/by-authors?author_ids=${authorIds}&months=6&books_per_author=1`
-        )
-          .then(res => res.json())
-          .then(data => data.items || [])
-          .catch(err => {
-            console.log('Error loading DB authors books:', err);
-            return [];
-          });
-        bookPromises.push(dbBooksPromise);
-      }
-
-      // 커스텀 작가들의 최신 책
-      if (customAuthorsList.length > 0) {
-        const authorNames = customAuthorsList.join(',');
-        const customBooksPromise = fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/latest-books/by-custom-authors?author_names=${encodeURIComponent(authorNames)}&months=6&books_per_author=2`
-        )
-          .then(res => res.json())
-          .then(data => data.items || [])
-          .catch(err => {
-            console.log('Error loading custom authors books:', err);
-            return [];
-          });
-        bookPromises.push(customBooksPromise);
-      }
-
-      // 모든 책 합치기
-      if (bookPromises.length > 0) {
-        Promise.all(bookPromises).then(results => {
-          const allBooks = results.flat();
-          // 출간일 기준 최신순 정렬
-          allBooks.sort((a: any, b: any) => {
-            return (b.publication_date || '').localeCompare(a.publication_date || '');
-          });
-          setBooks(allBooks.slice(0, bookCount));
-        });
-      } else {
-        setBooks([]);
-      }
-    }
+      .catch(err => {
+        console.log('Error loading events:', err);
+        setEvents([]);
+      });
   };
 
   const handlePreferencesChange = () => {

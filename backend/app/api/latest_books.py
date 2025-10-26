@@ -109,26 +109,34 @@ async def get_recent_books(
     max_results: int = Query(20, ge=1, le=40)
 ):
     """
-    최신 영국 문학 도서 가져오기 (작가 선택 없이)
+    최신 영국 문학 도서 가져오기 (DB 없이 바로 Google Books API 호출)
 
+    - DB 불필요, 바로 Google Books에서 가져옴
     - 주요 영국 작가들의 최신 책
     """
-    # 주요 영국 작가 리스트
+    # 주요 영국 작가 리스트 (DB 없이 하드코딩)
     popular_uk_authors = [
         "Sally Rooney",
-        "Ian McEwan",
         "Zadie Smith",
         "Kazuo Ishiguro",
+        "Ian McEwan",
+        "Max Porter",
+        "Samantha Harvey",
+        "Philip Hoare",
+        "Virginia Woolf",
+        "J.K. Rowling",
         "Hilary Mantel",
         "Jojo Moyes",
         "David Nicholls",
-        "Matt Haig"
+        "Matt Haig",
+        "Ali Smith",
+        "Bernardine Evaristo"
     ]
 
     books = await fetch_recent_books_multiple_authors(
         author_names=popular_uk_authors,
         months=months,
-        books_per_author=2
+        books_per_author=1
     )
 
     # max_results 제한
@@ -138,7 +146,8 @@ async def get_recent_books(
         "items": books,
         "total": len(books),
         "months": months,
-        "source": "Google Books API (실시간)"
+        "authors": popular_uk_authors,
+        "source": "Google Books API (DB 불필요)"
     }
 
 
