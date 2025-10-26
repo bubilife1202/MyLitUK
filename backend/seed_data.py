@@ -21,8 +21,15 @@ def create_tables():
 
 def seed_authors(db: Session):
     """영국 작가 샘플 데이터 (50명 이상)"""
-    print("\n✍️ 작가 데이터 추가 중...")
+    print("\n✍️ 작가 데이터 확인 중...")
 
+    # 이미 작가가 있으면 스킵
+    existing_count = db.query(Author).count()
+    if existing_count > 0:
+        print(f"✅ 작가 데이터가 이미 존재합니다 ({existing_count}명). 스킵합니다.")
+        return
+
+    print("작가 데이터 추가 중...")
     authors = [
         # 현대 작가
         {"name": "Sally Rooney", "name_ko": "샐리 루니", "bio": "Irish author known for Normal People and Conversations with Friends.", "bio_ko": "노멀 피플, 대화하는 사람들로 유명한 아일랜드 작가입니다.", "birth_date": date(1991, 2, 20), "nationality": "Irish"},
@@ -140,8 +147,15 @@ def seed_authors(db: Session):
 
 def seed_books(db: Session):
     """책 샘플 데이터"""
-    print("\n📚 책 데이터 추가 중...")
+    print("\n📚 책 데이터 확인 중...")
 
+    # 이미 책이 있으면 스킵
+    existing_count = db.query(Book).count()
+    if existing_count > 0:
+        print(f"✅ 책 데이터가 이미 존재합니다 ({existing_count}권). 스킵합니다.")
+        return
+
+    print("책 데이터 추가 중...")
     # 작가 ID 가져오기
     zadie = db.query(Author).filter(Author.name == "Zadie Smith").first()
     kazuo = db.query(Author).filter(Author.name == "Kazuo Ishiguro").first()
@@ -192,8 +206,15 @@ def seed_books(db: Session):
 
 def seed_events(db: Session):
     """문학 행사 샘플 데이터"""
-    print("\n🎭 행사 데이터 추가 중...")
+    print("\n🎭 행사 데이터 확인 중...")
 
+    # 이미 행사가 있으면 스킵
+    existing_count = db.query(Event).count()
+    if existing_count > 0:
+        print(f"✅ 행사 데이터가 이미 존재합니다 ({existing_count}개). 스킵합니다.")
+        return
+
+    print("행사 데이터 추가 중...")
     # 다가오는 날짜 설정
     today = date.today()
     next_month = today + timedelta(days=30)
@@ -266,7 +287,15 @@ def seed_events(db: Session):
 
 def seed_awards(db: Session):
     """문학상 샘플 데이터"""
-    print("\n🏆 문학상 데이터 추가 중...")
+    print("\n🏆 문학상 데이터 확인 중...")
+
+    # 이미 문학상이 있으면 스킵
+    existing_count = db.query(LiteraryAward).count()
+    if existing_count > 0:
+        print(f"✅ 문학상 데이터가 이미 존재합니다 ({existing_count}개). 스킵합니다.")
+        return
+
+    print("문학상 데이터 추가 중...")
 
     awards = [
         {
@@ -325,8 +354,15 @@ def seed_awards(db: Session):
 
 def seed_demo_user(db: Session):
     """테스트용 사용자 생성"""
-    print("\n👤 테스트 사용자 추가 중...")
+    print("\n👤 테스트 사용자 확인 중...")
 
+    # 이미 사용자가 있으면 스킵
+    existing_user = db.query(User).filter(User.email == "demo@mylituk.com").first()
+    if existing_user:
+        print("✅ 테스트 사용자가 이미 존재합니다. 스킵합니다.")
+        return
+
+    print("테스트 사용자 추가 중...")
     demo_user = User(
         email="demo@mylituk.com",
         username="demo",
