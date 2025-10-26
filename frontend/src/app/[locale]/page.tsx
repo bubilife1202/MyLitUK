@@ -163,8 +163,30 @@ export default function HomePage() {
   };
 
   const formatDate = (dateStr: string) => {
+    if (!dateStr) return '';
+
     try {
+      // If it's just a year (4 digits), return it as-is
+      if (/^\d{4}$/.test(dateStr.trim())) {
+        return dateStr.trim();
+      }
+
+      // If it's YYYY-MM format, show year and month only
+      if (/^\d{4}-\d{2}$/.test(dateStr.trim())) {
+        const [year, month] = dateStr.split('-');
+        const monthDate = new Date(parseInt(year), parseInt(month) - 1);
+        return monthDate.toLocaleDateString(locale === 'ko' ? 'ko-KR' : 'en-GB', {
+          year: 'numeric',
+          month: 'short'
+        });
+      }
+
+      // Full date format
       const date = new Date(dateStr);
+      // Check if the date is valid
+      if (isNaN(date.getTime())) {
+        return dateStr;
+      }
       return date.toLocaleDateString(locale === 'ko' ? 'ko-KR' : 'en-GB', {
         year: 'numeric',
         month: 'short',
