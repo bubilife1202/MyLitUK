@@ -38,22 +38,22 @@ export default function HomePage() {
   }, []);
 
   const loadData = (preferredAuthors: number[] = []) => {
-    // 78명 전체 작가 사용
+    // API에서 작가 데이터 가져오기
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/authors?size=50`)
       .then(res => res.json())
       .then(data => {
         const allAuthors = data.items || [];
         if (preferredAuthors.length > 0) {
-      const filtered = allAuthors.filter((a: any) => preferredAuthors.includes(a.id));
-      setAuthors(filtered.slice(0, 20));
+          const filtered = allAuthors.filter((a: any) => preferredAuthors.includes(a.id));
+          setAuthors(filtered.slice(0, 20));
         } else {
           setAuthors(allAuthors.slice(0, 15));
         }
       })
-      .catch(err => console.log(err)); // 최대 20명
-    } else {
-      setAuthors(AUTHORS.slice(0, 15)); // 기본 15명 표시
-    }
+      .catch(err => {
+        console.log('Error loading authors:', err);
+        setAuthors([]);
+      });
 
     // DB 없이 바로 Google Books에서 책 가져오기
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/latest-books/recent?months=24&max_results=${bookCount}`)
