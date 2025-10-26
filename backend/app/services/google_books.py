@@ -11,10 +11,11 @@ import asyncio
 async def fetch_recent_books_by_author_openlibrary(author_name: str, months: int = 6, max_results: int = 10) -> List[Dict]:
     """
     Open Library API를 사용하여 작가별 최신 출간 도서 가져오기
+    날짜 필터를 완화하여 더 많은 책 가져오기
 
     Args:
         author_name: 작가 이름
-        months: 최근 몇 개월 이내 (기본 6개월)
+        months: 최근 몇 개월 이내 (참고용, 실제로는 더 넓게 가져옴)
         max_results: 최대 결과 수
 
     Returns:
@@ -22,18 +23,18 @@ async def fetch_recent_books_by_author_openlibrary(author_name: str, months: int
     """
     books = []
 
-    # 날짜 계산
+    # 날짜 계산 - 더 넓은 범위로 (1년)
     today = datetime.now()
-    cutoff_date = today - timedelta(days=months * 30)
+    cutoff_year = today.year - 2  # 최근 2년 이내
 
     try:
-        async with httpx.AsyncClient(timeout=15.0) as client:
+        async with httpx.AsyncClient(timeout=20.0) as client:
             # Open Library Search API
             url = "https://openlibrary.org/search.json"
             params = {
                 'author': author_name,
                 'sort': 'new',
-                'limit': max_results * 2,  # 필터링을 위해 더 많이 가져오기
+                'limit': max_results * 3,  # 필터링을 위해 더 많이 가져오기
                 'fields': 'key,title,author_name,first_publish_year,publish_date,isbn,publisher,cover_i,subject'
             }
 
@@ -45,22 +46,12 @@ async def fetch_recent_books_by_author_openlibrary(author_name: str, months: int
                 return []
 
             for doc in data['docs']:
-                # 출간일 확인
-                publish_date = doc.get('publish_date')
+                # 출간 연도 확인
                 first_publish_year = doc.get('first_publish_year')
 
-                # 날짜 파싱 및 필터링
-                if publish_date and isinstance(publish_date, list):
-                    # 가장 최근 출간일 사용
-                    publish_date = publish_date[0] if publish_date else None
-
-                # 연도 기반 필터링
-                if first_publish_year:
-                    try:
-                        if first_publish_year < cutoff_date.year:
-                            continue
-                    except:
-                        pass
+                # 날짜 필터링 - 너무 오래된 책은 제외 (2년 이상)
+                if first_publish_year and first_publish_year < cutoff_year:
+                    continue
 
                 # ISBN 추출
                 isbn_list = doc.get('isbn', [])
@@ -136,28 +127,17 @@ async def fetch_recent_books_by_author(author_name: str, months: int = 6, max_re
 
                 # 출간일 확인
                 published_date = volume_info.get('publishedDate', '')
-                if not published_date:
-                    continue
 
-                # 날짜 파싱 (YYYY, YYYY-MM, YYYY-MM-DD 형식 모두 처리)
-                # 6개월 이내만 엄격하게 필터링
-                try:
-                    pub_date = None
-                    if len(published_date) == 4:  # YYYY
-                        # 연도만 있는 경우 해당 연도 1월 1일로 가정
-                        pub_date = datetime.strptime(f"{published_date}-01-01", '%Y-%m-%d')
-                    elif len(published_date) == 7:  # YYYY-MM
-                        # 월까지만 있는 경우 해당 월 1일로 가정
-                        pub_date = datetime.strptime(f"{published_date}-01", '%Y-%m-%d')
-                    else:  # YYYY-MM-DD
-                        pub_date = datetime.strptime(published_date[:10], '%Y-%m-%d')
-
-                    # 6개월 이내만 허용
-                    if pub_date < cutoff_date:
-                        continue
-                except Exception as e:
-                    # 날짜 파싱 실패하면 건너뛰기
-                    continue
+                # 날짜 필터링 - 최근 2년 이내만 (너무 오래된 책은 제외)
+                if published_date:
+                    try:
+                        year = int(published_date[:4])
+                        # 2023년 이후 책만 (현재 기준 최근 2년)
+                        if year < 2023:
+                            continue
+                    except:
+                        # 연도 파싱 실패해도 포함
+                        pass
 
                 # ISBN 추출
                 isbn = None
