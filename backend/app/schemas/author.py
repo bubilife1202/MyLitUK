@@ -26,7 +26,7 @@ class AuthorUpdate(BaseModel):
 
 class AuthorResponse(AuthorBase):
     id: int
-    created_at: datetime
+    created_at: Optional[datetime] = None
     is_followed: bool = False  # Will be set based on current user
 
     class Config:
