@@ -13,8 +13,7 @@
 # 환경 변수 (Netlify 대시보드에서도 설정 가능)
 [build.environment]
   NODE_VERSION = "18"
-  # 백엔드 URL은 Netlify 대시보드에서 설정하세요
-  # NEXT_PUBLIC_API_URL = "https://your-backend-url.com"
+  NEXT_PUBLIC_API_URL = "https://mylituk-api.onrender.com"
 
 # Next.js 다이나믹 라우팅을 위한 리다이렉트
 [[redirects]]
