@@ -6,7 +6,6 @@ import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import AuthorSelector from '@/components/AuthorSelector';
 import PreferenceSettings from '@/components/PreferenceSettings';
-import { AUTHORS } from '@/data/authors';
 
 export default function HomePage() {
   const t = useTranslations('home');
@@ -40,9 +39,18 @@ export default function HomePage() {
 
   const loadData = (preferredAuthors: number[] = []) => {
     // 78명 전체 작가 사용
-    if (preferredAuthors.length > 0) {
-      const filtered = AUTHORS.filter((a: any) => preferredAuthors.includes(a.id));
-      setAuthors(filtered.slice(0, 20)); // 최대 20명
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/authors?size=50`)
+      .then(res => res.json())
+      .then(data => {
+        const allAuthors = data.items || [];
+        if (preferredAuthors.length > 0) {
+      const filtered = allAuthors.filter((a: any) => preferredAuthors.includes(a.id));
+      setAuthors(filtered.slice(0, 20));
+        } else {
+          setAuthors(allAuthors.slice(0, 15));
+        }
+      })
+      .catch(err => console.log(err)); // 최대 20명
     } else {
       setAuthors(AUTHORS.slice(0, 15)); // 기본 15명 표시
     }
@@ -452,12 +460,6 @@ export default function HomePage() {
             </p>
             <p className="text-xs text-gray-500 mb-2">
               &copy; 2025 MyLitUK. All rights reserved.
-            </p>
-            <p className="text-xs text-gray-400">
-              v4.2.0
-              <a href="https://mylituk-api.onrender.com/docs" target="_blank" rel="noopener noreferrer" className="hover:text-white underline">
-                API Docs
-              </a>
             </p>
             <div className="mt-4 pt-4 border-t border-gray-800">
               <p className="text-xs text-gray-500">
