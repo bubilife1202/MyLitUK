@@ -19,22 +19,31 @@ async def startup_event():
     # 테이블 생성
     Base.metadata.create_all(bind=engine)
 
-    # seed_data.py 무조건 실행 (Render는 매번 초기화됨)
-    seed_script = os.path.join(os.path.dirname(__file__), "..", "seed_data.py")
-    if os.path.exists(seed_script):
+    # seed_data.py를 직접 import해서 실행 (subprocess 대신)
+    try:
+        import sys
+        sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
+
+        # seed_data 직접 import
+        from seed_data import seed_authors, seed_books, seed_events, seed_awards, seed_demo_user
+        from app.core.database import SessionLocal
+
+        db = SessionLocal()
         try:
-            result = subprocess.run(
-                ["python", seed_script],
-                capture_output=True,
-                text=True,
-                timeout=30
-            )
-            if result.returncode == 0:
-                print("✅ Sample data seeded successfully")
-            else:
-                print(f"⚠️ Seed data error: {result.stderr}")
+            print("🚀 Starting database seeding...")
+            seed_authors(db)
+            seed_books(db)
+            seed_events(db)
+            seed_awards(db)
+            seed_demo_user(db)
+            print("✅ Database seeding completed successfully")
         except Exception as e:
-            print(f"⚠️ Could not seed data: {e}")
+            print(f"⚠️ Seed error: {e}")
+            db.rollback()
+        finally:
+            db.close()
+    except Exception as e:
+        print(f"⚠️ Could not import seed_data: {e}")
 
 # CORS 설정
 app.add_middleware(

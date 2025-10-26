@@ -40,24 +40,10 @@ async def get_latest_books_by_authors(
     authors = db.query(Author).filter(Author.id.in_(author_id_list)).all()
 
     if not authors:
-        # 작가 데이터가 없으면 기본 작가들로 대체
-        default_authors = [
-            "Sally Rooney", "Zadie Smith", "Kazuo Ishiguro",
-            "Ian McEwan", "Max Porter", "Samantha Harvey",
-            "Philip Hoare", "Virginia Woolf", "J.K. Rowling"
-        ]
-        books = await fetch_recent_books_multiple_authors(
-            author_names=default_authors,
-            months=months,
-            books_per_author=books_per_author
-        )
         return {
-            "items": books,
-            "total": len(books),
-            "authors_searched": default_authors,
-            "months": months,
-            "source": "Google Books API (기본 작가)",
-            "note": "DB에 작가 데이터가 없어 기본 작가들로 검색했습니다"
+            "items": [],
+            "total": 0,
+            "message": "No authors found in database"
         }
 
     # 작가 이름 리스트 생성
