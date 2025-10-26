@@ -5,14 +5,22 @@ services:
     region: oregon
     plan: free
     branch: claude/add-event-award-alerts-011CUSghoXR5QUSyqLWKyYKA
-    buildCommand: pip install -r backend/requirements.txt
+    buildCommand: pip install -r backend/requirements.txt && cd backend && python seed_data.py
     startCommand: cd backend && python -m uvicorn app.main:app --host 0.0.0.0 --port $PORT
     envVars:
       - key: DATABASE_URL
-        value: sqlite:///./mylituk.db
+        fromDatabase:
+          name: mylituk-db
+          property: connectionString
       - key: SECRET_KEY
         generateValue: true
       - key: ALLOWED_ORIGINS
         value: https://mylituk.netlify.app,http://localhost:3000
       - key: PYTHON_VERSION
         value: 3.11.0
+
+databases:
+  - name: mylituk-db
+    databaseName: mylituk
+    user: mylituk
+    plan: free
