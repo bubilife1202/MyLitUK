@@ -6,6 +6,7 @@ import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import AuthorSelector from '@/components/AuthorSelector';
 import PreferenceSettings from '@/components/PreferenceSettings';
+import { AUTHORS } from '@/data/authors';
 
 export default function HomePage() {
   const t = useTranslations('home');
@@ -38,17 +39,13 @@ export default function HomePage() {
   }, []);
 
   const loadData = (preferredAuthors: number[] = []) => {
-    // 하드코딩된 작가 리스트 (DB 불필요)
-    const hardcodedAuthors = [
-      { id: 1, name: "Sally Rooney", name_ko: "샐리 루니", bio: "Irish author known for Normal People", bio_ko: "노멀 피플로 유명한 아일랜드 작가" },
-      { id: 2, name: "Zadie Smith", name_ko: "제이디 스미스", bio: "British novelist, author of White Teeth", bio_ko: "화이트 티스의 저자" },
-      { id: 3, name: "Kazuo Ishiguro", name_ko: "가즈오 이시구로", bio: "Nobel Prize winner", bio_ko: "노벨문학상 수상 작가" },
-      { id: 4, name: "Ian McEwan", name_ko: "이언 매큐언", bio: "Author of Atonement", bio_ko: "속죄의 저자" },
-      { id: 5, name: "Max Porter", name_ko: "맥스 포터", bio: "Author of Grief Is the Thing with Feathers", bio_ko: "슬픔은 깃털 달린 것의 저자" },
-      { id: 6, name: "Samantha Harvey", name_ko: "사만다 하비", bio: "Author of Orbital", bio_ko: "오비탈의 저자" },
-    ];
-
-    setAuthors(hardcodedAuthors);
+    // 78명 전체 작가 사용
+    if (preferredAuthors.length > 0) {
+      const filtered = AUTHORS.filter((a: any) => preferredAuthors.includes(a.id));
+      setAuthors(filtered.slice(0, 20)); // 최대 20명
+    } else {
+      setAuthors(AUTHORS.slice(0, 15)); // 기본 15명 표시
+    }
 
     // DB 없이 바로 Google Books에서 책 가져오기
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/latest-books/recent?months=24&max_results=${bookCount}`)
@@ -457,7 +454,7 @@ export default function HomePage() {
               &copy; 2025 MyLitUK. All rights reserved.
             </p>
             <p className="text-xs text-gray-400">
-              v4.1.0 | {locale === 'ko' ? '로그인 없이 개인화 가능' : 'Personalized without login'} |{' '}
+              v4.2.0
               <a href="https://mylituk-api.onrender.com/docs" target="_blank" rel="noopener noreferrer" className="hover:text-white underline">
                 API Docs
               </a>

@@ -5,7 +5,7 @@ from pydantic import field_validator
 class Settings(BaseSettings):
     # App
     APP_NAME: str = "MyLitUK"
-    VERSION: str = "4.1.0"
+    VERSION: str = "4.2.0"
     DEBUG: bool = False
 
     # Database
