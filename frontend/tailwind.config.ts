@@ -19,8 +19,8 @@ const config: Config = {
         'dusty-grey': '#696969',
       },
       fontFamily: {
-        'playfair': ['"Playfair Display"', 'serif'],
-        'courier': ['"Courier Prime"', 'monospace'],
+        'playfair': ['Playfair Display', 'serif'],
+        'courier': ['Courier Prime', 'Courier New', 'monospace'],
       },
       animation: {
         'fade-in': 'fadeIn 0.8s ease-in-out',

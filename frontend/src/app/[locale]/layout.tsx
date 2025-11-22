@@ -1,26 +1,10 @@
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import { notFound } from 'next/navigation';
-import { Playfair_Display, Courier_Prime } from 'next/font/google';
 import '../globals.css';
 
 // 동적 렌더링 강제
 export const dynamic = 'force-dynamic';
-
-// Dark Academia Fonts
-const playfair = Playfair_Display({
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700', '800', '900'],
-  variable: '--font-playfair',
-  display: 'swap',
-});
-
-const courier = Courier_Prime({
-  subsets: ['latin'],
-  weight: ['400', '700'],
-  variable: '--font-courier',
-  display: 'swap',
-});
 
 export default async function LocaleLayout({
   children,
@@ -36,8 +20,16 @@ export default async function LocaleLayout({
   }
 
   return (
-    <html lang={locale} className={`${playfair.variable} ${courier.variable}`}>
-      <body className="font-courier">
+    <html lang={locale}>
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Courier+Prime:wght@400;700&display=swap"
+          rel="stylesheet"
+        />
+      </head>
+      <body style={{ fontFamily: "'Courier Prime', monospace" }}>
         <NextIntlClientProvider messages={messages}>
           {children}
         </NextIntlClientProvider>
