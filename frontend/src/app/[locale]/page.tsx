@@ -1,477 +1,324 @@
 'use client';
 
-import { useTranslations } from 'next-intl';
-import Link from 'next/link';
-import { useParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
-import AuthorSelector from '@/components/AuthorSelector';
-import PreferenceSettings from '@/components/PreferenceSettings';
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 
-export default function HomePage() {
-  const t = useTranslations('home');
-  const tCommon = useTranslations('common');
-  const tNav = useTranslations('nav');
-  const params = useParams();
-  const locale = params.locale as string;
+interface Quote {
+  text: string;
+  author: string;
+  work: string;
+  comment: string;
+}
 
-  const [authors, setAuthors] = useState<any[]>([]);
-  const [customAuthors, setCustomAuthors] = useState<string[]>([]);
-  const [books, setBooks] = useState<any[]>([]);
-  const [events, setEvents] = useState<any[]>([]);
-  const [bookCount, setBookCount] = useState(6);
-  const [eventCount, setEventCount] = useState(6);
+interface Emotion {
+  id: string;
+  label: string;
+  color: string;
+  quotes: Quote[];
+}
 
+interface QuotesData {
+  emotions: Emotion[];
+}
+
+type Stage = 'intro' | 'loading' | 'prescription';
+
+export default function BibliotherapistPage() {
+  const [stage, setStage] = useState<Stage>('intro');
+  const [selectedEmotion, setSelectedEmotion] = useState<Emotion | null>(null);
+  const [currentQuote, setCurrentQuote] = useState<Quote | null>(null);
+  const [quotesData, setQuotesData] = useState<QuotesData | null>(null);
+
+  // Load quotes data
   useEffect(() => {
-    // Load preferences from localStorage (client-side only)
-    if (typeof window !== 'undefined') {
-      const savedBookCount = localStorage.getItem('book_display_count');
-      const savedEventCount = localStorage.getItem('event_display_count');
-      const savedAuthors = localStorage.getItem('preferred_authors');
-      const savedCustomAuthors = localStorage.getItem('custom_authors');
-
-      if (savedBookCount) setBookCount(parseInt(savedBookCount));
-      if (savedEventCount) setEventCount(parseInt(savedEventCount));
-      if (savedCustomAuthors) setCustomAuthors(JSON.parse(savedCustomAuthors));
-
-      loadData(savedAuthors ? JSON.parse(savedAuthors) : []);
-    }
+    fetch('/quotes.json')
+      .then((res) => res.json())
+      .then((data: QuotesData) => setQuotesData(data))
+      .catch((err) => console.error('Failed to load quotes:', err));
   }, []);
 
-  const loadData = (preferredAuthors: number[] = []) => {
-    // API에서 작가 데이터 가져오기
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/authors?size=50`)
-      .then(res => res.json())
-      .then(data => {
-        const allAuthors = data.items || [];
-        if (preferredAuthors.length > 0) {
-          const filtered = allAuthors.filter((a: any) => preferredAuthors.includes(a.id));
-          setAuthors(filtered.slice(0, 20));
-        } else {
-          setAuthors(allAuthors.slice(0, 15));
-        }
-      })
-      .catch(err => {
-        console.log('Error loading authors:', err);
-        setAuthors([]);
-      });
+  const handleEmotionSelect = (emotion: Emotion) => {
+    setSelectedEmotion(emotion);
+    setStage('loading');
 
-    // DB 없이 바로 Google Books에서 책 가져오기
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/latest-books/recent?months=24&max_results=${bookCount}`)
-      .then(res => res.json())
-      .then(data => {
-        setBooks(data.items || []);
-      })
-      .catch(err => {
-        console.log('Error loading books:', err);
-        setBooks([]);
-      });
+    // Random quote from selected emotion
+    const randomQuote = emotion.quotes[Math.floor(Math.random() * emotion.quotes.length)];
 
-    // UK 문학 이벤트 가져오기
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/news/events`)
-      .then(res => res.json())
-      .then(data => setEvents(data.items.slice(0, eventCount) || []))
-      .catch(err => {
-        console.log('Error loading events:', err);
-        setEvents([]);
-      });
+    // Show loading for 2.5 seconds
+    setTimeout(() => {
+      setCurrentQuote(randomQuote);
+      setStage('prescription');
+    }, 2500);
   };
 
-  const handlePreferencesChange = () => {
-    if (typeof window !== 'undefined') {
-      const savedAuthors = localStorage.getItem('preferred_authors');
-      const savedCustomAuthors = localStorage.getItem('custom_authors');
-      if (savedCustomAuthors) setCustomAuthors(JSON.parse(savedCustomAuthors));
-      loadData(savedAuthors ? JSON.parse(savedAuthors) : []);
-    }
+  const handleReset = () => {
+    setStage('intro');
+    setSelectedEmotion(null);
+    setCurrentQuote(null);
   };
 
-  const generateBookstoreLinks = (title: string, author: string, isbn?: string) => {
-    const cleanISBN = isbn ? isbn.replace(/-/g, '') : null;
-    const searchQuery = `${title} ${author}`;
-
-    return {
-      // Waterstones: Use search with ISBN or title+author (more reliable than direct ISBN link)
-      waterstones: cleanISBN
-        ? `https://www.waterstones.com/books/search/term/${cleanISBN}`
-        : `https://www.waterstones.com/books/search/term/${encodeURIComponent(searchQuery)}`,
-
-      // Amazon UK: Use ISBN with /dp/ format (most reliable)
-      amazon: cleanISBN
-        ? `https://www.amazon.co.uk/dp/${cleanISBN}`
-        : `https://www.amazon.co.uk/s?k=${encodeURIComponent(searchQuery)}`,
-
-      // Bookshop.org UK: Use ISBN in search (they don't have direct ISBN URLs)
-      bookshop: cleanISBN
-        ? `https://uk.bookshop.org/search?keywords=${cleanISBN}`
-        : `https://uk.bookshop.org/search?keywords=${encodeURIComponent(title)}`
-    };
-  };
-
-  const formatDate = (dateStr: string) => {
-    if (!dateStr) return '';
-
-    try {
-      // If it's just a year (4 digits), return it as-is
-      if (/^\d{4}$/.test(dateStr.trim())) {
-        return dateStr.trim();
-      }
-
-      // If it's YYYY-MM format, show year and month only
-      if (/^\d{4}-\d{2}$/.test(dateStr.trim())) {
-        const [year, month] = dateStr.split('-');
-        const monthDate = new Date(parseInt(year), parseInt(month) - 1);
-        return monthDate.toLocaleDateString(locale === 'ko' ? 'ko-KR' : 'en-GB', {
-          year: 'numeric',
-          month: 'short'
-        });
-      }
-
-      // Full date format
-      const date = new Date(dateStr);
-      // Check if the date is valid
-      if (isNaN(date.getTime())) {
-        return dateStr;
-      }
-      return date.toLocaleDateString(locale === 'ko' ? 'ko-KR' : 'en-GB', {
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric'
-      });
-    } catch {
-      return dateStr;
-    }
-  };
+  if (!quotesData) {
+    return (
+      <div className="min-h-screen bg-charcoal flex items-center justify-center">
+        <div className="text-cream font-courier text-lg">Loading the library...</div>
+      </div>
+    );
+  }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Navigation - Mobile Optimized */}
-      <nav className="bg-white shadow-sm sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center">
-              <h1 className="text-xl sm:text-2xl font-bold text-primary-600 flex items-center gap-2">
-                <span className="text-2xl">🇬🇧</span>
-                <span className="hidden sm:inline">{t('title')}</span>
-                <span className="sm:hidden">MyLitUK</span>
-              </h1>
-            </div>
-            <div className="flex items-center gap-1 sm:gap-3">
-              <PreferenceSettings locale={locale} onSave={handlePreferencesChange} />
-              <AuthorSelector locale={locale} onSave={handlePreferencesChange} />
-              <Link href={`/${locale}/login`} className="hidden sm:inline text-sm text-gray-700 hover:text-primary-600">
-                {tNav('login')}
-              </Link>
-              <Link href={`/${locale}/register`} className="btn-primary text-xs sm:text-sm px-3 py-2 min-h-[40px]">
-                {tNav('register')}
-              </Link>
-              <select
-                value={locale}
-                onChange={(e) => {
-                  const newLocale = e.target.value;
-                  window.location.href = `/${newLocale}`;
-                }}
-                className="px-2 py-2 border border-gray-300 rounded-md text-xs sm:text-sm min-h-[40px]"
-              >
-                <option value="en">EN</option>
-                <option value="ko">KO</option>
-              </select>
-            </div>
-          </div>
-        </div>
-      </nav>
+    <div className="min-h-screen bg-charcoal text-cream flex items-center justify-center p-4 overflow-hidden">
+      {/* Subtle background texture */}
+      <div className="absolute inset-0 opacity-5 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGQ9Ik0zNiAxOGMzLjMxNCAwIDYgMi42ODYgNiA2cy0yLjY4NiA2LTYgNi02LTIuNjg2LTYtNiAyLjY4Ni02IDYtNiIgc3Ryb2tlPSIjRjVGNURDIiBzdHJva2Utd2lkdGg9IjEiLz48L2c+PC9zdmc+')]" />
 
-      {/* Hero Section - UK Themed */}
-      <div className="bg-gradient-to-br from-blue-900 via-blue-800 to-red-800 text-white relative overflow-hidden">
-        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAxMCAwIEwgMCAwIDAgMTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMC41IiBvcGFjaXR5PSIwLjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JpZCkiLz48L3N2Zz4=')] opacity-30"></div>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 md:py-28 relative">
-          <div className="text-center">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6">
-              {t('subtitle')}
-            </h1>
-            <p className="text-lg sm:text-xl md:text-2xl mb-8 sm:mb-10 max-w-3xl mx-auto px-4 font-light">
-              {t('description')}
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <Link
-                href={`/${locale}/register`}
-                className="w-full sm:w-auto bg-white text-blue-900 px-8 py-4 rounded-lg font-bold hover:bg-gray-100 transition-all shadow-lg hover:shadow-xl text-base sm:text-lg min-h-[56px] flex items-center justify-center"
-              >
-                {t('cta.button')}
-              </Link>
-              <Link
-                href={`/${locale}/books`}
-                className="w-full sm:w-auto bg-transparent border-2 border-white text-white px-8 py-4 rounded-lg font-semibold hover:bg-white hover:text-blue-900 transition-all text-base sm:text-lg min-h-[56px] flex items-center justify-center"
-              >
-                {locale === 'ko' ? '책 둘러보기' : 'Explore Books'}
-              </Link>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Features Section - Mobile Optimized */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
-        <h2 className="text-3xl sm:text-4xl font-bold text-center mb-10 sm:mb-14 text-gray-900">
-          {t('features.title')}
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
-          <div className="bg-white p-6 sm:p-8 rounded-2xl shadow-lg hover:shadow-xl transition-shadow text-center">
-            <div className="text-5xl mb-4">📚</div>
-            <h3 className="text-xl sm:text-2xl font-bold mb-3 text-gray-900">{t('features.personalized.title')}</h3>
-            <p className="text-base text-gray-600 leading-relaxed">{t('features.personalized.description')}</p>
-          </div>
-          <div className="bg-white p-6 sm:p-8 rounded-2xl shadow-lg hover:shadow-xl transition-shadow text-center">
-            <div className="text-5xl mb-4">🔔</div>
-            <h3 className="text-xl sm:text-2xl font-bold mb-3 text-gray-900">{t('features.alerts.title')}</h3>
-            <p className="text-base text-gray-600 leading-relaxed">{t('features.alerts.description')}</p>
-          </div>
-          <div className="bg-white p-6 sm:p-8 rounded-2xl shadow-lg hover:shadow-xl transition-shadow text-center">
-            <div className="text-5xl mb-4">🌐</div>
-            <h3 className="text-xl sm:text-2xl font-bold mb-3 text-gray-900">{t('features.multilingual.title')}</h3>
-            <p className="text-base text-gray-600 leading-relaxed">{t('features.multilingual.description')}</p>
-          </div>
-        </div>
-      </div>
-
-      {/* Authors Section - Mobile Optimized */}
-      <div className="bg-white py-12 sm:py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl sm:text-4xl font-bold mb-8 sm:mb-12 text-gray-900">
-            {locale === 'ko' ? '주목할 만한 영국 작가들' : 'Featured UK Authors'}
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {authors.map((author: any) => (
-              <div key={author.id} className="bg-gray-50 p-6 rounded-xl hover:shadow-lg transition-all border border-gray-200">
-                <h3 className="text-xl font-bold mb-3 text-gray-900">
-                  {locale === 'ko' && author.name_ko ? author.name_ko : author.name}
-                </h3>
-                <p className="text-gray-600 text-sm leading-relaxed line-clamp-3">
-                  {locale === 'ko' && author.bio_ko ? author.bio_ko : author.bio}
-                </p>
-              </div>
-            ))}
-            {/* Filter out custom authors that match DB author names to prevent duplicates */}
-            {customAuthors
-              .filter((name: string) => {
-                // Check if this custom author name matches any DB author name (case-insensitive)
-                const normalizedCustomName = name.toLowerCase().trim();
-                return !authors.some((author: any) =>
-                  author.name.toLowerCase().trim() === normalizedCustomName ||
-                  (author.name_ko && author.name_ko.trim() === name.trim())
-                );
-              })
-              .map((name: string, idx: number) => (
-                <div key={`custom-${idx}`} className="bg-gradient-to-br from-blue-50 to-blue-100 p-6 rounded-xl border-2 border-blue-300 hover:shadow-lg transition-all">
-                  <div className="flex items-center justify-between mb-2">
-                    <h3 className="text-xl font-bold text-blue-900">{name}</h3>
-                    <span className="text-xs bg-blue-200 text-blue-800 px-3 py-1 rounded-full font-semibold">
-                      {locale === 'ko' ? '직접 추가' : 'Custom'}
-                    </span>
-                  </div>
-                  <p className="text-blue-700 text-sm italic">
-                    {locale === 'ko' ? '관심 작가로 추가하셨습니다' : 'Added to your favorites'}
-                  </p>
-                </div>
-              ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Books Section with Bookstore Links - Mobile Optimized */}
-      <div className="bg-gray-100 py-12 sm:py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="mb-8 sm:mb-12">
-            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900">
-              {locale === 'ko' ? '최신 출간 도서 (6개월 이내)' : 'Latest UK Books (Last 6 Months)'}
-            </h2>
-            <p className="text-sm text-gray-600 mt-2">
-              {locale === 'ko'
-                ? '📡 Google Books API에서 실시간으로 가져온 최신 정보입니다'
-                : '📡 Real-time data from Google Books API'}
-            </p>
-          </div>
-          {books.length === 0 ? (
-            <div className="col-span-full text-center py-12">
-              <p className="text-gray-500 text-lg">
-                {locale === 'ko'
-                  ? '📚 선택한 작가의 최신 출간 도서를 불러오는 중입니다...'
-                  : '📚 Loading latest books from your selected authors...'}
-              </p>
-              <p className="text-sm text-gray-400 mt-2">
-                {locale === 'ko'
-                  ? '작가를 선택하면 해당 작가의 6개월 이내 신간이 표시됩니다'
-                  : 'Select authors to see their latest books from the past 6 months'}
-              </p>
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {books.map((book: any, index: number) => {
-              const bookstoreLinks = generateBookstoreLinks(
-                book.title,
-                book.author_name || 'Unknown',
-                book.isbn
-              );
-
-              // Format publication date
-              const pubDate = book.publication_date ? formatDate(book.publication_date) : '';
-
-              return (
-                <div key={book.isbn || `${book.title}-${index}`} className="bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition-all">
-                  {/* New Badge */}
-                  {book.publication_date && (
-                    <div className="mb-2">
-                      <span className="inline-block px-2 py-1 bg-green-100 text-green-800 text-xs font-semibold rounded">
-                        {locale === 'ko' ? '신간' : 'NEW'} {pubDate}
-                      </span>
-                    </div>
-                  )}
-
-                  <h3 className="text-lg font-bold mb-2 text-gray-900 line-clamp-2">
-                    {locale === 'ko' && book.title_ko ? book.title_ko : book.title}
-                  </h3>
-                  <p className="text-sm text-gray-600 mb-2">
-                    {locale === 'ko' ? '저자' : 'by'} <span className="font-semibold">{book.author_name || 'Unknown'}</span>
-                  </p>
-                  {book.publisher && (
-                    <p className="text-xs text-gray-500 mb-3">
-                      {book.publisher}
-                    </p>
-                  )}
-                  <p className="text-gray-600 text-sm leading-relaxed line-clamp-3 mb-4">
-                    {locale === 'ko' && book.description_ko ? book.description_ko : book.description}
-                  </p>
-
-                  {/* Bookstore Links */}
-                  <div className="pt-4 border-t border-gray-200">
-                    <p className="text-xs font-semibold text-gray-700 mb-2 flex items-center justify-between">
-                      <span>{locale === 'ko' ? '🛒 구매하기' : '🛒 Buy from'}</span>
-                      {book.isbn && (
-                        <span className="text-xs font-normal text-gray-500">ISBN: {book.isbn}</span>
-                      )}
-                    </p>
-                    <div className="flex flex-wrap gap-2">
-                      <a
-                        href={bookstoreLinks.waterstones}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-block px-3 py-1.5 bg-blue-600 text-white text-xs rounded-md hover:bg-blue-700 transition-colors font-medium"
-                        title={book.isbn ? `Direct link with ISBN ${book.isbn}` : 'Search by title'}
-                      >
-                        Waterstones
-                      </a>
-                      <a
-                        href={bookstoreLinks.amazon}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-block px-3 py-1.5 bg-orange-500 text-white text-xs rounded-md hover:bg-orange-600 transition-colors font-medium"
-                        title={book.isbn ? `Direct link with ISBN ${book.isbn}` : 'Search by title'}
-                      >
-                        Amazon UK
-                      </a>
-                      <a
-                        href={bookstoreLinks.bookshop}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-block px-3 py-1.5 bg-green-600 text-white text-xs rounded-md hover:bg-green-700 transition-colors font-medium"
-                        title={book.isbn ? `Search with ISBN ${book.isbn}` : 'Search by title'}
-                      >
-                        Bookshop.org
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-            </div>
-          )}
-        </div>
-      </div>
-
-      {/* UK Literary Events Section - Mobile Optimized */}
-      <div className="bg-white py-12 sm:py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl sm:text-4xl font-bold mb-8 sm:mb-12 text-gray-900">
-            {locale === 'ko' ? '🎭 다가오는 영국 문학 이벤트' : '🎭 Upcoming UK Literary Events'}
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {events.map((event: any, idx: number) => (
-              <div key={idx} className="bg-gradient-to-br from-red-50 to-blue-50 p-6 rounded-xl shadow-md hover:shadow-xl transition-all border border-gray-200">
-                <div className="flex items-center justify-between mb-3">
-                  <span className="text-xs font-bold text-blue-800 bg-blue-200 px-3 py-1 rounded-full">
-                    {event.category || 'Festival'}
-                  </span>
-                  {event.date && (
-                    <span className="text-xs text-gray-600">
-                      📅 {formatDate(event.date)}
-                    </span>
-                  )}
-                </div>
-                <h3 className="text-lg font-bold mb-2 text-gray-900">{event.name}</h3>
-                <p className="text-sm text-gray-600 mb-3 flex items-center gap-1">
-                  📍 {event.location}
-                </p>
-                <p className="text-gray-700 text-sm leading-relaxed line-clamp-3 mb-4">
-                  {event.description}
-                </p>
-                {event.url && (
-                  <a
-                    href={event.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-block text-sm font-semibold text-blue-600 hover:text-blue-800 hover:underline"
-                  >
-                    {locale === 'ko' ? '더 알아보기 →' : 'Learn more →'}
-                  </a>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* CTA Section - Mobile Optimized */}
-      <div className="bg-gradient-to-r from-blue-900 to-red-900 py-16 sm:py-20">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
-          <h2 className="text-3xl sm:text-4xl font-bold mb-4">{t('cta.title')}</h2>
-          <p className="text-lg sm:text-xl mb-8 font-light">
-            {t('cta.description')}
-          </p>
-          <Link
-            href={`/${locale}/register`}
-            className="inline-block bg-white text-blue-900 px-10 py-4 rounded-lg font-bold hover:bg-gray-100 transition-all shadow-lg text-lg min-h-[56px] flex items-center justify-center max-w-xs mx-auto"
+      <AnimatePresence mode="wait">
+        {/* STAGE 1: INTRO */}
+        {stage === 'intro' && (
+          <motion.div
+            key="intro"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.8 }}
+            className="max-w-3xl w-full text-center space-y-12"
           >
-            {t('cta.button')}
-          </Link>
-        </div>
-      </div>
-
-      {/* Footer - Mobile Optimized */}
-      <footer className="bg-gray-900 text-white py-8 sm:py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <div className="flex items-center justify-center gap-3 mb-4">
-              <span className="text-3xl">🇬🇧</span>
-              <h3 className="text-2xl font-bold">MyLitUK</h3>
-            </div>
-            <p className="text-sm sm:text-base mb-4 text-gray-400">
-              {locale === 'ko'
-                ? '영국 문학을 사랑하는 사람들을 위한 플랫폼'
-                : 'Your gateway to UK literature'}
-            </p>
-            <p className="text-xs text-gray-500 mb-2">
-              &copy; 2025 MyLitUK. All rights reserved.
-            </p>
-            <div className="mt-4 pt-4 border-t border-gray-800">
-              <p className="text-xs text-gray-500">
-                {locale === 'ko'
-                  ? '📚 독서 리스트 | ⭐ 리뷰 | 🎯 챌린지 | 👥 커뮤니티 | 🛒 영국 서점 링크 | 📰 실시간 뉴스'
-                  : '📚 Reading Lists | ⭐ Reviews | 🎯 Challenges | 👥 Community | 🛒 UK Bookstores | 📰 Live News'
-                }
+            {/* Title */}
+            <motion.div
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.2, duration: 0.6 }}
+            >
+              <h1 className="font-playfair text-6xl md:text-7xl font-bold text-gold mb-4">
+                The Bibliotherapist
+              </h1>
+              <p className="font-courier text-cream/70 text-sm tracking-wider uppercase">
+                Est. 1818 — London
               </p>
-            </div>
-          </div>
-        </div>
-      </footer>
+            </motion.div>
+
+            {/* Question */}
+            <motion.div
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.4, duration: 0.6 }}
+              className="space-y-2"
+            >
+              <p className="font-playfair text-2xl md:text-3xl italic text-cream/90">
+                "What is haunting your soul today?"
+              </p>
+            </motion.div>
+
+            {/* Emotion Tags */}
+            <motion.div
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.6, duration: 0.6 }}
+              className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-2xl mx-auto"
+            >
+              {quotesData.emotions.map((emotion, index) => (
+                <motion.button
+                  key={emotion.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.7 + index * 0.1 }}
+                  whileHover={{ scale: 1.05, y: -2 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => handleEmotionSelect(emotion)}
+                  className="px-6 py-4 border-2 border-gold/30 hover:border-gold bg-charcoal/50 hover:bg-gold/10 transition-all duration-300 font-courier text-sm tracking-wider uppercase relative overflow-hidden group"
+                  style={{
+                    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.3)',
+                  }}
+                >
+                  <div className="absolute inset-0 bg-gold/5 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
+                  <span className="relative z-10 text-cream">{emotion.label}</span>
+                </motion.button>
+              ))}
+            </motion.div>
+
+            {/* Footer quote */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1.2, duration: 0.6 }}
+              className="pt-8"
+            >
+              <p className="font-courier text-xs text-cream/40 italic">
+                "The good ended happily, and the bad unhappily. That is what Fiction means."
+                <br />— Oscar Wilde
+              </p>
+            </motion.div>
+          </motion.div>
+        )}
+
+        {/* STAGE 2: LOADING */}
+        {stage === 'loading' && (
+          <motion.div
+            key="loading"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.6 }}
+            className="text-center space-y-8"
+          >
+            {/* Quill pen animation */}
+            <motion.div
+              animate={{
+                rotate: [0, -10, 10, -10, 0],
+                y: [0, -10, 0, -5, 0],
+              }}
+              transition={{
+                duration: 2,
+                repeat: Infinity,
+                ease: 'easeInOut',
+              }}
+              className="text-6xl mb-8"
+            >
+              🖋️
+            </motion.div>
+
+            {/* Loading text with typewriter effect */}
+            <motion.div className="space-y-2">
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5 }}
+                className="font-courier text-xl text-cream"
+              >
+                Consulting the ghosts of writers...
+              </motion.p>
+              <motion.div
+                initial={{ width: 0 }}
+                animate={{ width: '200px' }}
+                transition={{ duration: 2, ease: 'easeInOut' }}
+                className="h-0.5 bg-gold/50 mx-auto"
+              />
+            </motion.div>
+
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: [0, 1, 0.7, 1] }}
+              transition={{ duration: 2, repeat: Infinity }}
+              className="font-courier text-sm text-cream/60"
+            >
+              {selectedEmotion?.label}
+            </motion.p>
+          </motion.div>
+        )}
+
+        {/* STAGE 3: PRESCRIPTION */}
+        {stage === 'prescription' && currentQuote && (
+          <motion.div
+            key="prescription"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.8 }}
+            className="max-w-4xl w-full space-y-12"
+          >
+            {/* Header */}
+            <motion.div
+              initial={{ y: -20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.2, duration: 0.6 }}
+              className="text-center border-b border-gold/20 pb-6"
+            >
+              <h2 className="font-playfair text-4xl md:text-5xl text-gold mb-2">
+                ℞ Prescription
+              </h2>
+              <p className="font-courier text-xs text-cream/60 tracking-widest uppercase">
+                For {selectedEmotion?.label}
+              </p>
+            </motion.div>
+
+            {/* Quote */}
+            <motion.div
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.5, duration: 0.8 }}
+              className="bg-charcoal/80 border-l-4 border-gold p-8 md:p-12 space-y-6"
+              style={{
+                boxShadow: '0 10px 40px rgba(0, 0, 0, 0.4)',
+              }}
+            >
+              <motion.blockquote
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.8, duration: 1 }}
+                className="font-playfair text-2xl md:text-3xl italic text-cream leading-relaxed"
+              >
+                "{currentQuote.text}"
+              </motion.blockquote>
+
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 1.2, duration: 0.6 }}
+                className="flex items-center justify-between border-t border-cream/10 pt-6"
+              >
+                <div className="font-courier text-sm text-cream/80">
+                  <p className="font-bold">— {currentQuote.author}</p>
+                  <p className="italic text-cream/60">{currentQuote.work}</p>
+                </div>
+              </motion.div>
+            </motion.div>
+
+            {/* Modern Comment (The Roast) */}
+            <motion.div
+              initial={{ x: -20, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ delay: 1.5, duration: 0.6 }}
+              className="bg-deep-brown/40 border border-gold/30 p-6 md:p-8"
+            >
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 1.8, duration: 0.8 }}
+                className="font-courier text-base md:text-lg text-cream/90 leading-relaxed"
+              >
+                <span className="text-gold font-bold">⚠ Modern Translation: </span>
+                {currentQuote.comment}
+              </motion.p>
+            </motion.div>
+
+            {/* Action Buttons */}
+            <motion.div
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 2, duration: 0.6 }}
+              className="flex flex-col sm:flex-row gap-4 justify-center pt-6"
+            >
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => handleEmotionSelect(selectedEmotion!)}
+                className="px-8 py-3 border-2 border-gold/50 hover:border-gold bg-charcoal hover:bg-gold/10 transition-all duration-300 font-courier text-sm tracking-wider uppercase"
+              >
+                Another Dose
+              </motion.button>
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={handleReset}
+                className="px-8 py-3 bg-gold hover:bg-faded-gold text-charcoal transition-all duration-300 font-courier text-sm tracking-wider uppercase font-bold"
+              >
+                New Ailment
+              </motion.button>
+            </motion.div>
+
+            {/* Footer */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 2.3, duration: 0.6 }}
+              className="text-center pt-8 border-t border-gold/10"
+            >
+              <p className="font-courier text-xs text-cream/40 italic">
+                "There is no greater agony than bearing an untold story inside you."
+                <br />— Maya Angelou (Honorary Brit in Spirit)
+              </p>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

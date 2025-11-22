@@ -1,0 +1,149 @@
+{
+  "emotions": [
+    {
+      "id": "ennui",
+      "label": "Ennui",
+      "color": "#C5A059",
+      "quotes": [
+        {
+          "text": "The only way to get rid of a temptation is to yield to it.",
+          "author": "Oscar Wilde",
+          "work": "The Picture of Dorian Gray",
+          "comment": "Darling, your boredom is just cowardice dressed in Prada. Do something interesting."
+        },
+        {
+          "text": "I don't know what's the matter with me. I'm restless.",
+          "author": "Virginia Woolf",
+          "work": "The Waves",
+          "comment": "Virginia felt restless too. She wrote 9 novels. What's your excuse?"
+        }
+      ]
+    },
+    {
+      "id": "heartbreak",
+      "label": "Heartbreak",
+      "color": "#8B0000",
+      "quotes": [
+        {
+          "text": "The heart was made to be broken.",
+          "author": "Oscar Wilde",
+          "work": "A Woman of No Importance",
+          "comment": "Oscar knew. He loved unwisely. At least you're not in Reading Gaol, so cheer up."
+        },
+        {
+          "text": "I cannot fix on the hour, or the spot, or the look, or the words, which laid the foundation. It is too long ago. I was in the middle before I knew that I had begun.",
+          "author": "Jane Austen",
+          "work": "Pride and Prejudice",
+          "comment": "Elizabeth Bennet fell slowly. You fell stupidly. There's a difference."
+        },
+        {
+          "text": "Better never to have met you in my dream than to wake and reach for hands that are not there.",
+          "author": "W.B. Yeats",
+          "work": "The Countess Cathleen",
+          "comment": "Yeats pined for Maud Gonne for 30 years. She never loved him back. Still, he won a Nobel Prize. Perspective, love."
+        }
+      ]
+    },
+    {
+      "id": "poverty",
+      "label": "Poverty",
+      "color": "#2C2C2C",
+      "quotes": [
+        {
+          "text": "Annual income twenty pounds, annual expenditure nineteen nineteen and six, result happiness. Annual income twenty pounds, annual expenditure twenty pounds ought and six, result misery.",
+          "author": "Charles Dickens",
+          "work": "David Copperfield",
+          "comment": "Stop buying £5 coffees, darling. You are not Dickens. You're just broke."
+        },
+        {
+          "text": "It is a truth universally acknowledged, that a single man in possession of a good fortune, must be in want of a wife.",
+          "author": "Jane Austen",
+          "work": "Pride and Prejudice",
+          "comment": "Jane understood. Marry rich. Problem solved. (Kidding. Kind of.)"
+        }
+      ]
+    },
+    {
+      "id": "boredom",
+      "label": "Boredom",
+      "color": "#696969",
+      "quotes": [
+        {
+          "text": "There is no such thing as a moral or an immoral book. Books are well written, or badly written. That is all.",
+          "author": "Oscar Wilde",
+          "work": "The Picture of Dorian Gray (Preface)",
+          "comment": "Oscar never got bored because he read good books. Unlike you, scrolling Instagram."
+        },
+        {
+          "text": "I am so clever that sometimes I don't understand a single word of what I am saying.",
+          "author": "Oscar Wilde",
+          "work": "The Happy Prince and Other Tales",
+          "comment": "At least Oscar's confusion was witty. Yours is just tragic."
+        }
+      ]
+    },
+    {
+      "id": "vanity",
+      "label": "Vanity",
+      "color": "#DAA520",
+      "quotes": [
+        {
+          "text": "I am not young enough to know everything.",
+          "author": "Oscar Wilde",
+          "work": "The Remarkable Rocket",
+          "comment": "Wilde knew he didn't know it all. You think you do. That's the tragedy."
+        },
+        {
+          "text": "Vanity working on a weak head, produces every sort of mischief.",
+          "author": "Jane Austen",
+          "work": "Emma",
+          "comment": "Jane wrote this about Emma Woodhouse. She'd have a field day with your LinkedIn bio."
+        },
+        {
+          "text": "I have nothing to declare except my genius.",
+          "author": "Oscar Wilde",
+          "work": "Upon arriving at U.S. Customs",
+          "comment": "Oscar said this ironically at customs. You say it unironically on Twitter. See the problem?"
+        }
+      ]
+    },
+    {
+      "id": "ambition",
+      "label": "Ambition",
+      "color": "#B8860B",
+      "quotes": [
+        {
+          "text": "Big Brother is Watching You.",
+          "author": "George Orwell",
+          "work": "1984",
+          "comment": "You want power? Orwell showed where that leads. Spoiler: dystopia."
+        },
+        {
+          "text": "All animals are equal, but some animals are more equal than others.",
+          "author": "George Orwell",
+          "work": "Animal Farm",
+          "comment": "Climbing the ladder? Remember: the pigs became the farmers. Mind the sty."
+        }
+      ]
+    },
+    {
+      "id": "despair",
+      "label": "Despair",
+      "color": "#1C1C1C",
+      "quotes": [
+        {
+          "text": "We are all in the gutter, but some of us are looking at the stars.",
+          "author": "Oscar Wilde",
+          "work": "Lady Windermere's Fan",
+          "comment": "Oscar was literally in prison when he understood this. Your 'gutter' is a Monday. Perspective."
+        },
+        {
+          "text": "The cure for anything is salt water: sweat, tears, or the sea.",
+          "author": "Isak Dinesen (but often attributed in British circles)",
+          "work": "Seven Gothic Tales",
+          "comment": "Cry, work out, or book a flight to Cornwall. Pick one and stop wallowing."
+        }
+      ]
+    }
+  ]
+}
