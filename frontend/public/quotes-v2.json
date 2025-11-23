@@ -1,0 +1,364 @@
+{
+  "meta": {
+    "version": "2.0",
+    "physician": "Dr. Elias Pemberton",
+    "established": "1847",
+    "location": "221B Baker Street, London"
+  },
+  "emotions": [
+    {
+      "id": "ennui",
+      "label": "Ennui",
+      "description": "A profound sense of weariness and dissatisfaction with life",
+      "sub_categories": [
+        {
+          "id": "meaningless_routine",
+          "label": "The endless monotony of daily existence",
+          "question": "Your ennui stems from the repetitive nature of modern life?",
+          "quotes": [
+            {
+              "text": "The world is too much with us; late and soon, getting and spending, we lay waste our powers.",
+              "author": "William Wordsworth",
+              "work": "The World Is Too Much With Us (1807)",
+              "context": "Written during the Industrial Revolution, Wordsworth laments humanity's growing disconnection from nature in pursuit of material wealth.",
+              "diagnosis": "Chronic Existential Ennui (Subtype: Routine-Induced Spiritual Atrophy)",
+              "literary_analysis": "Wordsworth observed in 1807 what you're experiencing in 2025: the soul-crushing cycle of 'getting and spending.' He watched the Industrial Revolution turn humans into cogs in a machine, trading their connection to the sublime for the promise of productivity. Two centuries later, you've replaced factories with open-plan offices and looms with laptops, but the spiritual bankruptcy remains identical. Wordsworth's Romantic rebellion against mechanization was not mere nostalgia—it was a diagnosis of modernity's inherent disease.",
+              "modern_interpretation": "You've optimized yourself into oblivion. Every morning you wake up, check your phone, and begin the sacred ritual of converting your finite hours into infinite tasks. Wordsworth would recognize you immediately: another soul who has 'given our hearts away, a sordid boon.'",
+              "punch_line": "Delete your productivity apps and go touch some grass. Wordsworth's prescription, not mine.",
+              "dosage": {
+                "frequency": "Read twice daily, at sunrise and sunset",
+                "duration": "Until you remember that you are an animal, not a machine",
+                "method": "Take a 30-minute walk without your phone. Notice one tree. Wordsworth would approve."
+              }
+            },
+            {
+              "text": "One must have a mind of winter to regard the frost and the boughs of the pine-trees crusted with snow.",
+              "author": "Wallace Stevens",
+              "work": "The Snow Man (1921)",
+              "context": "Stevens explores the necessity of emotional detachment to perceive reality without the distortion of human meaning-making.",
+              "diagnosis": "Acute Phenomenological Fatigue with Routine-Induced Numbness",
+              "literary_analysis": "Stevens, an insurance executive by day and poet by night, understood your predicament intimately. His 'mind of winter' is not depression—it's the clarity that comes from seeing the world stripped of comforting illusions. The monotony you feel isn't a bug; it's a feature of consciousness finally paying attention. Stevens suggests that your boredom might be the first honest relationship you've had with reality in years. The pine trees don't care about your mortgage. The frost has no opinion on your career trajectory.",
+              "modern_interpretation": "Your routine feels meaningless because you keep trying to inject it with meaning. Stevens spent his days selling insurance and his nights writing modernist poetry. He found the sacred in the ordinary by stopping the search for significance.",
+              "punch_line": "The commute is just a commute. The meeting is just a meeting. Free yourself through indifference.",
+              "dosage": {
+                "frequency": "Recite during your morning commute, every Monday through Friday",
+                "duration": "Until the absurdity makes you laugh",
+                "method": "Practice radical acceptance: your routine is neither good nor bad. It simply is. Like winter."
+              }
+            }
+          ]
+        },
+        {
+          "id": "lack_of_purpose",
+          "label": "The absence of a grand narrative for your existence",
+          "question": "You're haunted by the question: 'What's the point of any of this?'",
+          "quotes": [
+            {
+              "text": "We live, as we dream—alone.",
+              "author": "Joseph Conrad",
+              "work": "Heart of Darkness (1899)",
+              "context": "Marlow reflects on the fundamental isolation of human consciousness while recounting his journey into colonial Africa.",
+              "diagnosis": "Existential Void Syndrome with Purpose-Deficiency Disorder",
+              "literary_analysis": "Conrad wrote this at the turn of the 20th century, when the old certainties of empire, religion, and progress were beginning to crack. Marlow's journey up the Congo is a journey into the absence at the center of everything. Your search for purpose? Conrad would call it adorably naïve. We are born alone into a universe that doesn't care whether we find meaning or not. The characters who claim to have found purpose in his novel are either mad or lying. Your purposelessness isn't a personal failure—it's the default state of conscious beings.",
+              "modern_interpretation": "You keep waiting for someone to hand you a mission statement for your life. A calling. A purpose. Conrad's message: no one's coming. The void you feel isn't something to be filled—it's something to be acknowledged.",
+              "punch_line": "Stop searching for your purpose. You're not a company. You're a mammal with anxiety.",
+              "dosage": {
+                "frequency": "When the existential dread hits, usually between 2-4 AM",
+                "duration": "Until you accept that meaning is homemade, not discovered",
+                "method": "Journal for 10 minutes. Write 'I don't know what I'm doing' until it stops feeling scary."
+              }
+            },
+            {
+              "text": "The mass of men lead lives of quiet desperation. What is called resignation is confirmed desperation.",
+              "author": "Henry David Thoreau",
+              "work": "Walden (1854)",
+              "context": "Thoreau observes the self-imposed prisons of civilized life during his two-year experiment in simple living.",
+              "diagnosis": "Chronic Conformity-Induced Purposelessness",
+              "literary_analysis": "Thoreau abandoned society to live in a cabin because he recognized what you're feeling: most people sleepwalk through existence, mistaking routine for purpose. He watched his neighbors work jobs they hated, buy things they didn't need, and call it 'adult responsibility.' Your lack of purpose isn't because you haven't found the right career path—it's because you're trying to find meaning in a system designed to extract labor, not cultivate souls. Thoreau's solution was radical simplicity, but his diagnosis remains accurate: your desperation is confirmed by your resignation to it.",
+              "modern_interpretation": "You've been conditioned to believe that purpose comes from productivity, achievement, and accumulation. Thoreau would ask: what if purpose comes from subtraction? From deliberately choosing less?",
+              "punch_line": "You don't need a life coach. You need to spend less time being useful to capitalism.",
+              "dosage": {
+                "frequency": "Once daily, preferably before checking email",
+                "duration": "Until you can distinguish between your desires and society's expectations",
+                "method": "Write a list titled 'Things I do because I'm supposed to.' Then burn it. Metaphorically. Fire codes, you understand."
+              }
+            }
+          ]
+        },
+        {
+          "id": "existential_fatigue",
+          "label": "Everything feels flat, grey, and identical",
+          "question": "Even pleasure has lost its flavor?",
+          "quotes": [
+            {
+              "text": "I have measured out my life with coffee spoons.",
+              "author": "T.S. Eliot",
+              "work": "The Love Song of J. Alfred Prufrock (1915)",
+              "context": "Prufrock's lament about a life lived in careful, meaningless increments, never daring to disturb the universe.",
+              "diagnosis": "Advanced Prufrock Syndrome: Paralysis through Micro-Existence",
+              "literary_analysis": "Eliot's Prufrock is the patron saint of existential fatigue. He attends parties, drinks tea, and performs the social niceties while feeling absolutely nothing. His life is measured in coffee spoons—tiny, identical, utterly interchangeable units of time. Sound familiar? You've replaced Edwardian tea parties with Zoom calls, but the fundamental horror remains: a life so carefully curated that it ceases to be lived. Prufrock never acts, never risks, never disturbs the universe. He grows old in polite society, haunted by the question: 'Do I dare?' Your fatigue isn't laziness. It's the exhaustion of perpetual self-censorship.",
+              "modern_interpretation": "You've become allergic to risk. Every decision is optimized for minimum disruption. You know exactly how many almond milk lattes you'll consume before you die, and the predictability is suffocating you.",
+              "punch_line": "Do something embarrassing. Prufrock died wondering 'Do I dare?' Don't make his mistake.",
+              "dosage": {
+                "frequency": "When you catch yourself planning your spontaneity",
+                "duration": "Until you can tolerate uncertainty for more than five minutes",
+                "method": "This week, do one thing that makes you uncomfortable. Sing badly in public. Wear the weird hat. Disturb the universe."
+              }
+            },
+            {
+              "text": "What is the use of living, if it be not to strive for noble causes and to make this muddled world a better place?",
+              "author": "Winston Churchill",
+              "work": "Speech (1908)",
+              "context": "Churchill's early political manifesto arguing for social reform and public service as antidotes to nihilism.",
+              "diagnosis": "Nihilistic Fatigue Secondary to Absence of Noble Struggle",
+              "literary_analysis": "Churchill wasn't a literary figure, but he understood what Eliot and Woolf were diagnosing in their fiction: a generation dying of comfort. Your existential fatigue isn't caused by suffering—it's caused by the absence of anything worth suffering for. Churchill fought wars, built governments, and saved civilization; you fight traffic and build PowerPoints. I'm not saying you need to save the world, but the man has a point: humans require struggle. Not manufactured difficulty, but genuine challenges that demand your full capacity. Your flatness is your soul's protest against a life of manufactured ease.",
+              "modern_interpretation": "You've removed all the obstacles from your life and wonder why the path feels meaningless. Difficulty is not the enemy of satisfaction—it's the prerequisite.",
+              "punch_line": "Find something difficult and do it badly. Excellence is overrated; effort is undervalued.",
+              "dosage": {
+                "frequency": "When Netflix asks 'Are you still watching?'—yes, you are, and it's killing you",
+                "duration": "Until you have a hobby that occasionally frustrates you",
+                "method": "Choose one difficult thing: learn a language, train for a marathon, write a novel. Fail gloriously."
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "heartbreak",
+      "label": "Heartbreak",
+      "description": "The peculiar agony of love lost, betrayed, or unreturned",
+      "sub_categories": [
+        {
+          "id": "unrequited_love",
+          "label": "Loving someone who will never love you back",
+          "question": "Your heart insists on loving someone who doesn't notice?",
+          "quotes": [
+            {
+              "text": "Had we never lov'd sae kindly, Had we never lov'd sae blindly, Never met—or never parted—We had ne'er been broken-hearted.",
+              "author": "Robert Burns",
+              "work": "Ae Fond Kiss (1791)",
+              "context": "Written as a farewell to Agnes McLehose, a love Burns could never fully have due to her marriage and social circumstances.",
+              "diagnosis": "Acute Burns Syndrome: Romantic Attachment to the Unavailable",
+              "literary_analysis": "Burns, Scotland's patron saint of doomed romance, understood that unrequited love is a peculiar form of self-harm. He loved Agnes McLehose with theatrical intensity despite—or because of—the impossibility of their union. The cruelty isn't that they met; it's that they met 'sae kindly, sae blindly,' giving him just enough hope to make the inevitable parting devastating. Your unrequited love isn't tragic because you can't have them—it's tragic because some part of you doesn't want to stop wanting them. The longing itself has become comfortable.",
+              "modern_interpretation": "You're not in love with them. You're in love with the safety of loving someone who can't hurt you by actually being with you. Reality is terrifying; fantasy is controllable.",
+              "punch_line": "Delete their number. Burns wrote this 230 years ago and died at 37. Learn from his mistakes.",
+              "dosage": {
+                "frequency": "Every time you start composing an unsent text message",
+                "duration": "Until you can see them without your stomach dropping",
+                "method": "Write them a letter saying everything you want to say. Then burn it. Actually burn it this time."
+              }
+            },
+            {
+              "text": "When you are old and grey and full of sleep, And nodding by the fire, take down this book, And slowly read, and dream of the soft look Your eyes had once, and of their shadows deep.",
+              "author": "W.B. Yeats",
+              "work": "When You Are Old (1893)",
+              "context": "Yeats's lifelong unrequited love for Maud Gonne, who rejected his proposals multiple times but remained his muse.",
+              "diagnosis": "Chronic Yeats Condition: Weaponized Longing as Creative Fuel",
+              "literary_analysis": "Yeats loved Maud Gonne for over 30 years. She rejected him repeatedly, married someone else, and still he wrote poem after poem about her. This poem is simultaneously beautiful and passive-aggressive—a love letter designed to make her regret rejecting him when she's old and alone. Except she didn't regret it. She lived her life. Yeats won the Nobel Prize but never got the girl. Your unrequited love could be tragic self-destruction, or it could be the source of your greatest work. Yeats chose the latter, but he also spent three decades pining. Choose wisely.",
+              "modern_interpretation": "Stop imagining future scenarios where they realize they made a mistake. Yeats did this for 30 years. It gave us great poetry but questionable life advice.",
+              "punch_line": "Transform your heartbreak into something useful, or move on. Preferably both.",
+              "dosage": {
+                "frequency": "When you catch yourself imagining reunion scenarios",
+                "duration": "Until you channel the longing into something that isn't self-pity",
+                "method": "Create something with your heartbreak: write, paint, run, build. Make it mean something beyond your feelings."
+              }
+            }
+          ]
+        },
+        {
+          "id": "betrayal",
+          "label": "They promised forever and delivered betrayal",
+          "question": "The person you trusted most became a stranger?",
+          "quotes": [
+            {
+              "text": "It is a far, far better thing that I do, than I have ever done; it is a far, far better rest that I go to than I have ever known.",
+              "author": "Charles Dickens",
+              "work": "A Tale of Two Cities (1859)",
+              "context": "Sydney Carton's final thoughts as he sacrifices himself for the happiness of the woman he loves and the man she chose instead.",
+              "diagnosis": "Martyr Complex Secondary to Romantic Betrayal",
+              "literary_analysis": "Sydney Carton loved Lucie Manette, who chose another man. Instead of rage or revenge, Carton chose radical self-sacrifice, literally dying so her chosen partner could live. Dickens frames this as noble, but let's be honest: it's also deeply unhealthy. You've been betrayed, and part of you wants to prove your love through suffering. You want them to know what they lost. But Carton's nobility didn't bring him peace—it brought him death. Your betrayal hurts, but martyrdom isn't healing; it's just another form of attachment.",
+              "modern_interpretation": "Stop performing your heartbreak for an audience that isn't watching. They've moved on. Your suffering isn't a monument to your love—it's just suffering.",
+              "punch_line": "You're not Sydney Carton, and this isn't the French Revolution. Get therapy, not guillotined.",
+              "dosage": {
+                "frequency": "When you start thinking your pain makes you noble",
+                "duration": "Until you can be happy for their happiness without gritting your teeth",
+                "method": "Practice radical acceptance: they chose someone else. It hurts. It's also over. Both things are true."
+              }
+            },
+            {
+              "text": "They sicken of the calm, who knew the storm.",
+              "author": "Dorothy Parker",
+              "work": "Fair Weather (1928)",
+              "context": "Parker's reflection on the addictive nature of tumultuous relationships and the emptiness that follows.",
+              "diagnosis": "Post-Betrayal Addiction to Chaos",
+              "literary_analysis": "Dorothy Parker, queen of the devastating one-liner, understood that betrayal doesn't just break your heart—it breaks your calibration of what love should feel like. You've been through the storm. They lied, they cheated, they broke promises. And now that it's over, the calm feels wrong. Part of you misses the chaos because at least it was *something*. Parker knew this trap intimately—she kept returning to destructive relationships because stability felt like boredom. Your betrayal taught you that love = suffering. It doesn't. But unlearning that lesson takes longer than the relationship did.",
+              "modern_interpretation": "You keep checking their social media because the pain is familiar. You're addicted to the chaos they created. Calm feels like abandonment.",
+              "punch_line": "The storm is over. Stop chasing the lightning. Calm is not the enemy; your addiction to drama is.",
+              "dosage": {
+                "frequency": "Every time you want to text them 'I hate you' (you don't; you miss them)",
+                "duration": "Until you can tolerate peace without suspicion",
+                "method": "When you feel the pull toward chaos, sit with the discomfort for 5 minutes. Then do something boring and healthy."
+              }
+            }
+          ]
+        },
+        {
+          "id": "loss",
+          "label": "They left, and took a piece of you with them",
+          "question": "The absence is more present than they ever were?",
+          "quotes": [
+            {
+              "text": "The pain of parting is nothing to the joy of meeting again.",
+              "author": "Charles Dickens",
+              "work": "Nicholas Nickleby (1839)",
+              "context": "A hopeful sentiment from Dickens about loss being temporary and reunion being inevitable.",
+              "diagnosis": "Complicated Grief with False Hope of Reunion",
+              "literary_analysis": "Dickens was an optimist who believed in happy endings and Christmas miracles. This quote is lovely, hopeful, and—in your case—probably not true. Some losses are permanent. Some people don't come back. The pain of your parting might not lead to the joy of reunion; it might just lead to different, quieter forms of ache. Dickens wrote fiction where separated lovers reunite and orphans find families. But you're living in reality, where sometimes people leave and stay gone. The question is: will you spend your life waiting for a reunion that isn't coming, or will you build a life in their absence?",
+              "modern_interpretation": "Stop waiting for them to come back. Every day you spend in the waiting room is a day you're not living in the house of your actual life.",
+              "punch_line": "Dickens wrote happy endings for a living. Your life isn't a novel. It's a Tuesday. Act accordingly.",
+              "dosage": {
+                "frequency": "When you catch yourself planning what you'll say when they return",
+                "duration": "Until you can imagine a future that doesn't include them",
+                "method": "Make one decision you wouldn't make if they were coming back. Paint the wall. Move to a new city. Adopt a cat. Choose."
+              }
+            },
+            {
+              "text": "No one ever told me that grief felt so like fear.",
+              "author": "C.S. Lewis",
+              "work": "A Grief Observed (1961)",
+              "context": "Lewis's raw journal entries following the death of his wife, exploring the physical and emotional shock of loss.",
+              "diagnosis": "Acute Grief-Fear Complex Following Significant Loss",
+              "literary_analysis": "Lewis wrote this after his wife died, but grief for a relationship works the same way. It's not just sadness—it's terror. The ground beneath you has disappeared, and you don't know how to walk on air. Lewis observed that grief mimics fear because loss destroys your sense of safety in the world. If they could leave (or die, or change), then nothing is permanent. Your grief isn't just about missing them; it's about the existential horror of realizing that everything ends. Lewis eventually found peace, but not through denial—through sitting with the fear until it lost its power.",
+              "modern_interpretation": "You're not just sad they're gone. You're terrified of what their absence reveals: that nothing lasts, including you.",
+              "punch_line": "Everything ends. This is not comforting. It's also not negotiable. Feel the fear anyway.",
+              "dosage": {
+                "frequency": "When the panic sets in, usually when you're alone and still",
+                "duration": "Until you can sit with the impermanence without dissociating",
+                "method": "Name the fear out loud: 'I am afraid.' Then breathe for 60 seconds. The fear doesn't leave, but you learn it won't kill you."
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "poverty",
+      "label": "Poverty",
+      "description": "The grinding anxiety of never having enough",
+      "sub_categories": [
+        {
+          "id": "financial_struggle",
+          "label": "Every month is a calculation of survival",
+          "question": "You count coins while others count blessings?",
+          "quotes": [
+            {
+              "text": "Annual income twenty pounds, annual expenditure nineteen nineteen and six, result happiness. Annual income twenty pounds, annual expenditure twenty pounds ought and six, result misery.",
+              "author": "Charles Dickens",
+              "work": "David Copperfield (1850)",
+              "context": "Mr. Micawber's famous formula for happiness, based on Dickens's own father's imprisonment for debt.",
+              "diagnosis": "Chronic Micawber Syndrome: Poverty-Induced Optimism Deficiency",
+              "literary_analysis": "Dickens knew poverty intimately—his father went to debtors' prison, and young Charles worked in a factory at age 12. Mr. Micawber's arithmetic is simple and brutal: spend less than you earn, or suffer. But Dickens also knew this advice is useless when you're already at the bottom. You can't spend less than you earn when you're not earning enough to survive. Your financial struggle isn't a math problem; it's a structural one. Micawber eventually gets a deus ex machina rescue. You probably won't. The formula is correct, but it doesn't account for the cruelty of a system that demands you solve equations with impossible variables.",
+              "modern_interpretation": "Everyone says 'budget better.' They don't say 'the system is designed to keep you here.' Dickens knew both things were true.",
+              "punch_line": "Budget all you want. The problem isn't your spending—it's your century.",
+              "dosage": {
+                "frequency": "When someone suggests you 'just stop buying lattes'",
+                "duration": "Until you remember this isn't a personal failing",
+                "method": "Read Dickens. Remember that poverty is systemic, not individual. Then do what you can with what you have."
+              }
+            },
+            {
+              "text": "It is not the man who has too little, but the man who craves more, that is poor.",
+              "author": "Seneca",
+              "work": "Letters from a Stoic (c. 65 AD)",
+              "context": "Roman Stoic philosophy on wealth, contentment, and the nature of poverty.",
+              "diagnosis": "Material Deprivation with Philosophical Complications",
+              "literary_analysis": "Seneca was one of the richest men in Rome when he wrote this, which should tell you everything. Yes, desire can create suffering. Yes, contentment with less is philosophically noble. But Seneca also had villas, slaves, and political power. It's easy to praise poverty from a position of wealth. Your poverty isn't a philosophical choice—it's a constraint. That said, there's a grain of truth here: the anxiety of poverty often comes not from what you lack, but from comparing yourself to what others have. Seneca was a hypocrite, but he wasn't entirely wrong. The question is: can you find peace in having little while also fighting for more?",
+              "modern_interpretation": "Rich philosophers love telling poor people that wanting stuff is the real problem. It's not entirely false, but it's definitely annoying coming from someone with a villa.",
+              "punch_line": "Gratitude practice won't pay your rent. But it might make the waiting room less miserable.",
+              "dosage": {
+                "frequency": "When Instagram makes you feel like everyone else is winning",
+                "duration": "Until you can distinguish between needs and manufactured desires",
+                "method": "List three things you have that you genuinely value. Then close the app."
+              }
+            }
+          ]
+        },
+        {
+          "id": "class_inequality",
+          "label": "Watching the rich play while you scrape by",
+          "question": "You see the game is rigged, and you're not holding the cards?",
+          "quotes": [
+            {
+              "text": "It is a truth universally acknowledged, that a single man in possession of a good fortune, must be in want of a wife.",
+              "author": "Jane Austen",
+              "work": "Pride and Prejudice (1813)",
+              "context": "Austen's biting satire of Regency-era social climbing and the marriage market's reduction of women to economic assets.",
+              "diagnosis": "Class Consciousness with Systemic Rage",
+              "literary_analysis": "Austen's opening line is savage social commentary disguised as romantic comedy. She's saying: money determines everything, including love. The Bennets need their daughters to marry rich because women can't own property. Your class inequality isn't new—it's just wearing different clothes. Austen wrote about a world where your birth determined your destiny, and marriage was economic survival. You live in a world where your birth still largely determines your destiny, and work is economic survival. Same exploitation, new aesthetic. Austen's heroines navigate this system with wit and strategy. What's your move?",
+              "modern_interpretation": "Austen knew the game was rigged 210 years ago. She taught her heroines to play it smart, not fair.",
+              "punch_line": "The system hasn't changed. Learn the rules, then break them strategically.",
+              "dosage": {
+                "frequency": "When billionaires launch themselves into space while you can't afford healthcare",
+                "duration": "Until rage becomes strategy",
+                "method": "Channel the anger into action: unionize, vote, mutual aid. Austen would approve of collective bargaining."
+              }
+            },
+            {
+              "text": "All animals are equal, but some animals are more equal than others.",
+              "author": "George Orwell",
+              "work": "Animal Farm (1945)",
+              "context": "The pigs' final corruption of the revolution's ideals, revealing how power replicates the very hierarchies it claims to destroy.",
+              "diagnosis": "Post-Revolutionary Disillusionment Syndrome",
+              "literary_analysis": "Orwell watched socialist revolutions become authoritarian states and understood: changing the players doesn't change the game. Your rage at class inequality is justified, but Orwell warns that revolution often just shuffles who's on top. The pigs became the farmers. The commissars became the aristocrats. This isn't an argument for accepting inequality—it's a warning to be strategic about how you fight it. Orwell believed in democratic socialism, but he'd seen enough to know that righteous anger without structural change just creates new hierarchies. What's your plan beyond rage?",
+              "modern_interpretation": "Every promised revolution becomes the new establishment. Orwell would tell you: fight the system, but watch the revolutionaries too.",
+              "punch_line": "Inequality is built into power structures. Change the structure, not just the personnel.",
+              "dosage": {
+                "frequency": "When you realize the 'disruption economy' is just new monopolies",
+                "duration": "Until cynicism becomes strategy",
+                "method": "Support actual systemic change: cooperatives, progressive taxation, worker ownership. Orwell would say the details matter."
+              }
+            }
+          ]
+        },
+        {
+          "id": "material_deprivation",
+          "label": "The small humiliations of going without",
+          "question": "You've learned to want less because having more isn't an option?",
+          "quotes": [
+            {
+              "text": "He was poor, and shabby, and wretched; and he did not like to be seen.",
+              "author": "George Gissing",
+              "work": "New Grub Street (1891)",
+              "context": "Gissing's brutal portrait of literary poverty in Victorian London, based on his own experiences of destitution.",
+              "diagnosis": "Shame-Induced Social Withdrawal Secondary to Material Deprivation",
+              "literary_analysis": "George Gissing wrote this from experience—he lived in genuine poverty while trying to make it as a writer in London. This line captures the social death that accompanies material poverty. You're not just lacking money; you're lacking the ability to participate in normal social life. Can't go to the pub. Can't buy new clothes. Can't pretend you're okay. Gissing's protagonist literally hides from society because poverty is visible and visibility is shame. Your material deprivation isn't just about stuff—it's about the constant low-grade humiliation of being the one who can't afford to blend in.",
+              "modern_interpretation": "You've stopped making excuses for why you can't go out. Now you just don't get invited anymore. The poverty is bad; the invisibility is worse.",
+              "punch_line": "Gissing died poor at 46. Your poverty isn't a moral failing. It's a structural one. Remember the difference.",
+              "dosage": {
+                "frequency": "When you decline invitations because you can't afford to participate",
+                "duration": "Until you can be honest about why",
+                "method": "Tell one person the truth: 'I can't afford it.' Not as confession, but as fact. Notice the relief."
+              }
+            },
+            {
+              "text": "I have been bent and broken, but—I hope—into a better shape.",
+              "author": "Charles Dickens",
+              "work": "Great Expectations (1861)",
+              "context": "Estella's reflection on a life shaped by cruelty and deprivation, suggesting suffering can be transformative.",
+              "diagnosis": "Forced Resilience Narrative Following Prolonged Hardship",
+              "literary_analysis": "Dickens loved the idea that suffering builds character. Estella is saying: yes, poverty and cruelty broke me, but maybe I'm better for it? This is simultaneously true and deeply problematic. Your material deprivation has probably taught you resilience, resourcefulness, and empathy. But it's also caused real damage—to your health, your relationships, your opportunities. You don't owe anyone a redemption narrative about your poverty. Sometimes suffering just makes you suffer. If you've grown from it, fine. But you didn't need to be broken to become better.",
+              "modern_interpretation": "People love poverty redemption stories because it makes your suffering meaningful. You're allowed to just want the money without the life lessons.",
+              "punch_line": "Character building is overrated. Financial security is underrated. Prioritize accordingly.",
+              "dosage": {
+                "frequency": "When someone suggests your struggles 'made you stronger'",
+                "duration": "Until you can reject false narratives about noble poverty",
+                "method": "Acknowledge what you've learned, but refuse to be grateful for the suffering. Both things can be true."
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

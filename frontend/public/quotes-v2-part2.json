@@ -1,0 +1,240 @@
+{
+  "emotions_continued": [
+    {
+      "id": "boredom",
+      "label": "Boredom",
+      "description": "The suffocating tedium of unstimulated existence",
+      "sub_categories": [
+        {
+          "id": "intellectual_stagnation",
+          "label": "Your mind is rotting from lack of challenge",
+          "question": "Nothing interests you anymore?",
+          "quotes": [
+            {
+              "text": "The mind is its own place, and in itself can make a heaven of hell, a hell of heaven.",
+              "author": "John Milton",
+              "work": "Paradise Lost (1667)",
+              "context": "Satan's defiant declaration in Hell, asserting mental sovereignty even in damnation.",
+              "diagnosis": "Acute Intellectual Torpor with Self-Imposed Mental Exile",
+              "literary_analysis": "Milton's Satan speaks this line while literally in Hell, which is apt for your situation. Your boredom isn't about your circumstances—it's about your refusal to engage with anything challenging. Satan chose to reign in Hell rather than serve in Heaven. You're choosing intellectual comfort over growth. The tragedy isn't that there's nothing interesting in the world; it's that you've decided there isn't. Milton understood that the mind can transform its environment, for better or worse. You've chosen worse. Your stagnation is self-imposed. Hell is other people, but in your case, hell is your own laziness.",
+              "modern_interpretation": "You complain there's nothing to read, nothing to learn, nothing interesting. The library exists. The internet exists. Your boredom is a choice disguised as a condition.",
+              "punch_line": "Satan made Hell interesting. You're making Heaven boring. Skill issue.",
+              "dosage": {
+                "frequency": "When you find yourself scrolling instead of seeking",
+                "duration": "Until you can spend 30 minutes on something difficult without quitting",
+                "method": "Pick one challenging book. Not self-help. Something that requires a dictionary. Read it."
+              }
+            },
+            {
+              "text": "I must have women, wine, and snuff until I cry out 'hold, enough!' Yet that I may not want in old age, I cut my nourishment out of the skies.",
+              "author": "John Keats",
+              "work": "Letter to Benjamin Bailey (1818)",
+              "context": "Keats defending his pursuit of sensory experience as essential to poetic creation.",
+              "diagnosis": "Stimulation Deficit Disorder with Romantic Overcompensation",
+              "literary_analysis": "Keats died at 25, having crammed more intellectual and sensory experience into his brief life than most people manage in 80 years. Your boredom stems from the opposite approach: you've rationed your engagement with life to the point of numbness. Keats understood that intellectual growth requires consumption—of ideas, experiences, sensations. He read everything, felt everything, wrote constantly. Your mind is stagnating because you're not feeding it. 'Cutting nourishment from the skies' means reaching beyond the comfortable. When did you last challenge yourself intellectually? When did you last consume something that confused you, angered you, changed you?",
+              "modern_interpretation": "You're bored because you're on an intellectual starvation diet. Keats gorged on life. You're eating intellectual toast.",
+              "punch_line": "Feed your brain or watch it die. Keats chose excess. You've chosen nothing.",
+              "dosage": {
+                "frequency": "Daily, like vitamins for your dying brain",
+                "duration": "Until you're confused, overwhelmed, and slightly uncomfortable—that's growth",
+                "method": "Consume something challenging: philosophy, poetry, mathematics. Be confused. Stay confused. Learn."
+              }
+            }
+          ]
+        },
+        {
+          "id": "social_monotony",
+          "label": "Every conversation is identical to the last",
+          "question": "Small talk is killing you slowly?",
+          "quotes": [
+            {
+              "text": "We are all in the gutter, but some of us are looking at the stars.",
+              "author": "Oscar Wilde",
+              "work": "Lady Windermere's Fan (1892)",
+              "context": "Lord Darlington's observation about maintaining idealism despite sordid circumstances.",
+              "diagnosis": "Social Exhaustion Secondary to Conversational Mediocrity",
+              "literary_analysis": "Wilde spent his life surrounded by people who bored him—hence the endless witticisms to amuse himself. Your social monotony isn't about the people; it's about the conversations. Everyone's in the gutter of small talk, weather discussions, and performative politeness. The question is: are you looking at the stars, or are you staring at the mud? Wilde navigated Victorian society by refusing to take it seriously. He asked interesting questions, made offensive jokes, and generally behaved as if boring conversation was a choice, not an obligation. Your social circles are as interesting as you make them.",
+              "modern_interpretation": "You're bored because you're having the conversations everyone else wants, not the ones you want. Wilde would call this cowardice.",
+              "punch_line": "Stop talking about the weather. Start talking about death, desire, and the inevitable heat death of the universe.",
+              "dosage": {
+                "frequency": "Next social gathering, minimum once",
+                "duration": "Until you can tolerate the uncomfortable silence of honest conversation",
+                "method": "Ask one real question: 'What do you think happens when we die?' Watch the room squirm. This is living."
+              }
+            },
+            {
+              "text": "Most people are other people. Their thoughts are someone else's opinions, their lives a mimicry, their passions a quotation.",
+              "author": "Oscar Wilde",
+              "work": "De Profundis (1897)",
+              "context": "Written from prison, Wilde's meditation on authenticity and the cost of living according to others' scripts.",
+              "diagnosis": "Existential Boredom from Surrounded by Automated Humans",
+              "literary_analysis": "Wilde wrote this from Reading Gaol after being imprisoned for homosexuality—a punishment for refusing to mimic acceptable behavior. He observed that most people never have an original thought; they're performing scripts written by society, parents, advertisers. Your social monotony comes from talking to people who aren't really there—they're just repeating lines they've heard elsewhere. This is why every conversation feels the same: it literally is. Same opinions from different mouths. Wilde's solution was to be aggressively himself, which landed him in prison but at least kept him interesting.",
+              "modern_interpretation": "You're bored because you're surrounded by NPCs running the same dialogue loops. The question is: are you one of them?",
+              "punch_line": "Be weird. Be yourself. Be anything except another quotation of someone else's life.",
+              "dosage": {
+                "frequency": "Whenever you catch yourself saying something you don't believe",
+                "duration": "Until you can be honest in public without panic",
+                "method": "Say one true, weird thing about yourself this week. Notice who's interested. Keep those people."
+              }
+            }
+          ]
+        },
+        {
+          "id": "creative_block",
+          "label": "The well has run dry",
+          "question": "You used to make things. Now you just consume?",
+          "quotes": [
+            {
+              "text": "I can't go on. I'll go on.",
+              "author": "Samuel Beckett",
+              "work": "The Unnamable (1953)",
+              "context": "The final line of Beckett's trilogy, expressing the paradox of continuing despite existential exhaustion.",
+              "diagnosis": "Creative Paralysis with Existential Override",
+              "literary_analysis": "Beckett wrote about the impossibility of continuing and then continued anyway. This is the artist's contradiction: the work feels meaningless, but you do it regardless. Your creative block isn't writer's block—it's the terror of making something that might not matter. Beckett's characters exist in voids, speaking into nothing, and still they speak. He wrote through depression, war, and the certainty that literature was futile. His prescription for creative drought: acknowledge the futility and work anyway. The block isn't about lacking ideas; it's about lacking faith that your ideas matter. They don't. Make them anyway.",
+              "modern_interpretation": "You're waiting for inspiration to feel meaningful before you create. Beckett would laugh at you. Nothing is meaningful. Create anyway.",
+              "punch_line": "You can't go on. Go on anyway. Beckett's orders, not mine.",
+              "dosage": {
+                "frequency": "Daily, for 15 minutes, regardless of quality",
+                "duration": "Until you accept that most of what you make will be garbage",
+                "method": "Make something terrible today. Deliberately bad. Embrace the futility. This is freedom."
+              }
+            },
+            {
+              "text": "Do not go gentle into that good night. Rage, rage against the dying of the light.",
+              "author": "Dylan Thomas",
+              "work": "Do Not Go Gentle Into That Good Night (1947)",
+              "context": "Written for Thomas's dying father, urging resistance against passivity and surrender.",
+              "diagnosis": "Creative Death Spiral with Terminal Resignation",
+              "literary_analysis": "Thomas was telling his father not to surrender to death passively, but it applies to your creative death too. You're going gentle into the good night of eternal consumption. The light of your creativity is dying, and you're letting it happen without a fight. Thomas was a drunk who destroyed himself, but he never stopped making things. Your creative block is resignation disguised as prudence. You've decided the work isn't worth the effort. Thomas would tell you: rage anyway. Make terrible art. Make anything. Going gentle is the real death.",
+              "modern_interpretation": "Your creativity is dying, and you're accepting it like it's natural. It's not. Rage. Make something angry and alive.",
+              "punch_line": "The dying of your creative light is optional. Thomas chose rage. Choose something.",
+              "dosage": {
+                "frequency": "When you've spent another week 'thinking about' creating",
+                "duration": "Until you're angry enough to make something out of spite",
+                "method": "Set a 30-minute timer. Create anything. Badly. With rage. Send it to someone. This is resurrection."
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "vanity",
+      "label": "Vanity",
+      "description": "The exhausting performance of self-importance",
+      "sub_categories": [
+        {
+          "id": "narcissism",
+          "label": "You believe your own mythology",
+          "question": "The mirror shows genius; the world shows indifference?",
+          "quotes": [
+            {
+              "text": "To love oneself is the beginning of a lifelong romance.",
+              "author": "Oscar Wilde",
+              "work": "An Ideal Husband (1895)",
+              "context": "Lord Goring's witty observation, celebrating self-regard as both necessary and absurd.",
+              "diagnosis": "Narcissistic Personality Construction with Self-Awareness Deficiency",
+              "literary_analysis": "Wilde said this tongue-in-cheek, but you've taken it literally. Yes, self-love is important. But you've confused self-love with self-obsession. Wilde loved himself, but he also had the talent to back it up—he was genuinely brilliant. Your narcissism isn't confidence; it's compensation. You've built an elaborate mythology about your own importance because the reality is too mundane to accept. Wilde's self-love was playful; yours is desperate. He knew he was performing. You've forgotten the difference between the character and the person. The tragedy of narcissism isn't that you love yourself too much—it's that you don't love your real self at all.",
+              "modern_interpretation": "You've curated a version of yourself for public consumption and started believing it's real. Wilde would call this amateur hour.",
+              "punch_line": "Wilde was actually remarkable. You're just convinced you are. Learn the difference.",
+              "dosage": {
+                "frequency": "Every time you check how many likes your post got",
+                "duration": "Until you can tolerate being ordinary",
+                "method": "Do something competently mediocre. Don't post about it. Notice how that feels. That's reality."
+              }
+            },
+            {
+              "text": "I am not young enough to know everything.",
+              "author": "Oscar Wilde",
+              "work": "The Remarkable Rocket (1888)",
+              "context": "The Rocket's pompous declaration of superiority, blind to its own absurdity.",
+              "diagnosis": "Dunning-Kruger Effect Complicated by Willful Ignorance",
+              "literary_analysis": "The Remarkable Rocket is one of Wilde's most savage satires—a firework so convinced of its own importance that it fails to notice no one is watching. Sound familiar? You're so certain of your brilliance that you've stopped learning, stopped listening, stopped growing. Youth's arrogance is at least excusable by inexperience. Your arrogance is willful. You've decided you know everything because admitting ignorance would crack the mythology. The Rocket never goes off; it falls into a ditch. Your certainty will land you in the same place—isolated, irrelevant, and confused about why no one's impressed.",
+              "modern_interpretation": "You've mistaken confidence for competence. The Rocket thought it was remarkable. It was just loud.",
+              "punch_line": "Wilde knew everything and admitted doubt. You know nothing and admit none. Adjust accordingly.",
+              "dosage": {
+                "frequency": "When you're about to explain something you just Googled to someone with a PhD",
+                "duration": "Until you can say 'I don't know' without dying inside",
+                "method": "Ask someone to teach you something. Listen. Don't correct them. This is called learning."
+              }
+            }
+          ]
+        },
+        {
+          "id": "status_obsession",
+          "label": "Your worth is measured in titles and recognition",
+          "question": "Without external validation, who even are you?",
+          "quotes": [
+            {
+              "text": "Vanity working on a weak head, produces every sort of mischief.",
+              "author": "Jane Austen",
+              "work": "Emma (1815)",
+              "context": "Mr. Knightley's assessment of Emma's manipulative matchmaking driven by self-importance.",
+              "diagnosis": "Status-Seeking Pathology with External Validation Dependency",
+              "literary_analysis": "Emma Woodhouse is rich, beautiful, and bored—so she meddles in other people's lives to feel important. Your status obsession is the same disease: you need constant proof that you matter. Titles, followers, promotions, recognition—these are Emma's matchmaking schemes, just with different stakes. Austen's diagnosis: vanity on a weak head produces mischief. Your obsession with status isn't confidence; it's weakness. Emma eventually learns that her worth isn't about being important—it's about being good. You haven't learned this yet. You're still measuring yourself by metrics that don't measure anything real.",
+              "modern_interpretation": "Emma needed to feel superior to feel anything. You need LinkedIn endorsements. Same problem, worse aesthetic.",
+              "punch_line": "Austen would drag your personal brand so hard. The woman invented shade in 1815.",
+              "dosage": {
+                "frequency": "When you update your bio for the third time this month",
+                "duration": "Until you can introduce yourself without mentioning your job",
+                "method": "Spend one week not mentioning your accomplishments. See who still finds you interesting. Those are your people."
+              }
+            },
+            {
+              "text": "All the world's a stage, and all the men and women merely players.",
+              "author": "William Shakespeare",
+              "work": "As You Like It (1599)",
+              "context": "Jaques's famous monologue on the seven ages of man, describing life as performance.",
+              "diagnosis": "Chronic Performance Anxiety Masquerading as Ambition",
+              "literary_analysis": "Shakespeare understood that social life is theatre, but you've forgotten you're in a play. You think the performance is the person. Jaques is melancholic because he sees through the act—every role is temporary, every status meaningless. You're chasing roles: the Successful One, the Important One, the Recognized One. But roles end. The play closes. Then who are you? Your status obsession is existential terror dressed in ambition. You're not seeking achievement; you're seeking proof of existence. Shakespeare's message: everyone's performing. The question is, do you know it's a performance, or have you forgotten there's a person underneath the costume?",
+              "modern_interpretation": "You've built an entire identity out of your job title and Instagram bio. Shakespeare asks: what happens when the show ends?",
+              "punch_line": "The curtain falls. The audience leaves. You're alone with yourself. Ready for that?",
+              "dosage": {
+                "frequency": "When you rehearse casual mentions of your achievements",
+                "duration": "Until you can separate your worth from your performance",
+                "method": "Imagine losing everything tomorrow: title, status, audience. Who are you then? Start being that person now."
+              }
+            }
+          ]
+        },
+        {
+          "id": "superficiality",
+          "label": "The surface is all that matters",
+          "question": "Appearance is everything; substance is nothing?",
+          "quotes": [
+            {
+              "text": "It is only shallow people who do not judge by appearances.",
+              "author": "Oscar Wilde",
+              "work": "The Picture of Dorian Gray (1890)",
+              "context": "Lord Henry's paradoxical defense of aestheticism and surface over depth.",
+              "diagnosis": "Aesthetic Obsession with Substance Avoidance",
+              "literary_analysis": "Wilde was the master of superficiality as philosophy. He genuinely believed appearances mattered—beauty, style, wit. But he was also brilliant, kind, and capable of profound depth when it mattered. You've taken the first half without the second. Dorian Gray obsesses over his appearance while his soul rots. Your superficiality isn't about appreciating beauty; it's about avoiding anything that requires depth. You've confused polish with substance. Wilde made superficiality an art form because he had the depth to support it. You're all surface with nothing underneath. That's not aestheticism; it's hollowness.",
+              "modern_interpretation": "Wilde cared about appearances AND depth. You've chosen curated photos over actual personality. He'd be disappointed.",
+              "punch_line": "Dorian stayed beautiful and died miserable. Prioritize differently.",
+              "dosage": {
+                "frequency": "When you spend more time on the caption than the experience",
+                "duration": "Until you can do something and not document it",
+                "method": "Have one unfiltered, unposted, unwitnessed experience this week. Let it be imperfect and private. This is real."
+              }
+            },
+            {
+              "text": "I have nothing to declare except my genius.",
+              "author": "Oscar Wilde",
+              "work": "Upon arriving at U.S. Customs (1882)",
+              "context": "Wilde's legendary response to customs officials, performed with absolute sincerity and irony simultaneously.",
+              "diagnosis": "Performance-Based Self-Worth with Imposter Syndrome Complications",
+              "literary_analysis": "Wilde said this ironically, but also believed it. He was a genius, but he was also performing genius constantly. The exhaustion of maintaining appearances eventually destroyed him—prison, exile, poverty. Your superficiality is the same trap: you're performing brilliance/beauty/success so consistently that you've forgotten how to stop. The customs line is your entire life—constantly declaring your value to audiences who don't care. Wilde's tragedy wasn't that he performed; it was that he couldn't stop performing even when it was killing him. Sound familiar?",
+              "modern_interpretation": "Wilde declared his genius with irony and confidence. You declare yours with anxiety and Instagram. The difference matters.",
+              "punch_line": "You're not Wilde. Stop trying to be quotable and start trying to be honest.",
+              "dosage": {
+                "frequency": "When you craft the perfect response for three hours",
+                "duration": "Until you can be clumsy, awkward, and imperfect in public",
+                "method": "Say something genuinely stupid this week. Don't apologize. Notice the world doesn't end. This is freedom."
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

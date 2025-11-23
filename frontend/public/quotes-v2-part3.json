@@ -1,0 +1,240 @@
+{
+  "emotions_final": [
+    {
+      "id": "ambition",
+      "label": "Ambition",
+      "description": "The ruthless hunger for more, always more",
+      "sub_categories": [
+        {
+          "id": "ruthless_pursuit",
+          "label": "You'll do anything to win",
+          "question": "The end justifies the means, doesn't it?",
+          "quotes": [
+            {
+              "text": "I am in blood stepped in so far that should I wade no more, returning were as tedious as go o'er.",
+              "author": "William Shakespeare",
+              "work": "Macbeth (1606)",
+              "context": "Macbeth's realization that he's committed too many atrocities to stop now—forward is the only option.",
+              "diagnosis": "Moral Erosion Secondary to Unchecked Ambition",
+              "literary_analysis": "Macbeth started with one murder and couldn't stop. This is ambition's logic: once you've compromised your morals for success, stopping feels like waste. You've already paid the price; might as well get the prize. Your ruthless pursuit isn't about wanting success—it's about being unable to admit the cost. You've stepped in blood (metaphorically, one hopes), and turning back means confronting what you've done. So you go forward, deeper, telling yourself it'll be worth it. Macbeth ends with everyone dead and himself beheaded. Your path may not be as dramatic, but the destination is the same: isolation, paranoia, and the question of whether any achievement justifies what you've become.",
+              "modern_interpretation": "You've burned relationships, ethics, and sleep for this career. Stopping means admitting it wasn't worth it. So you don't stop.",
+              "punch_line": "Macbeth got a crown and a bloody death. You'll get a promotion and regret. Choose wisely.",
+              "dosage": {
+                "frequency": "When you catch yourself justifying behavior you'd condemn in others",
+                "duration": "Until you can draw a line you won't cross",
+                "method": "List three things you wouldn't do for success. If you can't, you're already Macbeth. Act accordingly."
+              }
+            },
+            {
+              "text": "Ah, but a man's reach should exceed his grasp, or what's a heaven for?",
+              "author": "Robert Browning",
+              "work": "Andrea del Sarto (1855)",
+              "context": "The painter's lament that his technical perfection lacks the passion of flawed greatness.",
+              "diagnosis": "Ambition Justified as Aspiration, Masking Insecurity",
+              "literary_analysis": "Browning's line is often quoted as inspiration, but in context it's tragedy. Andrea del Sarto is a mediocre painter justifying his failures by claiming they're noble striving. Your ruthless ambition isn't about reaching for heaven—it's about refusing to accept your current position as enough. The problem isn't that you're ambitious; it's that you've confused ambition with self-worth. Del Sarto's perfect technique achieves nothing because it has no soul. Your ruthless pursuit will achieve success, but at what cost? Browning asks: is achieving without being worth having? Your reach exceeds your grasp not because you're noble, but because you're grasping at the wrong things.",
+              "modern_interpretation": "You're not reaching for heaven. You're running from the terror of being ordinary. Browning knew the difference.",
+              "punch_line": "Heaven isn't a promotion. It's peace. You're chasing the wrong thing.",
+              "dosage": {
+                "frequency": "When you sabotage a colleague to get ahead",
+                "duration": "Until ambition becomes aspiration instead of desperation",
+                "method": "Help someone else succeed this week. Notice if you can tolerate their win. If not, your ambition is cancer."
+              }
+            }
+          ]
+        },
+        {
+          "id": "power_hunger",
+          "label": "Control is everything",
+          "question": "Power over others is the only thing that matters?",
+          "quotes": [
+            {
+              "text": "Big Brother is watching you.",
+              "author": "George Orwell",
+              "work": "1984 (1949)",
+              "context": "The Party's omnipresent surveillance and control, representing totalitarian power's ultimate expression.",
+              "diagnosis": "Authoritarian Personality Disorder with Control Obsession",
+              "literary_analysis": "Orwell's Party doesn't want power for wealth or comfort—they want power for its own sake. 'The object of power is power,' O'Brien explains. Your power hunger is the same pathology: control as an end, not a means. You don't want power to achieve something; you want it to have it. This is the most dangerous form of ambition because it's unfillable. The Party must control everything, including thought itself, and it's never enough. Your need for control will devour everything—relationships, ethics, sanity—and still demand more. Orwell's warning: power for its own sake creates monsters. You're becoming one.",
+              "modern_interpretation": "You micromanage, manipulate, and dominate because being out of control terrifies you. The Party would recognize you immediately.",
+              "punch_line": "Big Brother wanted total control and created Hell. You're on the same path, just with less compelling dystopia.",
+              "dosage": {
+                "frequency": "When you can't delegate without anxiety",
+                "duration": "Until you can let go without panic",
+                "method": "Give someone else control of one decision this week. Don't interfere. Learn that the world survives without you."
+              }
+            },
+            {
+              "text": "All animals are equal, but some animals are more equal than others.",
+              "author": "George Orwell",
+              "work": "Animal Farm (1945)",
+              "context": "The pigs' final corruption of revolutionary ideals into new tyranny.",
+              "diagnosis": "Revolutionary Ambition Degraded into New Hierarchy",
+              "literary_analysis": "The pigs started with noble goals—equality, liberation, justice. They ended as oppressors worse than the ones they replaced. Your power hunger probably started with good intentions too. You wanted to fix things, improve systems, help people. But somewhere along the way, you realized that being in charge felt good. Now you're the pig, rewriting the rules to justify your authority. Orwell's message: power corrupts even the revolutionaries. Especially the revolutionaries. They believe their vision justifies their methods. You believe your competence justifies your control. Neither is true.",
+              "modern_interpretation": "You fought the old guard to become the new guard. Orwell would ask: what was the point?",
+              "punch_line": "The pigs became the farmers. You've become what you despised. Notice the irony.",
+              "dosage": {
+                "frequency": "When you make rules that conveniently don't apply to you",
+                "duration": "Until you can distribute power instead of hoarding it",
+                "method": "Give your authority to someone else for one day. Watch them succeed. Learn humility."
+              }
+            }
+          ]
+        },
+        {
+          "id": "success_obsession",
+          "label": "Winning is the only option",
+          "question": "Second place is first loser?",
+          "quotes": [
+            {
+              "text": "The race is not to the swift, nor the battle to the strong, but time and chance happeneth to them all.",
+              "author": "Ecclesiastes",
+              "work": "The Bible (c. 450-200 BCE)",
+              "context": "The Preacher's observation on the role of randomness and timing in success and failure.",
+              "diagnosis": "Success Attribution Error with Control Illusion",
+              "literary_analysis": "Ecclesiastes, history's most pessimistic book, reminds you: your success isn't entirely yours. Timing, luck, privilege—these matter more than you want to admit. Your obsession with winning stems from the belief that you control outcomes. You don't. The swift sometimes lose. The strong sometimes fall. Time and chance happen to everyone, including you. This isn't an argument for passivity—it's a reminder that your worth isn't determined by winning. The Preacher watched successful fools and struggling wise people and concluded: merit doesn't guarantee victory. Your obsession with success is trying to impose order on chaos. It won't work.",
+              "modern_interpretation": "You're grinding 80-hour weeks convinced effort equals success. The Preacher would tell you: maybe, maybe not. Luck exists.",
+              "punch_line": "Success is partly merit, partly luck. Acting like it's all merit is hubris. Ecclesiastes called this 2000 years ago.",
+              "dosage": {
+                "frequency": "When you attribute others' success to luck and yours to skill",
+                "duration": "Until you can acknowledge your advantages",
+                "method": "List three ways you got lucky in your success. Include things like: birth country, health, connections. Notice reality."
+              }
+            },
+            {
+              "text": "Vaulting ambition, which o'erleaps itself and falls on th'other.",
+              "author": "William Shakespeare",
+              "work": "Macbeth (1606)",
+              "context": "Macbeth contemplating the self-destructive nature of his own ambition before murdering Duncan.",
+              "diagnosis": "Self-Sabotaging Success Obsession",
+              "literary_analysis": "Macbeth understands his ambition will destroy him and does it anyway. Your success obsession is the same trap: you know the cost, but you can't stop. The vaulting happens when ambition becomes divorced from purpose—you're not winning toward anything, just away from losing. This kind of ambition doesn't build; it consumes. Macbeth gains the crown and loses everything else: wife, sanity, kingdom, life. Your metrics of success—promotions, achievements, wins—are equally pyrrhic if they're costing you everything that makes success worth having. Shakespeare's warning: unchecked ambition destroys the ambitious person first.",
+              "modern_interpretation": "You're winning, but what are you winning? Macbeth got a crown and a horror show. Check your scoreboard.",
+              "punch_line": "Macbeth won and lost simultaneously. You're on track for the same. Reassess before the tragic ending.",
+              "dosage": {
+                "frequency": "When you check the competition instead of your values",
+                "duration": "Until you can define success beyond defeating others",
+                "method": "Write what success looks like without comparing to anyone else. If you can't, you're not ambitious—you're insecure."
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "despair",
+      "label": "Despair",
+      "description": "The conviction that nothing will ever get better",
+      "sub_categories": [
+        {
+          "id": "hopelessness",
+          "label": "The future is a void",
+          "question": "You've stopped believing in better days?",
+          "quotes": [
+            {
+              "text": "Tomorrow, and tomorrow, and tomorrow, creeps in this petty pace from day to day, to the last syllable of recorded time... It is a tale told by an idiot, full of sound and fury, signifying nothing.",
+              "author": "William Shakespeare",
+              "work": "Macbeth (1606)",
+              "context": "Macbeth's nihilistic meditation on the meaninglessness of life after his wife's death.",
+              "diagnosis": "Existential Despair with Total Meaning Collapse",
+              "literary_analysis": "This is Shakespeare's darkest vision: life as an endless, meaningless repetition leading nowhere. Macbeth speaks this after losing everything—wife, throne, soul. Your hopelessness mirrors his: the days continue, but they mean nothing. The 'tomorrow' that once promised potential now promises only more of the same pointless suffering. But here's what Shakespeare doesn't tell you in this moment: Macbeth created his own hell through violence and ambition. Your despair might also be self-created, not inevitable. The question isn't whether life is meaningless—it probably is—but whether you'll create meaning anyway or surrender to the void.",
+              "modern_interpretation": "Macbeth saw no tomorrow worth having. You're doing the same. The difference: his actions destroyed him. What are yours doing?",
+              "punch_line": "Life signifies nothing, or it signifies what you make it. Shakespeare presented both options. Choose one.",
+              "dosage": {
+                "frequency": "When you wake up and immediately want to go back to sleep",
+                "duration": "Until you can imagine one thing worth tomorrow",
+                "method": "List one small thing to look forward to tomorrow. Not big. Coffee. A song. Sunlight. Start there."
+              }
+            },
+            {
+              "text": "In the fell clutch of circumstance, I have not winced nor cried aloud. Under the bludgeonings of chance, my head is bloody, but unbowed.",
+              "author": "William Ernest Henley",
+              "work": "Invictus (1875)",
+              "context": "Written while Henley was being treated for tuberculosis, facing possible amputation.",
+              "diagnosis": "Defiant Despair: Suffering with Refusal to Surrender",
+              "literary_analysis": "Henley wrote this from a hospital bed, literally being bludgeoned by disease. His prescription for hopelessness: acknowledge the horror and refuse to submit. This isn't toxic positivity—it's defiant realism. Yes, circumstances are crushing you. Yes, chance is brutal. And still, your head can remain unbowed. Your hopelessness is valid; the world is genuinely terrible in many ways. But Henley asks: will you let it break your spirit, or just your body? This isn't about hope—it's about dignity in the face of despair. You may never believe things will get better, but you can decide to endure anyway.",
+              "modern_interpretation": "Life is beating you down. Henley would say: get beaten down standing up. This is not optimism—it's pride.",
+              "punch_line": "Your head is bloody. Keep it unbowed anyway. Not because it helps, but because it's yours.",
+              "dosage": {
+                "frequency": "When you want to surrender completely",
+                "duration": "Until you can suffer with dignity instead of collapse",
+                "method": "Do one small act of defiance today. Clean your room. Take a shower. Exist deliberately. This is resistance."
+              }
+            }
+          ]
+        },
+        {
+          "id": "isolation",
+          "label": "You are completely alone",
+          "question": "No one understands, and no one ever will?",
+          "quotes": [
+            {
+              "text": "No man is an island, entire of itself; every man is a piece of the continent, a part of the main.",
+              "author": "John Donne",
+              "work": "Devotions Upon Emergent Occasions (1624)",
+              "context": "Donne's meditation on human interconnection, written during serious illness.",
+              "diagnosis": "Catastrophic Isolation with Rejected Connection",
+              "literary_analysis": "Donne wrote this to argue against your exact belief: that you're fundamentally alone. His point isn't that you feel connected—you don't—but that isolation is a lie you're telling yourself. You are part of the continent whether you acknowledge it or not. Your pain affects others. Their existence affects you. You've convinced yourself that no one understands, but have you let anyone try? Your isolation is partly circumstance, partly choice. Donne was dying and still insisted on connection. You're alive and insisting on separation. The question is: do you want to be understood, or do you want to be special in your suffering?",
+              "modern_interpretation": "You've built walls so high you can't see that people are trying to climb them. Donne would call this cowardice disguised as uniqueness.",
+              "punch_line": "You're not an island. You're just pretending to be one because connection is scary. Donne knew the difference.",
+              "dosage": {
+                "frequency": "When you decline invitations to stay home and feel sorry for yourself",
+                "duration": "Until you can let one person in, even slightly",
+                "method": "Tell someone one true thing about how you feel. Not for solutions—for connection. Let them witness you."
+              }
+            },
+            {
+              "text": "We live, as we dream—alone.",
+              "author": "Joseph Conrad",
+              "work": "Heart of Darkness (1899)",
+              "context": "Marlow's reflection on the ultimate isolation of consciousness.",
+              "diagnosis": "Ontological Isolation Accepted as Permanent Condition",
+              "literary_analysis": "Conrad's assessment is bleaker than Donne's: we are fundamentally alone in our consciousness. You can never fully communicate your inner experience, and no one can fully share theirs with you. This is true. Your isolation has a real basis—consciousness is private, subjective, isolated. But Conrad also shows that Marlow still tells his story to others, still seeks connection despite its impossibility. The paradox: we are alone AND we reach out anyway. Your despair has recognized the first truth but rejected the second option. You're alone, yes. The question is: will you reach out despite it, or will you weaponize your isolation into proof that you're uniquely unlovable?",
+              "modern_interpretation": "Conrad said we die alone. He didn't say we have to live alone too. You've confused inevitable isolation with chosen isolation.",
+              "punch_line": "Ultimate isolation is real. Current isolation is optional. Learn the difference.",
+              "dosage": {
+                "frequency": "When you convince yourself relationships are pointless",
+                "duration": "Until you can accept partial connection as better than none",
+                "method": "Send one message to someone you miss. Not deep—just 'I thought of you.' Notice if the loneliness shifts even slightly."
+              }
+            }
+          ]
+        },
+        {
+          "id": "existential_crisis",
+          "label": "Nothing means anything",
+          "question": "You've looked into the void, and it's looking back?",
+          "quotes": [
+            {
+              "text": "We are all in the gutter, but some of us are looking at the stars.",
+              "author": "Oscar Wilde",
+              "work": "Lady Windermere's Fan (1892)",
+              "context": "Lord Darlington's observation about maintaining idealism despite sordid circumstances.",
+              "diagnosis": "Nihilistic Crisis with Refused Transcendence",
+              "literary_analysis": "Wilde acknowledges the gutter—life is suffering, meaning is absent, death is inevitable. But he insists on looking at the stars anyway. Not because they mean something, but because the act of looking is itself a form of defiance. Your existential crisis has accepted the gutter and refused the stars. You're right that nothing inherently means anything. Wilde would agree. But he'd ask: so what? Will you spend your meaningless life staring at mud, or will you look up? The stars don't care. The gutter doesn't care. The only one who cares is you, and you've decided not to. That's not philosophy—that's surrender.",
+              "modern_interpretation": "The void is real. Wilde looked into it and wrote comedies anyway. You're looking into it and calling that depth. It's not—it's laziness.",
+              "punch_line": "Everyone's in the gutter. The stars are optional. Wilde chose to look up. What are you choosing?",
+              "dosage": {
+                "frequency": "When you use nihilism to justify not trying",
+                "duration": "Until you can create meaning despite knowing it's constructed",
+                "method": "Do one beautiful, pointless thing this week. Make art. Watch the sunset. Dance badly. Choose stars over mud."
+              }
+            },
+            {
+              "text": "Whereof one cannot speak, thereof one must be silent.",
+              "author": "Ludwig Wittgenstein",
+              "work": "Tractatus Logico-Philosophicus (1921)",
+              "context": "Wittgenstein's famous conclusion about the limits of language and expressibility.",
+              "diagnosis": "Philosophical Despair from Language Inadequacy",
+              "literary_analysis": "Wittgenstein realized language fails to capture the most important things—meaning, value, existence itself. Your existential crisis is partly this: you can't articulate what's wrong because words fail at the level of fundamental being. You're right. The crisis is real and inexpressible. But Wittgenstein's response wasn't to give up—it was to be silent and act anyway. He wrote the Tractatus, declared philosophy finished, then became a schoolteacher. He lived despite the inexpressibility. Your crisis of meaning is valid, but it's not a reason to stop living—it's a reason to live differently. What you can't speak of, you must live through.",
+              "modern_interpretation": "Words can't capture the horror of existence. Wittgenstein knew this and lived 70 years anyway. What's your excuse?",
+              "punch_line": "The crisis is real and inexpressible. Live anyway. Not because it makes sense, but because that's what living is.",
+              "dosage": {
+                "frequency": "When you can't explain the emptiness even to yourself",
+                "duration": "Until you can accept the inexpressibility without needing to fix it",
+                "method": "Stop trying to understand or explain the crisis. Just exist through one day without analysis. This is enough."
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
